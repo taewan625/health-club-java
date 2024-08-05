@@ -1,4 +1,4 @@
-package com.propertiesconvert;
+package com;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,7 +17,6 @@ import java.util.Properties;
  * @Modification Information
  * @see Copyright (C) All right reserved.
  */
-
 public class MessageSource {
 	//메시지 프로퍼티 객체 생성 
 	private static final Map<String, Properties> properties = new HashMap<>();
@@ -66,9 +65,10 @@ public class MessageSource {
 		
 		try {
 			//split key and file name
-			String[] split = key.split("\\.");
+			int firstIndex = key.indexOf(".");
+			
 			//get value
-			value = properties.get(split[0]).getProperty(split[1]);
+			value = properties.get(key.substring(0, firstIndex)).getProperty(key.substring(firstIndex + 1));
 			
 		}
 		//올바르지 않는 key 접근으로 예외 발생 시, 오류 로그 표출 및 빈 문자열 반환
