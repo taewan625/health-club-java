@@ -1,10 +1,10 @@
 package com.web;
 
-import java.util.Collections;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.config.SpringContainer;
+import com.MessageSource;
 
 /**
  * @Class Name : HandlerMapping.java
@@ -16,85 +16,45 @@ import com.config.SpringContainer;
  * @see Copyright (C) All right reserved.
  */
 public class HandlerMapping {
-	/**
-	 * Func 초기화 메서드를 담는 생성자
-	 * 
-	 * @desc 싱글톤 생성시, Map 초기화 예외 발생 경우 초기화 문제를 잡기 위해 try-catch 수행 main method에서 객체를
-	 *       초기화 할 경우 try-catch로 잡는 것과 같이 생성자 내부에서 초기화 수행시, try-catch로 잡는 형식으로
-	 *       생성 @param @return
-	 * @throw RuntimeException
-	 */
-	private HandlerMapping() {
+	//실제 Class 객체와 method 객체가 담긴 객체를 반환 
+	public Map<String, Object> getHandler(Request request) {
+		//반환 객체
+		Map<String, Object> returnMap = new HashMap<>();
+
+		//URL 요청과 관련된 Controller 정보 호출
+		String rawHandlerInfo = MessageSource.getMessage("bean." + request.getUrl());
+
+		//URL이 없는 경우 - Error Page Controller 정보 호출
+		if (null == rawHandlerInfo) {
+			rawHandlerInfo = MessageSource.getMessage("bean.errorPage");
+		}
+		
+		//controller 정보와 method 정보 분리
+		String[] handlerInfo = rawHandlerInfo.split("-");
+		
+		//Reflection API를 이용한 class 및 method 객체 생성
 		try {
-			this.handlerMaps = initHandlerMappings();
+			//클래스
+			Class<?> targetClass = Class.forName(handlerInfo[0]);
+			
+			//싱글톤 호출 메서드
+			Method getInstance = targetClass.getMethod("getInstance");
+			
+			//클래스 인스턴스
+			Object targetInstance = getInstance.invoke(targetClass);
+			
+			//메서드
+			Method method = targetClass.getMethod(handlerInfo[1], Request.class);
+			
+			//반환 객체에 데이터를 담는다.
+			returnMap.put("targetInstance", targetInstance);
+			returnMap.put("method", method);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new RuntimeException(e);
 		}
+		
+		return returnMap;
 	}
-
-	/**
-	 * @Class Name : HandlerMappingHolder 내부 클래스
-	 * @Description : 싱글톤 객체 생성 - 다중 접근 null 방지 및 동기화 성능 향상 목적 클래스
-	 * @version 1.0
-	 * @author 권태완
-	 * @Since 2023.12.22.
-	 * @Modification Information
-	 * @see Copyright (C) All right reserved.
-	 */
-	private static class HandlerMappingHolder {
-		private static final HandlerMapping INSTANCE = new HandlerMapping();
-	}
-
-	/**
-	 * Func : 싱글톤 객체 반환 메서드
-	 * 
-	 * @desc : 싱글톤 객체 반환
-	 * @param
-	 * @return HandlerMapping
-	 * @throws Exception
-	 */
-	public static HandlerMapping getInstance() {
-		return HandlerMappingHolder.INSTANCE;
-	}
-
-	/**
-	 * Func : 객체 생성 시 handlerMaps를 초기화 하는 메서드
-	 * 
-	 * @desc
-	 * @param
-	 * @return Map<String, String> 읽기 전용 map으로 반환
-	 * @throws Exception
-	 */
-	private Map<String, Object> initHandlerMappings() throws Exception {
-
-		Map<String, Object> beanContainer = SpringContainer.getInstance().beanContainer;
-
-		Map<String, Object> handlerMaps = new HashMap<>();
-		handlerMaps.put("cmm/cmm1000/cmm1000", beanContainer.get("cmm1000Controller"));
-		handlerMaps.put("usr/usr1000/usr1000", beanContainer.get("usr1000Controller"));
-		handlerMaps.put("lck/lck1000/lck1000", beanContainer.get("lck1000Controller"));
-		handlerMaps.put("sta/sta1000/sta1000", beanContainer.get("sta1000Controller"));
-		handlerMaps.put("cmm/cmm2000/cmm2000", beanContainer.get("cmm2000Controller"));
-		return Collections.unmodifiableMap(handlerMaps);
-	};
-
-	private Map<String, Object> handlerMaps;
-
-	/**
-	 * Func : handler 객체 반환 메서드
-	 * 
-	 * @desc : handler 객체 참조 반환
-	 * @param String
-	 *            url
-	 * @return Handler
-	 * @throws Exception
-	 */
-	public Object getHandler(String url) throws Exception {
-		// 존재하지 않는 url의 경우 보내주는 예외 페이지 컨트롤러
-		if (handlerMaps.get(url) == null) {
-			return handlerMaps.get("cmm/cmm2000/cmm2000");
-		}
-		return handlerMaps.get(url);
-	}
+	
 }
