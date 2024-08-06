@@ -18,44 +18,34 @@ import com.utl.Parser;
  * @see Copyright (C) All right reserved.
  */
 public class Request {
-	// 전체 url
-	public String fullUrl;
-	// 사용자 요청 데이터
+	//전체 url
+	private String url;
+	
+	//요청 데이터
 	private Map<String, Object> clientDatas = new HashMap<>();
-	// 응답 화면에 넣어줄 데이터
-	private Map<String, Object> responseDatas = new HashMap<>();
+	
 
-	// 생성자
-	public Request(String fullUrl) {
-		this.fullUrl = fullUrl;
+	//생성자
+	public Request(String url) {
+		this.url = url;
 	}
 
-	// 생성자
-	public Request(String fullUrl, Map<String, Object> clientData) {
-		this(fullUrl);
+	//생성자
+	public Request(String url, Map<String, Object> clientData) {
+		this(url);
 		this.clientDatas = clientData;
 	}
 
-	// getter
-	public String getUrl() {
-		return fullUrl;
-	}
-
-	// 컨트롤러 위치
-	public String getHadlerUrl() throws Exception {
-		return Parser.handlerUrl(fullUrl);
-	}
-
-	// 컨트롤러 메서드명
+	//컨트롤러 메서드명 조회
 	public String getMethodUrl() throws Exception {
-		String methodUrlWithParams = Parser.methodUrl(fullUrl);
+		String methodUrlWithParams = Parser.methodUrl(url);
 		List<String> params = Parser.params(methodUrlWithParams);
 		return params.get(0);
 	}
 
 	// 컨트롤러 get요청
 	public String getParams() throws Exception {
-		String methodUrlWithParams = Parser.methodUrl(fullUrl);
+		String methodUrlWithParams = Parser.methodUrl(url);
 		List<String> params = Parser.params(methodUrlWithParams);
 		if (params.size() == 2) {
 			return params.get(1);
@@ -67,11 +57,10 @@ public class Request {
 		return clientDatas;
 	}
 
-	public Map<String, ?> getResponseData() {
-		return responseDatas;
+	public String getUrl() {
+		return url;
 	}
 
-	// setter
 	public void setClientData(String key, Object value) {
 		this.clientDatas.put(key, value);
 	}
@@ -80,8 +69,13 @@ public class Request {
 		this.responseDatas.put(key, value);
 	}
 
+	//응답 데이터 TODO 제거 예정 
+	private Map<String, Object> responseDatas = new HashMap<>();	
+	public Map<String, ?> getResponseData() {
+		return responseDatas;
+	}
 	public void setFullUrl(String fullUrl) {
-		this.fullUrl = fullUrl;
+		this.url = fullUrl;
 	}
 
 }

@@ -1,15 +1,17 @@
 package com.web;
 
-import java.util.Properties;
+import java.lang.reflect.Method;
+import java.util.Map;
 
-import com.propertiesconvert.MessageSource;
+import com.MessageSource;
+
 
 /**
- * @Class Name : DispatcherServlet.java
- * @Description : 1. handlerAdapter, handlerMapping 등록 2. handlerMapping : 핸들러
- *              반환 3. handlerAdapter : 핸들러 형변환 및 핸들러 동작 실행 후 modelView 반환 4.
- *              ViewResolver : view 논리명 반환 및 반환 데이터를 담을 view 객체 반환 5. 최종적으로
- *              view에서 반환하는 데이터 반환
+ * @Description 1. handlerAdapter, handlerMapping 등록 
+ * 				2. handlerMapping : 핸들러반환 
+ * 				3. handlerAdapter : 핸들러 형변환 및 핸들러 동작 실행 후 modelView 반환 
+ * 				4. ViewResolver : view 논리명 반환 및 반환 데이터를 담을 view 객체 반환 
+ * 				5. 최종적으로 view에서 반환하는 데이터 반환
  * @version 1.0
  * @author 권태완
  * @Since 2023.12.22.
@@ -17,30 +19,12 @@ import com.propertiesconvert.MessageSource;
  * @see Copyright (C) All right reserved.
  */
 public class DispatcherServlet {
-	private final HandlerMapping handlerMapping = HandlerMapping.getInstance();
-	public static Properties message = MessageSource.properties;
-
-	/**
-	 * @Class Name : DispatcherServletHolder 내부 클래스
-	 * @Description : 싱글톤 객체 생성 - 다중 접근 null 방지 및 동기화 성능 향상 목적 클래스
-	 * @version 1.0
-	 * @author 권태완
-	 * @Since 2023.12.22.
-	 * @Modification Information
-	 * @see Copyright (C) All right reserved.
-	 */
+	//내부 클래스 
 	private static class DispatcherServletHolder {
 		private static final DispatcherServlet INSTANCE = new DispatcherServlet();
 	}
-
-	/**
-	 * Func : 싱글톤 객체 반환 메서드
-	 * 
-	 * @desc 싱글톤 객체 반환
-	 * @param
-	 * @return DispatcherServlet
-	 * @throws Exception
-	 */
+	
+	//객체 호출 메서드
 	public static DispatcherServlet getInstance() {
 		return DispatcherServletHolder.INSTANCE;
 	}
@@ -52,31 +36,44 @@ public class DispatcherServlet {
 	 *       viewResolver로 view 반환 -> view를 렌더링 하여 화면 출력 및 다음 요청 값 대기 @param
 	 *       ClientRequest<?> request @return void : view Render 후 역할 종료 @throws
 	 */
-	public void service(Request request) {
+//개념 : view로 데이터를 주는 역할이 modelView, 외부 요청 : request,	 modelView 데이터를 조합해서 화면으로 뿌려주는게 response
+	//콘솔 프로젝트에서는 response 활용도는 없다고 봐야함.
+	public void service(Request request, Response response) {
 		try {
-			// handler 호출
-			String handlerUrl = request.getHadlerUrl();
-			ModelViewController controller = (ModelViewController) handlerMapping.getHandler(handlerUrl);
+			//request 정보를 HandlerMapping에게 넘겨주고 Controller Class 동적으로 가져온다.
+			Map<String, Object> handler = HandlerMapping.getHandler(request);
+			
+			/*TODO 나중에 HandlerAdapter로 변경
+			 * Spring의 HadnlerAdapter의 메서드인 invokeHandlerMethod에서 매개변수로 
+			 * request, response, handlerMethod( 내코드에선 Map<String, Object> handler)를 받아서 최종적으로 ModelAndView 반환
+			 * */
+			
+			//Instance 추출
+			Object controller = handler.get("classInstance");
 
-			// controller interface를 활용해서 핸들러 수행 -> 우선 순위 완료 후, handler adpater 수행
-			ModelView modelView = controller.findMethod(request);
-
+			//Method 추출
+			Method method = (Method) handler.get("method");
+			
+			//TODO HandlerAdapter가 실제 동작 수행해서 ModelAndView 반환. String ModelView 2가지 형태로 반환하는거 try 해서 만들기
+			//실제 로직 수행
+			ModelView modelView = (ModelView) method.invoke(controller, request, response);
+			
 			// JavaViewResolver가 다루는 Javaview 객체를 반환. JavaView객체는 JavaHTML 확장자 파일을 다룬다.
 			JavaView view = JavaViewResolver.resolveView(modelView.getViewName());
 
 			// JavaView 객체를 이용해 응답화면을 출력
-			view.render(request, modelView.getDatas());
+			//view.render(request, modelView.getDatas());
 
 		} catch (Exception e) {
 			System.out.println("예상치 못한 예외 발생 : " + e.getMessage());
 
 			if (request == null) {
-				request = new Request(message.getProperty("err"));
+				request = new Request(MessageSource.getMessage("message.err"));
 			} else {
-				request.setFullUrl(message.getProperty("err"));
+				request.setFullUrl(MessageSource.getMessage("message.err"));
 			}
 			
-			service(request);
+			service(request, response);
 		}
 	}
 }
