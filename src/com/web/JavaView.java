@@ -7,9 +7,10 @@ import java.util.Map;
 import view.JavaHTML;
 
 /**
- * @Class Name : ConsoleView.java
- * @Description JavaViewResolver에서 반환하는 view 객체의 타입의 인터페이스. 해당 인터페이스는 modelView의
- *              값을 request로 전달하고 화면출력을 하는 렌더링 과정을 거친다.
+ * @Class Name : JavaView.java
+ * @Description .java 형태의 view를 처리하는 View 객체 주요 메서드로 render()
+ *              예) JSP, Thymeleaf 를 처리하는 View 객체 (InternalResourceView, ThymeleafView)도 동일하게 render() 기능 존재
+ *              cf) 콘솔 프로젝트 특성상 render과정이 필요 없지만 구조상 학습을 목적으로 표출 
  * @version 1.0
  * @author 권태완
  * @Since 2023.12.19.
@@ -17,40 +18,38 @@ import view.JavaHTML;
  * @see Copyright (C) All right reserved.
  */
 public class JavaView {
-	// view 절대 경로
+	//view 절대 경로
 	private String viewPath;
 
-	// url 경로 넣는 부분
+	//url 경로 넣는 부분
 	Map<String, String> map = new HashMap<>();
 
-	// 생성자
+	//생성자
 	public JavaView(String viewPath) {
 		this.viewPath = viewPath;
 	}
 
 	/**
-	 * Func : view 실행 메서드
-	 * 
-	 * @desc model을 가지고 있는 메서드
-	 * @param Map<?,Object>
-	 *            data
+	 * @desc View 객체의 핵심 기능인 rendering 기능으로 jsp, thymeleaf를 html 혹은 json으로 반환하는 역할 수행하는 메서드
+	 * @param Map<?,Object>  data
 	 * @return String client 입력값
 	 * @throws Exception
 	 */
-	public void render(Request request, Map<String, ?> model) throws Exception {
-		// 1. viewName으로 실제 수행해야될 실제 view 생성
-		JavaHTML html = createViewInstance(viewPath);
-		// 2. data는 request로 값 이동
+	//TODO javaView에서 실제표출해야하는 view 파일 객체 정보만 동적으로 받아오기
+	public JavaHTML render(Request request, Map<String, ?> model) throws Exception {
+		//model 객체의 data를 request에 담기
 		modelToRequestAttribute(request, model);
-		// 3. 실제 응답과정 수행
-		html.response(request);
+		
+		//타겟 뷰 클래스의 생성자 생성
+		Constructor<?> targetViewConstructor = Class.forName(viewPath).getConstructor();
+		
+		//타겟 뷰 객체 생성 및 반환 - 콘솔 프로젝트 특성상, html이 아닌 실제 자바 객체를 생성하는 과정이 렌더링 과정과 동일하다고 가정하여 구조 작성
+		return (JavaHTML) targetViewConstructor.newInstance();
 	};
 
 	/**
-	 * @param model
-	 *            controller가 준 setAttribute() 정보가 있는 modelview의 map을 request로 변환
-	 * @param request
-	 *            model 정보를 request에 담을 것임
+	 * @param model controller가 준 setAttribute() 정보가 있는 modelview의 map을 request로 변환
+	 * @param request model 정보를 request에 담을 것임
 	 */
 	private void modelToRequestAttribute(Request request, Map<String, ?> model) {
 		if (model != null) {
@@ -60,18 +59,4 @@ public class JavaView {
 		}
 	}
 
-	/**
-	 * Func : ReflectionAPI를 활용하여 실제 View객체를 반환
-	 * 
-	 * @desc 모든 view는 viewTemplate을 인터페이스로 가진다.
-	 * @param String
-	 *            absoluteViewName
-	 * @return ViewTemplate
-	 * @throws Exception
-	 */
-	private static JavaHTML createViewInstance(String absoluteViewName) throws Exception {
-		Class<?> viewClass = Class.forName(absoluteViewName);
-		Constructor<?> viewConstructor = viewClass.getConstructor();
-		return (JavaHTML) viewConstructor.newInstance();
-	}
 }
