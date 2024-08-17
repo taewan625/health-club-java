@@ -1,12 +1,15 @@
 package view.cmm.cmm1000.cmm1000;
 
+import java.util.Collections;
+import java.util.Map;
+
+import com.web.MessageSource;
 import com.web.Request;
 
 import view.JavaHTML;
 
 /**
- * @Class Name : Cmm1000.java
- * @Description : 메뉴화면을 출력하는 index page
+ * @desc 메뉴화면을 출력하는 index page
  * @version 1.0
  * @author 권태완
  * @Since 2023.12.22.
@@ -14,57 +17,42 @@ import view.JavaHTML;
  * @see Copyright (C) All right reserved.
  */
 public class Cmm1000 implements JavaHTML {
-	/**
-	 * Func : 초기화 메서드가 존재하는 생성자
-	 * 
-	 * @desc :초기화 메서드의 예외를 처리하기 위해 try-catch와 new RuntimeExceptioin()을
-	 *       던진다. @param @return @throws
-	 */
+	//생성자
 	public Cmm1000() {
-		try {
-			initUrl();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
+		urlMap.put("1", MessageSource.getMessage("message.usr"));
+		urlMap.put("2", MessageSource.getMessage("message.lck"));
+		urlMap.put("3", MessageSource.getMessage("message.sta"));
 	}
 
 	/**
-	 * Func : url 초기화 메서드
-	 * 
-	 * @desc JavaHTML interface에서 Map<String, String>을 담았기 때문에 이동할 url 경로만 초기화 해주면
-	 *       된다. 해당 value 사용시, urlMacth로 선언된 default 메서드를 사용하면된다.
-	 * @param
-	 * @return void
-	 * @throws Exception
-	 */
-	private void initUrl() throws Exception {
-		urlMap.put("1", msg.getProperty("usr"));
-		urlMap.put("2", msg.getProperty("lck"));
-		urlMap.put("3", msg.getProperty("sta"));
-	}
-
-	/**
-	 * Func : 응답 화면을 뿌려주는 메서드
-	 * 
 	 * @desc 화면을 보여주고 요청을 보낼 경우 해당 화면에서 dispatcherServlet으로 값이 전달이 된다.
-	 * @param Object
-	 *            data
+	 * @param Object data
 	 * @return ClientRequest<?>
 	 * @throws Exception
 	 */
+	//TODO 화면 내용만 여기에 존재하고 실제 response 정보는 response와 startWeb에서 수행 필요
 	@Override
-	public void response(Request requestWithResponseData) throws Exception {
+	public void response(Request Request) throws Exception {
 		while (true) {
 			System.out.println("헬스프로그램 메뉴");
+			//TODO JAVA HTML의 역할 : 접근해야하는 메뉴 url 경로 매핑해주는 역할 필요
+			//System.out.println("1. 회원관리, 2.사물함 관리, 3.회원통계, 4.프로그램 종료");
+			//System.in()
+			// 받은 번호와 JAVA HTML에 저장된 url 경로 매핑 후 요청 보내기
 			String inputData = Cmm1001.choiceMenu("1. 회원관리, 2.사물함 관리, 3.회원통계, 4.프로그램 종료 \n메뉴의 번호를 입력하세요.", 1, 5);
 
+			//시스템 종료
 			if (inputData.equals("4")) {
 				systemExit();
-			} else {
-				Request request = new Request(urlMatch(inputData));
-				// dispatcherServlet에 요청값을 보낸다.
-				dispatcherServlet.service(request);
+			} 
+			//URL 정보와 데이터를 객체에 담아서 WebContainer에 전송
+			else {
+				//전송 객체 생성
+				Map<String, Object> requestData = Collections.singletonMap("url", urlMatch(inputData));
+				
+				//WAS에 요청
+				webContainer.service(requestData);
+				
 			}
 		}
 	}
@@ -72,7 +60,7 @@ public class Cmm1000 implements JavaHTML {
 	/**
 	 * Func : 시스템 종료 메서드
 	 * 
-	 * @desc 해당 스택에서 즉시 시스템을 종료 시킨다. @param @return @throws
+	 * @desc 해당 스택에서 즉시 시스템을 종료 시킨다.
 	 */
 	private void systemExit() {
 		System.out.println("시스템이 종료 됩니다.");
