@@ -1,8 +1,10 @@
 package view.cmm.cmm2000.cmm2000;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Scanner;
 
+import com.web.MessageSource;
 import com.web.Request;
 
 import view.JavaHTML;
@@ -19,16 +21,34 @@ import view.JavaHTML;
 public class Cmm2000 implements JavaHTML {
 	private Scanner scanner = new Scanner(System.in);
 
+	/**
+	 * @desc 에러 화면을 표출해주고 메인 화면으로 이동하도록 한다.
+	 * @param Request request
+	 * @return void
+	 * @throws Exception
+	 */
 	@Override
-	public void response(Request requestWithResponseData) throws Exception {
-		Map<String, ?> responseData = requestWithResponseData.getResponseData();
-		String error_message = (String) responseData.get(ERROR_KEY);
-		System.out.println(error_message);
-		// 메뉴로 돌아가기
+	public void response(Request request) throws Exception {
+		//request의 map data 받아오기
+		Map<String, Object> responseData = request.getDatas();
+		
+		//저장한 데이터 조회
+		String errorMsg = (String) responseData.get("errorMsg");
+		
+		//데이터 출력
+		System.out.println(errorMsg);
+		
+		//에러페이지 기본 문구
 		System.out.println("메뉴화면으로 돌아가려면 아무 키나 누르세요.");
+		
+		//입력값을 받는다.
 		scanner.nextLine();
-		Request request = new Request(msg.getProperty("menu"));
-		dispatcherServlet.service(request);
+		
+		//전송 객체 생성
+		Map<String, Object> requestData = Collections.singletonMap("url", MessageSource.getMessage("message.menu"));
+		
+		//WAS에 요청
+		webContainer.service(requestData);
 	}
 
 }
