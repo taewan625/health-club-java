@@ -1,7 +1,7 @@
 package com.web;
 
 import java.lang.reflect.Method;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import view.JavaHTML;
@@ -76,7 +76,10 @@ public class DispatcherServlet {
 			e.printStackTrace();
 			
 			//에러 정보를 담는 Map 생성
-			Map<String, Object> errorInfo = Collections.singletonMap("errorInfo", e.getMessage());
+			Map<String, Object> errorInfo = new HashMap<>();
+			
+			//에러 메시지 저장
+			errorInfo.put("errorInfo", e.getMessage());
 			
 			//에러 페이지 요청 생성
 			Request errorRequest = new Request(MessageSource.getMessage("message.err"), errorInfo);
