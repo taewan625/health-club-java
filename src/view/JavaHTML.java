@@ -3,13 +3,12 @@ package view;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.web.DispatcherServlet;
 import com.web.Request;
+import com.web.WebContainer;
 
 /**
  * @Class Name : JavaHTML.java
- * @Description 자바 코드이지만 html 확장자처럼 나타낸 인터페이스
- * 
+ * @Description 자바 프로젝트에서 처리하는 View 객체의 확장자 클래스로 View에서 공통적으로 수행할 정보를 가진다. 
  * @version 1.0
  * @author 권태완
  * @Since 2024.1.1.
@@ -17,14 +16,10 @@ import com.web.Request;
  * @see Copyright (C) All right reserved.
  */
 public interface JavaHTML {
-	// dispatcher servlet
-	DispatcherServlet dispatcherServlet = DispatcherServlet.getInstance();
+	//webContainer 
+	WebContainer webContainer = WebContainer.getInstance();
 	
-	// 에러메시지 key값
-	String ERROR_KEY = "error";
-	// 에러는 아닌 로직 처리 실패 key값
-	String FAIL= "-1";
-	// url 요청값을 미리 담아두는 map
+	//url 요청값을 미리 담아두는 map
 	Map<String, String> urlMap = new HashMap<>();
 
 	void response(Request requestWithResponseData) throws Exception;
