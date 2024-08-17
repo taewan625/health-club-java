@@ -1,6 +1,9 @@
 import java.util.HashMap;
 import java.util.Map;
 
+import com.web.MessageSource;
+import com.web.WebContainer;
+
 /**
  * @desc 헬스프로그램을 시작하는 main Class로 webContainer를 올린다.
  * @version 1.0
@@ -20,11 +23,13 @@ public class StartWeb {
 	public static void main(String[] args) {
 		try {
 			//webContainer 생성
-			WebContainer webContainer = new WebContainer();
+			WebContainer webContainer =  WebContainer.getInstance();
 			
-			//초기 메인 메뉴 강제 접속
+			//초기 메인 메뉴 강제 접속 요청 map 생
 			Map<String, Object> requestData = new HashMap<>();
-			requestData.put("mainPageInfo", "message.menu");
+			
+			//메인 화면 url 데이터 넣기
+			requestData.put("url", MessageSource.getMessage("message.menu"));
 			
 			//main 화면 접근
 			webContainer.service(requestData);
