@@ -1,15 +1,9 @@
 package com.web;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.utl.Parser;
+import view.JavaHTML;
 
 /**
- * @Class Name : Response.java
- * @Description 응답 객체 
- * 
+ * @desc 응답 객체 
  * @version 1.0
  * @author 권태완
  * @Since 2024.08.06
@@ -17,11 +11,15 @@ import com.utl.Parser;
  * @see Copyright (C) All right reserved.
  */
 public class Response {
-	//전체 url
-	private String url;
-	
-	//요청 데이터
-	private Map<String, Object> clientDatas = new HashMap<>();
-	
-
+	/**
+	 * @desc 응답 처리
+	 */
+	void write(JavaHTML view, Request request) {
+		try {
+			view.response(request);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }
