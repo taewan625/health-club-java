@@ -35,7 +35,7 @@ public class JavaView {
 	 * @return String client 입력값
 	 * @throws Exception
 	 */
-	public JavaHTML render(Request request, Map<String, ?> model) throws Exception {
+	public JavaHTML render(Request request, Map<String, Object> model) throws Exception {
 		//model 객체의 data를 request에 담기
 		modelToRequestAttribute(request, model);
 		
@@ -50,10 +50,10 @@ public class JavaView {
 	 * @param model controller가 준 setAttribute() 정보가 있는 modelview의 map을 request로 변환
 	 * @param request model 정보를 request에 담을 것임
 	 */
-	private void modelToRequestAttribute(Request request, Map<String, ?> model) {
+	private void modelToRequestAttribute(Request request, Map<String, Object> model) {
 		if (model != null) {
-			for (Map.Entry<String, ?> entry : model.entrySet()) {
-				request.setResponseData(entry.getKey(), entry.getValue());
+			for (Map.Entry<String, Object> entry : model.entrySet()) {
+				request.setDatas(entry.getKey(), entry.getValue());
 			}
 		}
 	}
