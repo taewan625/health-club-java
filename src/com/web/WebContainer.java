@@ -1,6 +1,8 @@
+package com.web;
+
+import java.util.HashMap;
 import java.util.Map;
 
-import com.MessageSource;
 import com.web.DispatcherServlet;
 import com.web.Request;
 import com.web.Response;
@@ -15,8 +17,18 @@ import com.web.Response;
  * @see Copyright (C) All right reserved.
  */
 public class WebContainer {
+	//내부 클래스 
+	private static class WebContainerHolder {
+		private static final WebContainer INSTANCE = new WebContainer();
+	}
+	
+	//객체 호출 메서드
+	public static WebContainer getInstance() {
+		return WebContainerHolder.INSTANCE;
+	}
+	
 	//생성자
-	public WebContainer() {
+	private WebContainer() {
 		init();
 	}
 	
@@ -25,12 +37,24 @@ public class WebContainer {
 		//설정파일에 맞춰서 초기화할 객체 초기화 - 현프로젝트에서는 생략
 	}
 	
-	//webContainer 서비스		TODO 쓰레드에 영향 받지 않도록 처리 필요
+	//webContainer 서비스		TODO 쓰레드에 영향 받지 않도록 처리 필요	 및 싱글톤 객체로 변환
+	@SuppressWarnings("unchecked")
 	public void service(Map<String, Object> requestData) {
-		//TODO requestData 전처리 - url / 요청 데이터
+		//requestData 전처리 - url 정보 추출
+		String url = String.valueOf(requestData.get("url"));
 		
-		//요청 응답 객체 생성
-		Request request = new Request(MessageSource.getMessage("message.menu"));
+		//requestData 전처리 - 요청 데이터 추출
+		Map<String, Object> clientDatas = (Map<String, Object>)requestData.get("clientDatas");
+		
+		//요청 데이터가 없을 경우 빈 값 넣어주기
+		if (clientDatas == null) {
+			clientDatas = new HashMap<String, Object>();
+		}
+		
+		//요청 객체 생성
+		Request request = new Request(url, clientDatas);
+		
+		//응답 객체 생성
 		Response response = new Response();
 
 		//싱글톤 디스패처 서블릿 조회
@@ -39,12 +63,12 @@ public class WebContainer {
 		//요청 처리
 		dispatcherServlet.service(request, response);
 		
-		//response, request 제거
+		//response, request 파괴
 		request = null;
 		response = null;
-		
 	}
 	
 	//webContainer 파괴
-	public void destroy() {}
+	@SuppressWarnings("unused")
+	private void destroy() {}
 }
