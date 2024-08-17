@@ -3,6 +3,7 @@ package com.web;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -30,28 +31,33 @@ public class MessageSource {
 		String[] filenames = new File(propertiesPath).list();
 		
 		//파일 경로마다 프로퍼티 추가
-        for (String filename : filenames) {
-        	//.properties 파일인 경우만 map에 담기 
-        	if (filename.contains(".properties")) {
-        		//try-with-resource로 자원 누수 방지
-                try (FileInputStream fis = new FileInputStream(propertiesPath + "/" + filename)) {
-                    //프로퍼티 객체 생성
-                	Properties prop = new Properties();
-                	//파일 정보 담기
-                    prop.load(fis);
-                    //map에 담기
-                    properties.put(filename.split("\\.")[0], prop);
-                    
-                } catch (IOException e) {
-        			//*1.URL 경로도 해당 프로퍼티에 존재하기 때문에 예외 던지기로 프로그램 강제 종료
-        			//TODO readMe에 들어갈 내용 - 내부클래스는 클래스 로더 시점이 달라서 try-catch롤 잡을 수 없어서 이 시점에 예외를 발생 시킨 후 강제종료 
-        			throw new RuntimeException(e);
-        		}
-        	}
-        }
-        
-        //더 이상 사 안하는 객체 참조 해제
-        filenames = null;
+		for (String filename : filenames) {
+			//.properties 파일인 경우만 map에 담기 
+			if (filename.contains(".properties")) {
+				//try-with-resource로 자원 누수 방지
+				try (FileInputStream fis = new FileInputStream(propertiesPath + "/" + filename);
+					 //인코딩 오류로 인한 UTF-8 인코딩 지정
+					 InputStreamReader reader = new InputStreamReader(fis, "UTF-8")) {
+					
+					//프로퍼티 객체 생성
+					Properties prop = new Properties();
+					
+					//파일 정보 담기
+					prop.load(reader);
+					
+					//map에 담기
+					properties.put(filename.split("\\.")[0], prop);
+					
+				} catch (IOException e) {
+					//*1.URL 경로도 해당 프로퍼티에 존재하기 때문에 예외 던지기로 프로그램 강제 종료
+					//TODO readMe에 들어갈 내용 - 내부클래스는 클래스 로더 시점이 달라서 try-catch롤 잡을 수 없어서 이 시점에 예외를 발생 시킨 후 강제종료 
+					throw new RuntimeException(e);
+				}
+			}
+		}
+		
+		//더 이상 사 안하는 객체 참조 해제
+		filenames = null;
 	}
 	
 	/**
@@ -72,7 +78,7 @@ public class MessageSource {
 			
 		}
 		//올바르지 않는 key 접근으로 예외 발생 시, 오류 로그 표출 및 빈 문자열 반환
-		catch(Exception e) {
+		catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		

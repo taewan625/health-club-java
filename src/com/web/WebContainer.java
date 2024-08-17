@@ -3,10 +3,6 @@ package com.web;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.web.DispatcherServlet;
-import com.web.Request;
-import com.web.Response;
-
 /**
  * @desc WAS애서 올린 webContainer 역할로 dispatcherServlet을 올리고 request, response를 받는 역할
  * 		 구조적으로 맞추기 위해서 생성하였고 실제 설정 정보를 읽고 context 객체를 생성하는 부분은 생략
