@@ -1,10 +1,7 @@
 package com.web;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-
-import com.utl.Parser;
 
 /**
  * @Class Name : ClientRequest.java
@@ -22,7 +19,7 @@ public class Request {
 	private String url;
 	
 	//요청 데이터
-	private Map<String, Object> clientDatas = new HashMap<>();
+	private Map<String, Object> datas = new HashMap<>();
 	
 
 	//생성자
@@ -31,51 +28,21 @@ public class Request {
 	}
 
 	//생성자
-	public Request(String url, Map<String, Object> clientData) {
+	public Request(String url, Map<String, Object> datas) {
 		this(url);
-		this.clientDatas = clientData;
+		this.datas = datas;
 	}
-
-	//컨트롤러 메서드명 조회
-	public String getMethodUrl() throws Exception {
-		String methodUrlWithParams = Parser.methodUrl(url);
-		List<String> params = Parser.params(methodUrlWithParams);
-		return params.get(0);
-	}
-
-	// 컨트롤러 get요청
-	public String getParams() throws Exception {
-		String methodUrlWithParams = Parser.methodUrl(url);
-		List<String> params = Parser.params(methodUrlWithParams);
-		if (params.size() == 2) {
-			return params.get(1);
-		}
-		return null;
-	}
-
-	public Map<String, Object> getClientData() {
-		return clientDatas;
-	}
-
+	
+	/*getter & setter*/
 	public String getUrl() {
 		return url;
 	}
-
-	public void setClientData(String key, Object value) {
-		this.clientDatas.put(key, value);
+	
+	public Map<String, Object> getDatas() {
+		return datas;
 	}
 
-	public void setResponseData(String key, Object value) {
-		this.responseDatas.put(key, value);
+	public void setDatas(String key, Object value) {
+		this.datas.put(key, value);
 	}
-
-	//응답 데이터 TODO 제거 예정 
-	private Map<String, Object> responseDatas = new HashMap<>();	
-	public Map<String, ?> getResponseData() {
-		return responseDatas;
-	}
-	public void setFullUrl(String fullUrl) {
-		this.url = fullUrl;
-	}
-
 }

@@ -13,31 +13,31 @@ import java.util.Map;
  * @see Copyright (C) All right reserved.
  */
 public class ModelView {
-	// 논리적 경로
+	//논리적 경로
 	private String viewName;
-	// 서버에서 view로 보내주는 데이터
+	
+	//서버에서 view로 보내주는 데이터
 	private Map<String, Object> datas = new HashMap<>();
 
-	// 생성자
+	//생성자
 	public ModelView(String viewName) {
 		this.viewName = viewName;
 	}
-
+	
+	//생성자
 	public ModelView(String viewName, Map<String, Object> datas) {
-		this.viewName = viewName;
+		this(viewName);
 		this.datas = datas;
 	}
-
-	// getter
+	
 	public String getViewName() throws Exception {
 		return viewName;
 	}
-
-	public Map<String, ?> getDatas() throws Exception {
+	
+	public Map<String, Object> getDatas() throws Exception {
 		return datas;
 	}
-
-	// setter
+	
 	public void setDatas(String name, Object value) throws Exception {
 		this.datas.put(name, value);
 	}
