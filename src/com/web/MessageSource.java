@@ -1,4 +1,4 @@
-package com;
+package com.web;
 
 import java.io.File;
 import java.io.FileInputStream;

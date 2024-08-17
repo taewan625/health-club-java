@@ -35,7 +35,6 @@ public class JavaView {
 	 * @return String client 입력값
 	 * @throws Exception
 	 */
-	//TODO javaView에서 실제표출해야하는 view 파일 객체 정보만 동적으로 받아오기
 	public JavaHTML render(Request request, Map<String, ?> model) throws Exception {
 		//model 객체의 data를 request에 담기
 		modelToRequestAttribute(request, model);
