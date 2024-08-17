@@ -22,6 +22,12 @@ public interface JavaHTML {
 	//url 요청값을 미리 담아두는 map
 	Map<String, String> urlMap = new HashMap<>();
 
+	/**
+	 * @desc 콘솔 출력 데이터 
+	 * @param Request requestWithResponseData
+	 * @return void
+	 * @throws Exception
+	 */
 	void response(Request requestWithResponseData) throws Exception;
 
 	/**
