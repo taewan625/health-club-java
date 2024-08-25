@@ -21,6 +21,9 @@ public interface JavaHTML {
 	
 	//url 요청값을 미리 담아두는 map
 	Map<String, String> urlMap = new HashMap<>();
+	
+	//요청 데이터 (webContainer에 전송할 데이터 객체)
+	Map<String,Object> requestData = new HashMap<>();
 
 	/**
 	 * @desc 콘솔 출력 데이터 
