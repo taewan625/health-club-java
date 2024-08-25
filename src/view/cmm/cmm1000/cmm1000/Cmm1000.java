@@ -1,6 +1,5 @@
 package view.cmm.cmm1000.cmm1000;
 
-import java.util.Collections;
 import java.util.Map;
 
 import com.val.Validator;
@@ -36,7 +35,7 @@ public class Cmm1000 implements JavaHTML {
 		while (true) {
 			//메인 메뉴 화면
 			System.out.println("헬스프로그램 메뉴\n1. 회원관리, 2.사물함 관리, 3.회원통계, 4.프로그램 종료 \n메뉴의 번호를 입력하세요.");
-
+			
 			//client 입력값
 			String inputData = Validator.chooseRangeNum(1, 5);
 			
@@ -50,7 +49,7 @@ public class Cmm1000 implements JavaHTML {
 			//URL 정보와 데이터를 객체에 담아서 WebContainer에 전송
 			else {
 				//전송 객체 생성
-				Map<String, Object> requestData = Collections.singletonMap("url", urlMatch(inputData));
+				Map<String, Object> requestData = Map.of("url", urlMatch(inputData));
 				
 				//WAS에 요청
 				webContainer.service(requestData);
