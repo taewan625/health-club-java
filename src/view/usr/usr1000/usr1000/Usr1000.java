@@ -77,7 +77,8 @@ public class Usr1000 implements JavaHTML {
 				} while("".equals(userId));
 				
 				//사용자 정보를 map에 담기
-				Map<String, String> userInfo =new HashMap<String, String>();// Map.of("userId", userId);
+				Map<String, String> userInfo = new HashMap<String, String>();
+				
 				userInfo.put("userId", userId);
 				//요청할 객체에 담기
 				requestData.put("clientDatas", userInfo);
