@@ -3,6 +3,7 @@ package usr.usr1000.usr1000.service.impl;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import com.config.AppConfig;
 
@@ -47,7 +48,7 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 	};
 	
 	/**
-	 * @desc 회원 조회시, 회원 상태 업데이트, 회원 정보 반환
+	 * @desc 회원 조회 시, 회원 상태 업데이트 후 회원 정보 반환
 	 * @param String userId
 	 * @return Usr1000VO
 	 * @throws Exception
@@ -68,7 +69,7 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 				user.setStatus("02");
 				
 				//회원 수정 일시 변경
-				user.setEditDateTime( LocalDateTime.now());
+				user.setEditDateTime(LocalDateTime.now());
 				
 				//회원 상태 업데이트
 				usr1000DAO.updateUsr1000(userId, user);
@@ -79,26 +80,33 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 		return user;
 	}
 
-//	/**
-//	 * @desc 회원 id 리스트 반환 메서드
-//	 * @param
-//	 * @return List<String>
-//	 * @throws Exception
-//	 */
-//	@Override
-//	public List<String> selectUsrId1000List() throws Exception {
-//		try {
-//			List<Usr1000VO> selectUsr1000List = usr1000DAO.selectUsr1000List();
-//			List<String> userIds = new ArrayList<>();
-//			for (Usr1000VO user : selectUsr1000List) {
-//				userIds.add(user.getId());
-//			}
-//			return userIds;
-//		} catch (Exception e) {
-//			throw new Exception(e);
-//		}
-//	}
-//
+	/** TODO 하드코딩으로 들어간 데이터 정리 - view 단에서 처리할 수 있는 데이터 최대한 넣기
+	 * @desc 중복 아이디가 존재하지 않을 시, 회원을 등록한다. expireDate
+	 * @param Map<String,Object> userInfo
+	 * @return void
+	 * @throws Exception
+	 */
+	@Override
+	public void createUsr1000(Map<String,Object> userInfo) throws Exception {
+		//Usr1000VO 객체에 정보 담기
+		Usr1000VO usr1000VO = new Usr1000VO((String)userInfo.get("userId")
+											, (String)userInfo.get("userName")
+											, (String)userInfo.get("gender")
+											, (String)userInfo.get("phoneNumber")
+											, (String)userInfo.get("address")
+											, ""
+											, "01"
+											, LocalDate.now()
+											, LocalDate.now()
+											, "use"
+											, "N"
+											, LocalDateTime.now()
+											, LocalDateTime.now());
+		
+		//DB에 데이터 담기
+		usr1000DAO.createUsr1000(usr1000VO);
+	};
+	
 //	/**
 //	 * Func : 회원 테이블에서 삭제되지 않은 id 중에서 값이 존재하면 true를 반환하는 메서드
 //	 * 
@@ -129,29 +137,7 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 //	}
 //
 
-//
-//	/**
-//	 * Func : 회원 등록 메서드
-//	 * 
-//	 * @desc 중복 아이디가 존재하지 않을 시, 회원을 등록한다. expireDate
-//	 * @param Usr1000VO
-//	 *            user
-//	 * @return void
-//	 * @throws Exception
-//	 */
-//	@Override
-//	public void createUsr1000(Usr1000VO user) throws Exception {
-//		try {
-//			// 삭제된 id이든 사용되는 id이든 존재하기만 하면 false
-//			if (usr1000DAO.isContainsUsr1000(user.getId())) {
-//				user.setError("-1", message.getProperty("FAIL.CREATE"));
-//				return;
-//			}
-//			usr1000DAO.createUsr1000(user);
-//		} catch (Exception e) {
-//			throw new Exception(e);
-//		}
-//	};
+
 //
 //	/**
 //	 * Func : 회원 수정 메서드

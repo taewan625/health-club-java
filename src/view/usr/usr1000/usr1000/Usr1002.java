@@ -155,9 +155,14 @@ public class Usr1002 implements JavaHTML {
 		//등록된 데이터 값 보여주기
 		System.out.println(paramData.toString());
 		
-		//등록 수행
-		requestData.put("userInfo", paramData);
-		requestData.put("url", MessageSource.getMessage("message.usr"));
+		//회원 정보 담기
+		requestData.put("clientDatas", paramData);
+		
+		//접근 경로 담기
+		requestData.put("url", MessageSource.getMessage("message.usrCreateInfo"));
+		
+		//WAS에 요청
+		webContainer.service(requestData);
 	}
 
 

@@ -1,6 +1,7 @@
 package usr.usr1000.usr1000.web;
 
 import java.util.List;
+import java.util.Map;
 
 import com.config.AppConfig;
 import com.web.MessageSource;
@@ -39,7 +40,7 @@ public class Usr1000Controller {
 	}
 
 	/**
-	 * @desc 회원관리 페이지를 보여준다. 기본 회원 리스트도 보여준다.
+	 * @desc 회원관리 페이지 조회
 	 * @param Request request, Response response
 	 * @return ModelView
 	 * @throws Exception
@@ -71,7 +72,7 @@ public class Usr1000Controller {
 	}
 
 	/**
-	 * @desc 회원조회 페이지를 보여준다.
+	 * @desc 회원조회 팝업 조회
 	 * @param Request request, Response response
 	 * @return ModelView
 	 * @throws Exception
@@ -104,53 +105,78 @@ public class Usr1000Controller {
 		//modelView 반환
 		return modelView;
 	}
-//
-//	/**
-//	 * @desc 등록 화면 반환시, userid도 같이 반환
-//	 * @return ModelView
-//	 * @throws Exception
-//	 */
-//	public ModelView createUsr1000() throws Exception {
-//		ModelView modelView;
-//		try {
-//			List<String> userIds = usr1000Service.selectUsrId1000List();
-//			modelView = new ModelView("usr.usr1000.usr1000.Usr1002");
-//			modelView.setDatas("userIds", userIds);
-//			
-//		} catch (Exception e) {
-//			//회원 화면으로 이동
-//			modelView = new ModelView("usr.usr1000.usr1000.Usr1000");
-//			
-//			//에러 메시지 등록
-//			modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.create"));
-//		}
-//		
-//		return modelView;
-//	}
 
-//	/**
-//	 * Func : 회원등록 페이지를 보여주는 메서드
-//	 * 
-//	 * @desc 회원등록 성공 시 회원 페이지 실패시 다시 등록 페이지.
-//	 * @param Map<String,
-//	 *            Object> clientData
-//	 * @return ModelView<?>
-//	 * @throws Exception
-//	 */
-//	public ModelView createUsr1000(Map<String, Object> clientData) throws Exception {
-//		Usr1000VO user = (Usr1000VO) clientData.get("clientData"); // "clientData"라는 키는 존재하는데 값이 안잡힘
-//		ModelView modelView;
-//		try {
-//			usr1000Service.createUsr1000(user);
-//			// 갱신된 유저 정보를 보여준다.
-//			modelView = selectUsr1000List();
-//			modelView.setDatas("user", user);
-//		} catch (Exception e) {
-//			modelView = new ModelView(message.getProperty("USER.PAGE"));
-//			modelView.setDatas(ERROR_KEY, message.getProperty("ERROR.CREATE"));
-//		}
-//		return modelView;
-//	}
+	/**
+	 * @desc 회원 등록 팝업 조회
+	 * @param Request request, Response response
+	 * @return ModelView
+	 * @throws Exception
+	 */
+	public ModelView createUsr1000(Request request, Response response) throws Exception {
+		//반환 변수
+		ModelView modelView;
+		
+		try {
+			//회원 목록 조회
+			List<Usr1000VO> users = usr1000Service.selectUsr1000List();
+			
+			//회원 등록 경로 등록
+			modelView = new ModelView("usr.usr1000.usr1000.Usr1002");
+			
+			//회원 목록 등록
+			modelView.setDatas("users", users);
+			
+		} catch (Exception e) {
+			//에러 페이지 이동
+			modelView = new ModelView("cmm.cmm2000.cmm2000.Cmm2000");
+			
+			//에러 메시지 등록
+			modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.notFound"));
+		}
+		
+		//modelView 반환
+		return modelView;
+	}
+
+	/**
+	 * @desc 회원 등록 후, 회원 메뉴로 이동
+	 * @param Request request, Response response
+	 * @return ModelView
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public ModelView createUsr1000UserInfo(Request request, Response response) throws Exception {
+		//반환 변수
+		ModelView modelView;
+		
+		try {
+			//등록할 회원 데이터 조회
+			Map<String,Object> userInfo = (Map<String,Object>) request.getDatas();
+			//Map<String,Object> userInfo  = (Map<String,Object>) request.getDatas().get("userInfo");
+			
+			//회원 정보 등록
+			usr1000Service.createUsr1000(userInfo);
+			
+			//회원 목록 조회
+			List<Usr1000VO> users = usr1000Service.selectUsr1000List();
+			
+			//회원 화면 경로 등록
+			modelView = new ModelView("usr.usr1000.usr1000.Usr1000");
+			
+			//회원 목록 등록
+			modelView.setDatas("users", users);
+			
+		} catch (Exception e) {
+			//에러 페이지 이동
+			modelView = new ModelView("cmm.cmm2000.cmm2000.Cmm2000");
+			
+			//에러 메시지 등록
+			modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.notFound"));
+		}
+		
+		//modelView 반환
+		return modelView;
+	}
 //
 //	/**
 //	 * Func : 회원 수정 화면 메서드

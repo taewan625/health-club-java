@@ -67,41 +67,15 @@ public class Usr1000DAO {
 		userStore.put(userId, userVO);
 	}
 	
-//	/**
-//	 * @desc 회원 상태를 업데이트, 사용하기전 isContainsUsr10000()을 이용해서 회원 id 존재 여부 검증 필수
-//	 * @param String id, Status userStatus
-//	 * @return void
-//	 * @throws Exception
-//	 */
-//	public void updateUsr1000Status(String id, Status userStatus) throws Exception {
-//		try {
-//			
-//			User user = selectUser(id);
-//			
-//			user.setStatus(userStatus);
-//			
-//		} catch (Exception e) {
-//			
-//			throw new Exception(e);
-//			
-//		}
-//	}
-//
-//	/**
-//	 * @desc 유효성 검사가 완료된 회원 등록
-//	 * @param Usr1000VO userVO
-//	 * @return void
-//	 * @throws Exception
-//	 */
-//	public void createUsr1000(Usr1000VO userVO) throws Exception {
-//		try {
-//			userStore.put(++index, new User.Builder(userVO.getId(), userVO.getName(), userVO.getGender(), userVO.getPhoneNumber(), userVO.getAddress()).build());
-//			
-//		} catch (Exception e) {
-//			throw new Exception(e);
-//		}
-//	}
-//
+	/**
+	 * @desc 회원 등록
+	 * @param Usr1000VO usr1000VO
+	 * @return void
+	 * @throws Exception
+	 */
+	public void createUsr1000(Usr1000VO usr1000VO) throws Exception {
+		userStore.put(usr1000VO.getId(), usr1000VO);
+	}
 	
 //
 //	/**
