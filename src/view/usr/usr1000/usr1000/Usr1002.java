@@ -1,5 +1,7 @@
 package view.usr.usr1000.usr1000;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -37,6 +39,8 @@ public class Usr1002 implements JavaHTML {
 		//회원리스트 데이터 조회
 		List<Usr1000VO> users = (List<Usr1000VO>) datas.get("users");
 		
+		//회원 정보를 담을 객체
+		Usr1000VO userInfo = new Usr1000VO();
 		System.out.println("[회원 등록]");
 		
 		//중복 혹은 유효성에 문제가 존재하는지 여부 확인 변수
@@ -63,7 +67,7 @@ public class Usr1002 implements JavaHTML {
 			}
 			//map에 데이터 담기
 			else {
-				clientDatas.put("userId", userId);
+				userInfo.setId(userId);
 			}
 			
 		} while(isWrong);
@@ -87,7 +91,7 @@ public class Usr1002 implements JavaHTML {
 			}
 			//map에 데이터 담기
 			else {
-				clientDatas.put("userName", userName);
+				userInfo.setName(userName);
 			}
 			
 		} while (isWrong);
@@ -111,7 +115,7 @@ public class Usr1002 implements JavaHTML {
 			}
 			//map에 데이터 담기
 			else {
-				clientDatas.put("gender", gender);
+				userInfo.setGender(gender);
 			}
 			
 		} while(isWrong);
@@ -135,7 +139,7 @@ public class Usr1002 implements JavaHTML {
 			}
 			//map에 데이터 담기
 			else {
-				clientDatas.put("phoneNumber", phoneNumber);
+				userInfo.setPhoneNumber(phoneNumber);
 			}
 			
 		} while(isWrong);
@@ -143,17 +147,60 @@ public class Usr1002 implements JavaHTML {
 		//주소 작성
 		System.out.println("주소를 작성하세요. [주소는 필수 값이 아닙니다.] [회원 등록을 멈추고 나가고 싶으면 n 작성]");
 		
-		//연락처 입력 값
+		//주소 입력 값
 		String address = scanner.nextLine().trim();
 		
 		//중간 종료 여부 확인
 		wantStop(address);
 		
 		//map에 데이터 담기
-		clientDatas.put("address", address);
+		userInfo.setAddress(address);
 		
-		//등록된 데이터 값 보여주기
-		System.out.println(clientDatas.toString());
+		//회원 설명
+		System.out.println("회원 설명을 작성하세요. [회원 설명은 필수 값이 아닙니다.] [회원 등록을 멈추고 나가고 싶으면 n 작성]");
+		
+		//회원 설명 입력 값
+		String description = scanner.nextLine().trim();
+		
+		//중간 종료 여부 확인
+		wantStop(description);
+		
+		//map에 데이터 담기
+		userInfo.setDescription(description);
+		//TODO. 회원 등록일 유효성 검사 필요함. do-while 사용필요
+		//회원 등록일
+		System.out.println("*회원 등록일을 작성하세요. [2024-08-28 형식으로 작성] [회원 등록을 멈추고 나가고 싶으면 n 작성]");
+		
+		//회원 등록일 입력 값
+		String joinDate = scanner.nextLine().trim();
+		
+		//중간 종료 여부 확인
+		wantStop(joinDate);
+		
+		//map에 데이터 담기
+		userInfo.setJoinDate(LocalDate.parse(joinDate));
+		
+		//TODO. 회원 만료일 유효성 검사 필요함. do-while 사용필요
+		System.out.println("*회원 만료일을 작성하세요. [2024-08-28 형식으로 작성] [회원 등록을 멈추고 나가고 싶으면 n 작성]");
+		
+		//회원 만료일 입력 값
+		String expireDate = scanner.nextLine().trim();
+		
+		//중간 종료 여부 확인
+		wantStop(expireDate);
+		
+		//map에 데이터 담기
+		userInfo.setExpireDate(LocalDate.parse(expireDate));
+		
+		//메타정보 넣기
+		userInfo.setUse("Y");
+		userInfo.setStatus("정상");
+		userInfo.setDelete("N");
+		userInfo.setJoinDateTime(LocalDateTime.now());
+		userInfo.setEditDateTime(LocalDateTime.now());
+		
+		//전송용 데이터 객체에 담기
+		clientDatas.put("userInfo", userInfo);
 		
 		//회원 정보 담기
 		requestData.put("clientDatas", clientDatas);

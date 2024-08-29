@@ -40,6 +40,9 @@ public class Usr1000VO {
 	private LocalDateTime editDateTime;
 	
 	//생성자
+	public Usr1000VO() {};
+	
+	//생성자
 	public Usr1000VO(String id, String name, String gender, String phoneNumber, String address, String description, String status, LocalDate joinDate, LocalDate expireDate, String use, String delete, LocalDateTime joinDateTime, LocalDateTime editDateTime) {
 		super();
 		this.id = id;

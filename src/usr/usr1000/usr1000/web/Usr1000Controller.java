@@ -144,14 +144,13 @@ public class Usr1000Controller {
 	 * @return ModelView
 	 * @throws Exception
 	 */
-	@SuppressWarnings("unchecked")
 	public ModelView createUsr1000UserInfo(Request request, Response response) throws Exception {
 		//반환 변수
 		ModelView modelView;
 		
 		try {
 			//등록할 회원 데이터 조회
-			Map<String,Object> userInfo = (Map<String,Object>) request.getClientDatas();
+			Usr1000VO userInfo = (Usr1000VO) request.getClientDatas().get("userInfo");
 			
 			//회원 정보 등록
 			usr1000Service.createUsr1000(userInfo);

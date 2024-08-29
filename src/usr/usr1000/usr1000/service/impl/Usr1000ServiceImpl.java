@@ -80,31 +80,16 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 		return user;
 	}
 
-	/** TODO 하드코딩으로 들어간 데이터 정리 - view 단에서 처리할 수 있는 데이터 최대한 넣기
+	/**
 	 * @desc 중복 아이디가 존재하지 않을 시, 회원을 등록한다. expireDate
-	 * @param Map<String,Object> userInfo
+	 * @param Usr1000VO userInfo
 	 * @return void
 	 * @throws Exception
 	 */
 	@Override
-	public void createUsr1000(Map<String,Object> userInfo) throws Exception {
-		//Usr1000VO 객체에 정보 담기
-		Usr1000VO usr1000VO = new Usr1000VO((String)userInfo.get("userId")
-											, (String)userInfo.get("userName")
-											, (String)userInfo.get("gender")
-											, (String)userInfo.get("phoneNumber")
-											, (String)userInfo.get("address")
-											, ""
-											, "01"
-											, LocalDate.now()
-											, LocalDate.now()
-											, "use"
-											, "N"
-											, LocalDateTime.now()
-											, LocalDateTime.now());
-		
+	public void createUsr1000(Usr1000VO userInfo) throws Exception {
 		//DB에 데이터 담기
-		usr1000DAO.createUsr1000(usr1000VO);
+		usr1000DAO.createUsr1000(userInfo);
 	};
 	
 //	/**
