@@ -32,7 +32,7 @@ public class Usr1002 implements JavaHTML {
 	@Override
 	public void response(Request request) throws Exception {
 		//데이터 조회
-		Map<String, Object> datas = request.getDatas();
+		Map<String, Object> datas = request.getClientDatas();
 		
 		//회원리스트 데이터 조회
 		List<Usr1000VO> users = (List<Usr1000VO>) datas.get("users");
@@ -63,7 +63,7 @@ public class Usr1002 implements JavaHTML {
 			}
 			//map에 데이터 담기
 			else {
-				paramData.put("userId", userId);
+				clientDatas.put("userId", userId);
 			}
 			
 		} while(isWrong);
@@ -87,7 +87,7 @@ public class Usr1002 implements JavaHTML {
 			}
 			//map에 데이터 담기
 			else {
-				paramData.put("userName", userName);
+				clientDatas.put("userName", userName);
 			}
 			
 		} while (isWrong);
@@ -111,7 +111,7 @@ public class Usr1002 implements JavaHTML {
 			}
 			//map에 데이터 담기
 			else {
-				paramData.put("gender", gender);
+				clientDatas.put("gender", gender);
 			}
 			
 		} while(isWrong);
@@ -135,7 +135,7 @@ public class Usr1002 implements JavaHTML {
 			}
 			//map에 데이터 담기
 			else {
-				paramData.put("phoneNumber", phoneNumber);
+				clientDatas.put("phoneNumber", phoneNumber);
 			}
 			
 		} while(isWrong);
@@ -150,13 +150,13 @@ public class Usr1002 implements JavaHTML {
 		wantStop(address);
 		
 		//map에 데이터 담기
-		paramData.put("address", address);
+		clientDatas.put("address", address);
 		
 		//등록된 데이터 값 보여주기
-		System.out.println(paramData.toString());
+		System.out.println(clientDatas.toString());
 		
 		//회원 정보 담기
-		requestData.put("clientDatas", paramData);
+		requestData.put("clientDatas", clientDatas);
 		
 		//접근 경로 담기
 		requestData.put("url", MessageSource.getMessage("message.usrCreateInfo"));

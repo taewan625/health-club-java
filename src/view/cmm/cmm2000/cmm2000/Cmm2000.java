@@ -30,7 +30,7 @@ public class Cmm2000 implements JavaHTML {
 	@Override
 	public void response(Request request) throws Exception {
 		//request의 map data 받아오기
-		Map<String, Object> responseData = request.getDatas();
+		Map<String, Object> responseData = request.getClientDatas();
 		
 		//저장한 데이터 조회
 		String errorMsg = (String) responseData.get("errorMsg");

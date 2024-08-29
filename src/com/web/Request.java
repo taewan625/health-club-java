@@ -19,7 +19,7 @@ public class Request {
 	private String url;
 	
 	//요청 데이터
-	private Map<String, Object> datas = new HashMap<>();
+	private Map<String, Object> clientDatas = new HashMap<>();
 	
 
 	//생성자
@@ -28,9 +28,9 @@ public class Request {
 	}
 
 	//생성자
-	public Request(String url, Map<String, Object> datas) {
+	public Request(String url, Map<String, Object> clientDatas) {
 		this(url);
-		this.datas = datas;
+		this.clientDatas = clientDatas;
 	}
 	
 	/*getter & setter*/
@@ -38,11 +38,11 @@ public class Request {
 		return url;
 	}
 	
-	public Map<String, Object> getDatas() {
-		return datas;
+	public Map<String, Object> getClientDatas() {
+		return clientDatas;
 	}
 
-	public void setDatas(String key, Object value) {
-		this.datas.put(key, value);
+	public void setClientDatas(String key, Object value) {
+		this.clientDatas.put(key, value);
 	}
 }

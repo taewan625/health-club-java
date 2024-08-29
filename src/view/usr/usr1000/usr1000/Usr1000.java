@@ -46,7 +46,7 @@ public class Usr1000 implements JavaHTML {
 			System.out.println("[회원 목록] - 1 페이지");
 			
 			//데이터 조회
-			Map<String, Object> datas = request.getDatas();
+			Map<String, Object> datas = request.getClientDatas();
 			
 			//회원리스트 데이터 조회
 			List<Usr1000VO> users = (List<Usr1000VO>) datas.get("users");

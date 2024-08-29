@@ -53,7 +53,7 @@ public class JavaView {
 	private void modelToRequestAttribute(Request request, Map<String, Object> model) {
 		if (model != null) {
 			for (Map.Entry<String, Object> entry : model.entrySet()) {
-				request.setDatas(entry.getKey(), entry.getValue());
+				request.setClientDatas(entry.getKey(), entry.getValue());
 			}
 		}
 	}

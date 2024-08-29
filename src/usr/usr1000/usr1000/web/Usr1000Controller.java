@@ -83,7 +83,7 @@ public class Usr1000Controller {
 		
 		try {
 			//userId 조회
-			String userId = String.valueOf(request.getDatas().get("userId"));
+			String userId = String.valueOf(request.getClientDatas().get("userId"));
 			
 			//회원 조회
 			Usr1000VO user = usr1000Service.selectUsr1000(userId);
@@ -151,8 +151,7 @@ public class Usr1000Controller {
 		
 		try {
 			//등록할 회원 데이터 조회
-			Map<String,Object> userInfo = (Map<String,Object>) request.getDatas();
-			//Map<String,Object> userInfo  = (Map<String,Object>) request.getDatas().get("userInfo");
+			Map<String,Object> userInfo = (Map<String,Object>) request.getClientDatas();
 			
 			//회원 정보 등록
 			usr1000Service.createUsr1000(userInfo);
