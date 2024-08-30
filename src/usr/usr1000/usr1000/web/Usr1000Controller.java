@@ -1,7 +1,6 @@
 package usr.usr1000.usr1000.web;
 
 import java.util.List;
-import java.util.Map;
 
 import com.config.AppConfig;
 import com.web.MessageSource;
@@ -175,28 +174,41 @@ public class Usr1000Controller {
 		//modelView 반환
 		return modelView;
 	}
-//
-//	/**
-//	 * Func : 회원 수정 화면 메서드
-//	 * 
-//	 * @desc 수정화면 반환
-//	 * @param
-//	 * @return ModelView
-//	 * @throws Exception
-//	 */
-//	public ModelView updateUsr1000Form(Map<String, Object> clientData) throws Exception {
-//		ModelView modelView;
-//		String id = (String) clientData.get("id");
-//		try {
-//			Usr1000VO user = usr1000Service.selectUsr1000(id);
-//			modelView = new ModelView("usr.usr1000.usr1000.Usr1003");
-//			modelView.setDatas("user", user);
-//		} catch (Exception e) {
-//			modelView = new ModelView(message.getProperty("USER.PAGE"));
-//			modelView.setDatas(ERROR_KEY, message.getProperty("ERROR.UPDATE"));
-//		}
-//		return modelView;
-//	}
+
+	/**
+	 * @desc 회원 수정화면 반환
+	 * @param Request request, Response response
+	 * @return ModelView
+	 * @throws Exception
+	 */
+	public ModelView updateUsr1000Form(Request request, Response response) throws Exception {
+		//반환 변수
+		ModelView modelView;
+		
+		try {
+			//userId 조회
+			String userId = String.valueOf(request.getClientDatas().get("userId"));
+			
+			//회원 조회
+			Usr1000VO user = usr1000Service.selectUsr1000(userId);
+			
+			//회원 조회 팝업 등록
+			modelView = new ModelView("usr.usr1000.usr1000.Usr1003");
+			
+			//회원 정보 등록
+			modelView.setDatas("user", user);
+			
+		} catch (Exception e) {
+			//에러 페이지 이동
+			modelView = new ModelView("cmm.cmm2000.cmm2000.Cmm2000");
+			
+			//에러 메시지 등록
+			modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.select"));
+		}
+		
+		//modelView 반환
+		return modelView;
+	}
 //
 //	/**
 //	 * Func : 회원수정 완료 후, 회원 관리페이지를 보여주는 메서드
