@@ -31,20 +31,35 @@ public class Usr1000DAO {
 
 	/**
 	 * @desc 회원 목록 반환
+	 * @param Map<String,String> PageInfo {"selectPage", "1", "range", "10"}
 	 * @return List<Usr1000VO>
 	 * @throws Exception
 	 */
-	public List<Usr1000VO> selectUsr1000List() throws Exception {
+	public List<Usr1000VO> selectUsr1000List(Map<String, String> pageInfo) throws Exception {
 		//회원 목록 변수
-		List<Usr1000VO> users = new ArrayList<>();
+		List<Usr1000VO> users = new ArrayList<>(userStore.values());
 		
-		//회원 목록을 list에 담는다.
-		for (Usr1000VO user : userStore.values()) {
-			users.add(user);
-		}
+		//시작 범위
+		int from = (Integer.parseInt(pageInfo.get("selectPage")) - 1) * Integer.parseInt(pageInfo.get("range"));
 		
-		//회원목록 반환 
-		return users;
+		//종료 범위
+		int to = (Integer.parseInt(pageInfo.get("selectPage"))) * Integer.parseInt(pageInfo.get("range"));
+		
+		//종료 범위가 토탈 개수보다 작을 경우
+		to = (users.size() < to) ? users.size() : to;
+		
+		//회원목록 반환
+		return users.subList(from, to);
+	}
+	
+	/**
+	 * @desc 회원 목록 수 반환
+	 * @return int
+	 * @throws Exception
+	 */
+	public int selectUsr1000ListCnt() throws Exception {
+		//회원목록 수 반환 
+		return userStore.size();
 	}
 
 	/**

@@ -1,7 +1,5 @@
 package view.cmm.cmm1000.cmm1000;
 
-import java.util.Map;
-
 import com.val.Validator;
 import com.web.Request;
 
@@ -51,8 +49,12 @@ public class Cmm1000 implements JavaHTML {
 			} 
 			//URL 정보와 데이터를 객체에 담아서 WebContainer에 전송
 			else {
-				//전송 객체 생성
-				Map<String, Object> requestData = Map.of("url", urlMatch(inputData));
+				//전송 객체 생성 - url 담기
+				requestData.put("url", urlMatch(inputData));
+				
+				//전송 객체 생성 - 페이징 데이터 담기
+				clientDatas.put("selectPage", "1");
+				requestData.put("clientDatas", clientDatas);
 				
 				//WAS에 요청
 				webContainer.service(requestData);

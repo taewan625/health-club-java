@@ -33,6 +33,8 @@ public class Usr1000 implements JavaHTML {
 		urlMap.put("4", "usr/usr1000/usr1000/deleteUsr1000UserInfo");
 		//메인 메뉴
 		urlMap.put("5", "cmm/cmm1000/cmm1000/selectCmm1000View");
+		//회원 메뉴
+		urlMap.put("6", "usr/usr1000/usr1000/selectUsr1000View");
 	}
 
 	/**
@@ -45,11 +47,17 @@ public class Usr1000 implements JavaHTML {
 	@Override
 	public void response(Request request) throws Exception {
 		while (true) {
-			//회원 목록 정보 TODO 페이징 처리
-			System.out.println("[회원 목록] - 1 페이지");
-			
 			//데이터 조회
 			Map<String, Object> datas = request.getClientDatas();
+			
+			//페이징 정보
+			Map<String, Object> pageInfo = (Map<String, Object>)datas.get("pageInfo");
+			
+			//전체 페이징 정보
+			int totalPage = (int) pageInfo.get("totalPage");
+			
+			//회원 목록 정보
+			System.out.println("[회원 목록] - 총 " + totalPage + "page("+ pageInfo.get("totalCnt") + "건) 중 " + pageInfo.get("selectPage") + "page");
 			
 			//회원리스트 데이터 조회
 			List<Usr1000VO> users = (List<Usr1000VO>) datas.get("users");
@@ -59,11 +67,18 @@ public class Usr1000 implements JavaHTML {
 				System.out.println(user.toString());
 			}
 			
-			//회원 화면
-			System.out.println("1.회원조회 2.회원 등록 3.회원 수정 4.회원 삭제 5.메인메뉴");
+			//전체 페이지가 1일 경우
+			if (1 == totalPage) {
+				System.out.println("1.회원조회 2.회원 등록 3.회원 수정 4.회원 삭제 5.메인메뉴");
+				
+			}
+			//전체 페이지가 1보다 클 경우
+			else {
+				System.out.println("1.회원조회 2.회원 등록 3.회원 수정 4.회원 삭제 5.메인메뉴 6.페이지 변경");
+			}
 			
 			//client 입력값
-			String inputData = Validator.chooseRangeNum(1, 6);
+			String inputData = Validator.chooseRangeNum(1, 7);
 			
 			//조회, 수정, 삭제 시, 아이디 정보 추가
 			if ("1".equals(inputData) || "3".equals(inputData) || "4".equals(inputData)) {
@@ -84,6 +99,15 @@ public class Usr1000 implements JavaHTML {
 				
 				//요청할 객체에 담기
 				requestData.put("clientDatas", clientDatas);
+				
+			} 
+			//페이징 변화일 경우
+			else if ("6".equals(inputData)) {
+				//질문
+				System.out.println("이동할 페이지번호를 작성해주세요.[1 ~ " + totalPage + "]");
+				
+				//client 입력값
+				clientDatas.put("selectPage", Validator.chooseRangeNum(1, totalPage + 1));
 			}
 			
 			//전송 객체 세팅
@@ -93,5 +117,4 @@ public class Usr1000 implements JavaHTML {
 			webContainer.service(requestData);
 		}
 	}
-	
 }

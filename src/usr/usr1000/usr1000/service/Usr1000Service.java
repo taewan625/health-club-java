@@ -1,6 +1,7 @@
 package usr.usr1000.usr1000.service;
 
 import java.util.List;
+import java.util.Map;
 
 import usr.usr1000.usr1000.vo.Usr1000VO;
 
@@ -14,7 +15,10 @@ import usr.usr1000.usr1000.vo.Usr1000VO;
  */
 public interface Usr1000Service {
 	//회원 목록
-	List<Usr1000VO> selectUsr1000List() throws Exception;
+	List<Usr1000VO> selectUsr1000List(Map<String, String> pageInfo) throws Exception;
+	
+	//총 회원 수
+	int selectUsr1000ListCnt() throws Exception;
 	
 	//회원 상세
 	Usr1000VO selectUsr1000(String userId) throws Exception;

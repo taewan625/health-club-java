@@ -3,6 +3,7 @@ package usr.usr1000.usr1000.service.impl;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import com.config.AppConfig;
 
@@ -38,13 +39,24 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 
 	/**
 	 * @desc 회원 목록 반환
+	 * @param Map<String, String> pageInfo
 	 * @return List<Usr1000VO>
 	 * @throws Exception
 	 */
 	@Override
-	public List<Usr1000VO> selectUsr1000List() throws Exception {
-		return usr1000DAO.selectUsr1000List();
+	public List<Usr1000VO> selectUsr1000List(Map<String, String> pageInfo) throws Exception {
+		return usr1000DAO.selectUsr1000List(pageInfo);
 	};
+	
+	/**
+	 * @desc 회원 목록 수 반환
+	 * @return int
+	 * @throws Exception
+	 */
+	@Override
+	public int selectUsr1000ListCnt() throws Exception {
+		return usr1000DAO.selectUsr1000ListCnt();
+	}
 	
 	/**
 	 * @desc 회원 조회 시, 회원 상태 업데이트 후 회원 정보 반환

@@ -1,6 +1,7 @@
 package usr.usr1000.usr1000.web;
 
 import java.util.List;
+import java.util.Map;
 
 import com.config.AppConfig;
 import com.web.MessageSource;
@@ -49,14 +50,23 @@ public class Usr1000Controller {
 		ModelView modelView;
 		
 		try {
+			//선택한 페이지
+			String selectPage = String.valueOf(request.getClientDatas().get("selectPage"));
+			
 			//회원 목록 조회
-			List<Usr1000VO> users = usr1000Service.selectUsr1000List();
+			List<Usr1000VO> users = usr1000Service.selectUsr1000List(Map.of("selectPage", selectPage, "range", "10"));
+			
+			//총 회원 목록 수
+			int totalCnt = usr1000Service.selectUsr1000ListCnt();
 			
 			//회원 화면 경로 등록
 			modelView = new ModelView("usr.usr1000.usr1000.Usr1000");
 			
 			//회원 목록 등록
 			modelView.setDatas("users", users);
+			
+			//페이징 정보 등록
+			modelView.setDatas("pageInfo", Map.of("selectPage", selectPage, "totalCnt", totalCnt, "totalPage", (int) Math.ceil((double) totalCnt / 10)));
 			
 		} catch (Exception e) {
 			//에러 페이지 이동
@@ -117,7 +127,7 @@ public class Usr1000Controller {
 		
 		try {
 			//회원 목록 조회
-			List<Usr1000VO> users = usr1000Service.selectUsr1000List();
+			List<Usr1000VO> users = usr1000Service.selectUsr1000List(Map.of("selectPage", "1", "range", "10"));
 			
 			//회원 등록 경로 등록
 			modelView = new ModelView("usr.usr1000.usr1000.Usr1002");
@@ -155,7 +165,7 @@ public class Usr1000Controller {
 			usr1000Service.createUsr1000UserInfo(userInfo);
 			
 			//회원 목록 조회
-			List<Usr1000VO> users = usr1000Service.selectUsr1000List();
+			List<Usr1000VO> users = usr1000Service.selectUsr1000List(Map.of("selectPage", "1", "range", "10"));
 			
 			//회원 화면 경로 등록
 			modelView = new ModelView("usr.usr1000.usr1000.Usr1000");
@@ -228,7 +238,7 @@ public class Usr1000Controller {
 			usr1000Service.updateUsr1000UserInfo(userInfo);
 			
 			//회원 목록 조회
-			List<Usr1000VO> users = usr1000Service.selectUsr1000List();
+			List<Usr1000VO> users = usr1000Service.selectUsr1000List(Map.of("selectPage", "1", "range", "10"));
 			
 			//회원 화면 경로 등록
 			modelView = new ModelView("usr.usr1000.usr1000.Usr1000");
@@ -266,7 +276,7 @@ public class Usr1000Controller {
 					usr1000Service.deleteUsr1000UserInfo(userId);
 					
 					//회원 목록 조회
-					List<Usr1000VO> users = usr1000Service.selectUsr1000List();
+					List<Usr1000VO> users = usr1000Service.selectUsr1000List(Map.of("selectPage", "1", "range", "10"));
 					
 					//회원 화면 경로 등록
 					modelView = new ModelView("usr.usr1000.usr1000.Usr1000");
