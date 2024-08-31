@@ -12,12 +12,10 @@ public interface Usr1000Service {
 	Usr1000VO selectUsr1000(String userId) throws Exception;
 	
 	//회원 등록
-	void createUsr1000(Usr1000VO userInfo) throws Exception;
+	void createUsr1000UserInfo(Usr1000VO userInfo) throws Exception;
+	//회원 수정
+	void updateUsr1000UserInfo(Usr1000VO userInfo) throws Exception;
 	
-	//	boolean isContainsUsr1000WithOutDeleteUsr(String userId) throws Exception;
-//
-//	void updateUsr1000(String requestParams, Usr1000VO user) throws Exception;
-//
 //	void deleteUsr1000(String requestParams, Usr1000VO user) throws Exception;
 
 }

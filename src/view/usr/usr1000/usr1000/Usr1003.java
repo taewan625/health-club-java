@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 import com.val.Validator;
-import com.web.MessageSource;
 import com.web.Request;
 
 import usr.usr1000.usr1000.vo.Usr1000VO;
@@ -154,9 +153,9 @@ public class Usr1003 implements JavaHTML {
 			
 			//map에 데이터 담기
 			userInfo.setDescription(description);
-			//TODO. 회원 수정일 유효성 검사 필요함. do-while 사용필요
-			//회원 수정일
-			System.out.println("*회원 수정일을 작성하세요. [2024-08-28 형식으로 작성] [회원 수정을 멈추고 나가고 싶으면 n 작성]");
+			//TODO. 회원 수정일 유효성 검사 필요함. do-while 사용필요 - skip도 가능하도록 변경 필요
+			//회원 등록일
+			System.out.println("*회원 등일을 작성하세요. [2024-08-28 형식으로 작성] [회원 수정을 멈추고 나가고 싶으면 n 작성]");
 			
 			//회원 수정일 입력 값
 			String joinDate = scanner.nextLine().trim();
@@ -167,7 +166,7 @@ public class Usr1003 implements JavaHTML {
 			//map에 데이터 담기
 			userInfo.setJoinDate(LocalDate.parse(joinDate));
 			
-			//TODO. 회원 만료일 유효성 검사 필요함. do-while 사용필요
+			//TODO. 회원 만료일 유효성 검사 필요함. do-while 사용필요 - skip도 가능하도록 변경 필요
 			System.out.println("*회원 만료일을 작성하세요. [2024-08-28 형식으로 작성] [회원 수정을 멈추고 나가고 싶으면 n 작성]");
 			
 			//회원 만료일 입력 값
@@ -192,7 +191,7 @@ public class Usr1003 implements JavaHTML {
 			requestData.put("clientDatas", clientDatas);
 			
 			//접근 경로 담기
-			requestData.put("url", MessageSource.getMessage("message.usrUpdateInfo"));
+			requestData.put("url", "usr/usr1000/usr1000/updateUsr1000UserInfo");
 			
 			//WAS에 요청
 			webContainer.service(requestData);

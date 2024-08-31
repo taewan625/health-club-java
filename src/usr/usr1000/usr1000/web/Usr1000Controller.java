@@ -63,7 +63,7 @@ public class Usr1000Controller {
 			modelView = new ModelView("cmm.cmm2000.cmm2000.Cmm2000");
 			
 			//에러 메시지 등록
-			modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.selectList"));
+			modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.select"));
 		}
 		
 		//modelView 반환
@@ -130,7 +130,7 @@ public class Usr1000Controller {
 			modelView = new ModelView("cmm.cmm2000.cmm2000.Cmm2000");
 			
 			//에러 메시지 등록
-			modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.notFound"));
+			modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.select"));
 		}
 		
 		//modelView 반환
@@ -152,7 +152,7 @@ public class Usr1000Controller {
 			Usr1000VO userInfo = (Usr1000VO) request.getClientDatas().get("userInfo");
 			
 			//회원 정보 등록
-			usr1000Service.createUsr1000(userInfo);
+			usr1000Service.createUsr1000UserInfo(userInfo);
 			
 			//회원 목록 조회
 			List<Usr1000VO> users = usr1000Service.selectUsr1000List();
@@ -168,7 +168,7 @@ public class Usr1000Controller {
 			modelView = new ModelView("cmm.cmm2000.cmm2000.Cmm2000");
 			
 			//에러 메시지 등록
-			modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.notFound"));
+			modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.create"));
 		}
 		
 		//modelView 반환
@@ -209,28 +209,44 @@ public class Usr1000Controller {
 		//modelView 반환
 		return modelView;
 	}
-//
-//	/**
-//	 * @desc : 회원수정 메서드로 올바르지 않은 값이 들어오면 다시, 1003view로 보내고 아니면 1000view로 이동한다.
-//	 * @param 
-//	 * @return ModelView
-//	 * @throws Exception
-//	 */
-//	public ModelView updateUsr1000UserInfo(Map<String, Object> clientData) throws Exception {
-//		Usr1000VO user = (Usr1000VO) clientData.get("clientData");
-//		ModelView modelView;
-//		try {
-//			usr1000Service.updateUsr1000(user.getId(), user);
-//			// 갱신된 유저 정보를 보여준다.
-//			modelView = selectUsr1000List();
-//			modelView.setDatas("user", user);
-//		} catch (Exception e) {
-//			modelView = new ModelView(message.getProperty("USER.PAGE"));
-//			modelView.setDatas(ERROR_KEY, message.getProperty("ERROR.UPDATE"));
-//		}
-//		return modelView;
-//
-//	}
+
+	/**
+	 * @desc 회원 수정 로직
+	 * @param Request request, Response response
+	 * @return ModelView
+	 * @throws Exception
+	 */
+	public ModelView updateUsr1000UserInfo(Request request, Response response) throws Exception {
+		//반환 변수
+		ModelView modelView;
+		
+		try {
+			//수정할 회원 데이터 조회
+			Usr1000VO userInfo = (Usr1000VO) request.getClientDatas().get("userInfo");
+			
+			//회원 정보 수정
+			usr1000Service.updateUsr1000UserInfo(userInfo);
+			
+			//회원 목록 조회
+			List<Usr1000VO> users = usr1000Service.selectUsr1000List();
+			
+			//회원 화면 경로 등록
+			modelView = new ModelView("usr.usr1000.usr1000.Usr1000");
+			
+			//회원 목록 등록
+			modelView.setDatas("users", users);
+			
+		} catch (Exception e) {
+			//에러 페이지 이동
+			modelView = new ModelView("cmm.cmm2000.cmm2000.Cmm2000");
+			
+			//에러 메시지 등록
+			modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.update"));
+		}
+		
+		//modelView 반환
+		return modelView;
+	}
 //
 //
 //	/**

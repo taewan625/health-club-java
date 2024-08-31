@@ -3,7 +3,6 @@ package usr.usr1000.usr1000.service.impl;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 import com.config.AppConfig;
 
@@ -56,28 +55,28 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 	@Override
 	public Usr1000VO selectUsr1000(String userId) throws Exception {
 		//회원 정보 조회
-		Usr1000VO user = usr1000DAO.selectUsr1000(userId);
+		Usr1000VO userInfo = usr1000DAO.selectUsr1000(userId);
 		
 		//회원 정보 존재 시, 회원 상태 업데이트 후, 전송
-		if (user != null) {
+		if (userInfo != null) {
 			//회원 만료일 조회
-			LocalDate expireDate = user.getExpireDate();
+			LocalDate expireDate = userInfo.getExpireDate();
 			
 			//만료일이 금일을 넘겼을 경우 회원 상태 업데이트
 			if (expireDate.isBefore(LocalDate.now())) {
 				//회원 상태 변경
-				user.setStatus("02");
+				userInfo.setStatus("02");
 				
 				//회원 수정 일시 변경
-				user.setEditDateTime(LocalDateTime.now());
+				userInfo.setEditDateTime(LocalDateTime.now());
 				
 				//회원 상태 업데이트
-				usr1000DAO.updateUsr1000(userId, user);
+				usr1000DAO.updateUsr1000UserInfo(userInfo);
 			 }
 		}
 		
 		//회원 정보 반환
-		return user;
+		return userInfo;
 	}
 
 	/**
@@ -87,66 +86,23 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 	 * @throws Exception
 	 */
 	@Override
-	public void createUsr1000(Usr1000VO userInfo) throws Exception {
+	public void createUsr1000UserInfo(Usr1000VO userInfo) throws Exception {
 		//DB에 데이터 담기
-		usr1000DAO.createUsr1000(userInfo);
+		usr1000DAO.createUsr1000UserInfo(userInfo);
 	};
-	
-//	/**
-//	 * Func : 회원 테이블에서 삭제되지 않은 id 중에서 값이 존재하면 true를 반환하는 메서드
-//	 * 
-//	 * @desc 입력한 회원 id가 유효한지 검증, 회원 id가 존재하고 회원이 삭제된 정보가 아닌 경우
-//	 * @param String
-//	 *            selectId
-//	 * @return boolean
-//	 * @throws Exception
-//	 */
-//	@Override
-//	public boolean isContainsUsr1000WithOutDeleteUsr(String userId) throws Exception {
-//		try {
-//			// 삭제된 회원이든 그냥 회원이든 해당 테이블에 id가 존재하지 않으면 false
-//			if (!usr1000DAO.isContainsUsr1000(userId)) {
-//				return false;
-//			}
-//			// 존재하는 회원이고 삭제되지 않은경우 true;
-//			Usr1000VO user = usr1000DAO.selectUsr1000(userId);
-//			if (user.getDelete() == Availability.NO) {
-//				return true;
-//			}
-//			// 나머지 모든 경우 false
-//			return false;
-//		} catch (Exception e) {
-//			throw new Exception(e);
-//		}
-//
-//	}
-//
 
 
-//
-//	/**
-//	 * Func : 회원 수정 메서드
-//	 * 
-//	 * @desc 회원 수정 시, 회원 수정 일시도 자동 업데이트, null로 들어온 값은 수정 안하는 값
-//	 * @param String
-//	 *            updateId, Usr1000VO user
-//	 * @return void
-//	 * @throws Exception
-//	 */
-//	@Override
-//	public void updateUsr1000(String updateId, Usr1000VO user) throws Exception {
-//		try {
-//			// 삭제된 id이든 사용되는 id이든 존재하기만 하면 false
-//			if (!usr1000DAO.isContainsUsr1000(updateId)) {
-//				user.setError("-1", message.getProperty("FAIL.UPDATE"));
-//				return;
-//			}
-//			// id가 유일하면 수정한 값만 수정
-//			usr1000DAO.updateUsr1000(updateId, user);
-//		} catch (Exception e) {
-//			throw new Exception(e);
-//		}
-//	}
+	/**
+	 * @desc 회원 수정 시, 회원 수정 일시도 자동 업데이트, null로 들어온 값은 수정 안하는 값
+	 * @param Usr1000VO userInfo
+	 * @return void
+	 * @throws Exception
+	 */
+	@Override
+	public void updateUsr1000UserInfo(Usr1000VO userInfo) throws Exception {
+		//DB 데이터 업데이트
+		usr1000DAO.updateUsr1000UserInfo(userInfo);
+	}
 //
 //	/**
 //	 * Func : 회원 삭제 메서드

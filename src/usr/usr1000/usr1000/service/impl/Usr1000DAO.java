@@ -56,16 +56,6 @@ public class Usr1000DAO {
 	public Usr1000VO selectUsr1000(String userId) throws Exception {
 		return userStore.get(userId);
 	}
-
-	/**
-	 * @desc 회원 데이터 수정
-	 * @param String userId, Usr1000VO userVO
-	 * @return void
-	 * @throws Exception
-	 */
-	public void updateUsr1000(String userId, Usr1000VO userVO) throws Exception {
-		userStore.put(userId, userVO);
-	}
 	
 	/**
 	 * @desc 회원 등록
@@ -73,8 +63,19 @@ public class Usr1000DAO {
 	 * @return void
 	 * @throws Exception
 	 */
-	public void createUsr1000(Usr1000VO usr1000VO) throws Exception {
+	public void createUsr1000UserInfo(Usr1000VO usr1000VO) throws Exception {
 		userStore.put(usr1000VO.getId(), usr1000VO);
+	}
+	
+	/**
+	 * @desc 회원 데이터 수정
+	 * @param String userId, Usr1000VO userVO
+	 * @return void
+	 * @throws Exception
+	 */
+	public void updateUsr1000UserInfo(Usr1000VO usr1000VO) throws Exception {
+		//TODO replace 같은 경우 key값이 존재하지 않을 때 null 반환, 필요시 해당 정보를 이용해서 service단 검증로직 추가
+		userStore.replace(usr1000VO.getId(), usr1000VO);
 	}
 	
 //
@@ -90,50 +91,6 @@ public class Usr1000DAO {
 //			
 //			deleteUser.setUse(Availability.NO);
 //			deleteUser.setDelete(Availability.YES);
-//			
-//		} catch (Exception e) {
-//			throw new Exception(e);
-//		}
-//	}
-//
-//	/**
-//	 * @desc 회원이 존재하는지 확인한다. 삭제된 회원 아이디도 포함됨에 주의하자
-//	 * @param String id
-//	 * @return boolean
-//	 * @throws Exception
-//	 */
-//	public boolean isContainsUsr1000(String id) throws Exception {
-//		try {
-//			for (User user : userStore.values()) {
-//				if (user.getId().equals(id)) {
-//					return true;
-//				}
-//			}
-//			
-//			return false;
-//			
-//		} catch (Exception e) {
-//			System.out.println("usr/DAO/isContainsUsr1000() Error : " + e.getMessage());
-//			throw new Exception(e);
-//			
-//		}
-//	}
-//
-//	/**
-//	 * @desc 회원 id로 회원을 조회
-//	 * @param String id
-//	 * @return User
-//	 * @throws Exception
-//	 */
-//	private User selectUser(String id) throws Exception {
-//		try {
-//			for (User user : userStore.values()) {
-//				if (user.getId().equals(id)) {
-//					return user;
-//				}
-//			}
-//			
-//			return null;
 //			
 //		} catch (Exception e) {
 //			throw new Exception(e);

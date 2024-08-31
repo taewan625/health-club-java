@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 import com.val.Validator;
-import com.web.MessageSource;
 import com.web.Request;
 
 import usr.usr1000.usr1000.vo.Usr1000VO;
@@ -206,7 +205,7 @@ public class Usr1002 implements JavaHTML {
 		requestData.put("clientDatas", clientDatas);
 		
 		//접근 경로 담기
-		requestData.put("url", MessageSource.getMessage("message.usrCreateInfo"));
+		requestData.put("url", "usr/usr1000/usr1000/createUsr1000UserInfo");
 		
 		//WAS에 요청
 		webContainer.service(requestData);
