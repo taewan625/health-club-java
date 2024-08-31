@@ -68,7 +68,7 @@ public class Usr1000DAO {
 	}
 	
 	/**
-	 * @desc 회원 데이터 수정
+	 * @desc 회원 정보 수정
 	 * @param String userId, Usr1000VO userVO
 	 * @return void
 	 * @throws Exception
@@ -78,22 +78,13 @@ public class Usr1000DAO {
 		userStore.replace(usr1000VO.getId(), usr1000VO);
 	}
 	
-//
-//	/**
-//	 * @desc 회원 삭제 시,삭제여부, 사용여부만 업데이트
-//	 * @param String id
-//	 * @return void
-//	 * @throws Exception
-//	 */
-//	public void deleteUsr1000(String id) throws Exception {
-//		try {
-//			User deleteUser = selectUser(id);
-//			
-//			deleteUser.setUse(Availability.NO);
-//			deleteUser.setDelete(Availability.YES);
-//			
-//		} catch (Exception e) {
-//			throw new Exception(e);
-//		}
-//	}
+	/**
+	 * @desc 회원 삭제 시,삭제여부, 사용여부만 업데이트
+	 * @param String userId
+	 * @return void
+	 * @throws Exception
+	 */
+	public void deleteUsr1000(String userId) throws Exception {
+		userStore.remove(userId);
+	}
 }

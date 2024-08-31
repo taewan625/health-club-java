@@ -4,6 +4,14 @@ import java.util.List;
 
 import usr.usr1000.usr1000.vo.Usr1000VO;
 
+/**
+ * @Description 회원관리의 조회, 등록, 수정, 삭제 관리 핵심 기능을 수행한다.
+ * @version 1.0
+ * @author 권태완
+ * @Since 2024.08.31.
+ * @Modification Information
+ * @see Copyright (C) All right reserved.
+ */
 public interface Usr1000Service {
 	//회원 목록
 	List<Usr1000VO> selectUsr1000List() throws Exception;
@@ -13,9 +21,11 @@ public interface Usr1000Service {
 	
 	//회원 등록
 	void createUsr1000UserInfo(Usr1000VO userInfo) throws Exception;
+	
 	//회원 수정
 	void updateUsr1000UserInfo(Usr1000VO userInfo) throws Exception;
 	
-//	void deleteUsr1000(String requestParams, Usr1000VO user) throws Exception;
+	//회원 삭제
+	void deleteUsr1000UserInfo(String userId) throws Exception;
 
 }

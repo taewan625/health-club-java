@@ -37,7 +37,7 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 	}
 
 	/**
-	 * @desc 회원 데이터중 id, 이름 정보만 전달
+	 * @desc 회원 목록 반환
 	 * @return List<Usr1000VO>
 	 * @throws Exception
 	 */
@@ -80,7 +80,7 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 	}
 
 	/**
-	 * @desc 중복 아이디가 존재하지 않을 시, 회원을 등록한다. expireDate
+	 * @desc 회원 등록
 	 * @param Usr1000VO userInfo
 	 * @return void
 	 * @throws Exception
@@ -93,7 +93,7 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 
 
 	/**
-	 * @desc 회원 수정 시, 회원 수정 일시도 자동 업데이트, null로 들어온 값은 수정 안하는 값
+	 * @desc 회원 수정
 	 * @param Usr1000VO userInfo
 	 * @return void
 	 * @throws Exception
@@ -103,52 +103,15 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 		//DB 데이터 업데이트
 		usr1000DAO.updateUsr1000UserInfo(userInfo);
 	}
-//
-//	/**
-//	 * Func : 회원 삭제 메서드
-//	 * 
-//	 * @desc 회원 삭제 시,삭제여부, 사용여부만 업데이트
-//	 * @param String
-//	 *            deleteId
-//	 * @return User
-//	 * @throws Exception
-//	 */
-//	@Override
-//	public void deleteUsr1000(String deleteId, Usr1000VO user) throws Exception {
-//		try {
-//			if (!isContainsUsr1000WithOutDeleteUsr(deleteId)) {
-//				user.setError("-1", message.getProperty("FAIL.DELETE"));
-//				return;
-//			}
-//			usr1000DAO.deleteUsr1000(deleteId);
-//		} catch (Exception e) {
-//			throw new Exception(e);
-//		}
-//	}
-//
-//	/**
-//	 * Func : 마감일자 기준 회원 상태 업데이트 메서드
-//	 * 
-//	 * @desc 현일자와 마감일자 차이가 0이하는 만기, 5이하는 임박 이외는 정상 상태 반환
-//	 * @param LocalDate
-//	 *            expireDate
-//	 * @return Status
-//	 * @throws Exception
-//	 */
-//	private Status checkUserStatus(LocalDate expireDate) throws Exception {
-//		try {
-//			// now와 expireDate 사이의 일수를 계산
-//			long daysExpiration = ChronoUnit.DAYS.between(LocalDate.now(), expireDate);
-//
-//			if (daysExpiration <= 0) {
-//				return Status.EXPIRATION;
-//			} else if (daysExpiration <= 5) {
-//				return Status.IMMINENT;
-//			}
-//			return Status.EFFECTIVE;
-//		} catch (Exception e) {
-//			throw new Exception(e);
-//		}
-//	}
 
+	/**
+	 * @desc 회원 삭제 로직
+	 * @param String userId
+	 * @return void
+	 * @throws Exception
+	 */
+	@Override
+	public void deleteUsr1000UserInfo(String userId) throws Exception {
+		usr1000DAO.deleteUsr1000(userId);
+	}
 }

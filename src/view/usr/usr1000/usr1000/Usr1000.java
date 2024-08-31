@@ -1,6 +1,5 @@
 package view.usr.usr1000.usr1000;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
@@ -30,8 +29,10 @@ public class Usr1000 implements JavaHTML {
 		urlMap.put("2", "usr/usr1000/usr1000/selectUsr1002View");
 		//회원 수정 화면
 		urlMap.put("3", "usr/usr1000/usr1000/selectUsr1003View");
+		//회원 삭제 기능
+		urlMap.put("4", "usr/usr1000/usr1000/deleteUsr1000UserInfo");
 		//메인 메뉴
-		urlMap.put("4", "cmm/cmm1000/cmm1000/selectCmm1000View");
+		urlMap.put("5", "cmm/cmm1000/cmm1000/selectCmm1000View");
 	}
 
 	/**
@@ -79,11 +80,10 @@ public class Usr1000 implements JavaHTML {
 				} while("".equals(userId));
 				
 				//사용자 정보를 map에 담기
-				Map<String, String> userInfo = new HashMap<String, String>();
+				clientDatas.put("userId", userId);
 				
-				userInfo.put("userId", userId);
 				//요청할 객체에 담기
-				requestData.put("clientDatas", userInfo);
+				requestData.put("clientDatas", clientDatas);
 			}
 			
 			//전송 객체 세팅

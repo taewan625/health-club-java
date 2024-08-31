@@ -247,29 +247,43 @@ public class Usr1000Controller {
 		//modelView 반환
 		return modelView;
 	}
-//
-//
-//	/**
-//	 * @desc 회원삭제 페이지를 보여준다. 삭제는 삭제여부, 사용여부만 업데이트 된다.
-//	 * @param 
-//	 * @return ModelView<Map<String, String>>
-//	 * @throws Exception
-//	 */
-//	public ModelView deleteUsr1000(Map<String, Object> clientData) throws Exception {
-//		String id = String.valueOf(clientData.get("clientData"));
-//		ModelView modelView;
-//		try {
-//			Usr1000VO user = new Usr1000VO();
-//			usr1000Service.deleteUsr1000(id, user);
-//			// 갱신된 유저 정보를 보여준다.
-//			modelView = selectUsr1000List();
-//			modelView.setDatas("user", user);
-//
-//		} catch (Exception e) {
-//			modelView = new ModelView(message.getProperty("USER.PAGE"));
-//			modelView.setDatas(ERROR_KEY, message.getProperty("ERROR.DELETE"));
-//		}
-//		return modelView;
-//	}
+
+	/**
+	 * @desc 회원 삭제 로직 - 회원 삭제 여부 및 사용여부 상태 값만 업데이트
+	 * @param Request request, Response response
+	 * @return ModelView<Map<String, String>>
+	 * @throws Exception
+	 */
+	public ModelView deleteUsr1000UserInfo(Request request, Response response) throws Exception {
+		//반환 변수
+				ModelView modelView;
+				
+				try {
+					//userId 조회
+					String userId = String.valueOf(request.getClientDatas().get("userId"));
+					
+					//회원 정보 삭제
+					usr1000Service.deleteUsr1000UserInfo(userId);
+					
+					//회원 목록 조회
+					List<Usr1000VO> users = usr1000Service.selectUsr1000List();
+					
+					//회원 화면 경로 등록
+					modelView = new ModelView("usr.usr1000.usr1000.Usr1000");
+					
+					//회원 목록 등록
+					modelView.setDatas("users", users);
+					
+				} catch (Exception e) {
+					//에러 페이지 이동
+					modelView = new ModelView("cmm.cmm2000.cmm2000.Cmm2000");
+					
+					//에러 메시지 등록
+					modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.delete"));
+				}
+				
+				//modelView 반환
+				return modelView;
+	}
 
 }
