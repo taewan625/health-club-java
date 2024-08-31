@@ -1,12 +1,8 @@
 package com.val;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
-
-import memorydb.domain.Availability;
-import usr.usr1000.usr1000.vo.Usr1000VO;
 
 /**
  * @Class Name : Validator.java
@@ -21,11 +17,8 @@ public class Validator {
 	static Scanner scanner = new Scanner(System.in);
 
 	/**
-	 * Func : 한글 정규식 메서드
-	 * 
 	 * @desc 한글만 허용하는 정규식 메서드
-	 * @param String
-	 *            clientAnswer
+	 * @param String clientAnswer
 	 * @return boolean
 	 * @throws Exception
 	 */
@@ -40,11 +33,8 @@ public class Validator {
 	}
 
 	/**
-	 * Func : 영어 정규식 메서드
-	 * 
 	 * @desc 영어만 허용하는 정규식 메서드
-	 * @param String
-	 *            clientAnswer
+	 * @param String clientAnswer
 	 * @return boolean
 	 * @throws Exception
 	 */
@@ -59,74 +49,45 @@ public class Validator {
 	}
 
 	/**
-	 * Func : 자연수 정규식 메서드
-	 * 
-	 * @desc 자연수 인지 확인하는 정규식 메서드
-	 * @param String
-	 *            clientAnswer
-	 * @return boolean
-	 * @throws Exception
-	 */
-	public static boolean isDecimal(String clientAnswer) throws Exception {
-		try {
-			// 자연수 정규식
-			if ((clientAnswer.matches("^[1-9]\\d*$"))) {
-				return true;
-			} else {
-				return false;
-			}
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	/**
-	 * Func : 허용 범위 자연수 확인 메서드
-	 * 
-	 * @desc start, end
-	 * @param String
-	 *            clientAnswer
-	 * @return boolean
-	 * @throws Exception
-	 */
-	private static boolean rangeValue(int start, int end, String data) {
-		int number = Integer.parseInt(data);
-		if (start <= number && number < end) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * Func : 유효한 범위의 숫자를 선택하는 검증 메서드
-	 * 
-	 * @desc 숫자인지, 유효 범위에 있는지 검증
-	 * @param int
-	 *            from, int to
+	 * @desc 유효 범위 숫자 검증
+	 * @param int from, int to
 	 * @return String
 	 * @throws Exception
 	 */
 	public static String chooseRangeNum(int from, int to) throws Exception {
-		String inputData = scanner.nextLine().trim();
-		try {
-			while (true) {
-				try {
-					if (!isDecimal(inputData) || !rangeValue(from, to, inputData)) {
-						System.out.println("해당 범위의 번호가 아닙니다.");
-						inputData = scanner.nextLine().trim();
-					} else {
-						return inputData;
-					}
-				} catch (NumberFormatException e) {
+		//유효성 검증 후 반환할 숫자를 담는 변수
+		String inputData;
+		
+		//중복 혹은 유효성에 문제가 존재하는지 여부 확인 변수
+		boolean isWrong = true;
+		
+		do {
+			//사용자 입력 값
+			inputData = scanner.nextLine().trim();
+			
+			//특정 범위 안에 존재하지 않는 경우
+			try {
+				//숫자로 값 치환
+				int number = Integer.parseInt(inputData);
+				
+				//검증 작업 진행
+				isWrong = (from <= number && number < to) ? false : true;
+				
+				//유효성을 통과하지 못한 경우
+				if(isWrong) {
+					//경고 문구 주기
 					System.out.println("해당 범위의 번호가 아닙니다.");
-					inputData = scanner.nextLine().trim();
 				}
+				
 			}
-		} catch (Exception e) {
-			System.out.println("Validator/chooseRangeNum() Error : " + e.getMessage());
-			throw new Exception(e);
-		}
+			catch (NumberFormatException e) {
+				//경고 문구 주기
+				System.out.println("해당 범위의 번호가 아닙니다.");
+			}
+			
+		} while (isWrong);
+		
+		return inputData;
 	}
 
 	/**
@@ -152,46 +113,6 @@ public class Validator {
 	}
 
 	/**
-	 * Func : 사용자 대답이 y,n인지 확인하는 메서드
-	 * 
-	 * @desc 사용자 대답이 y,n인지 확인
-	 * @param String
-	 *            clientAnswer
-	 * @return boolean
-	 * @throws Exception
-	 */
-	public static boolean isYN(String clientAnswer) throws Exception {
-		try {
-			// 대소문자 상관 없음
-			String lowerCase = clientAnswer.toLowerCase();
-			if ((lowerCase.equals("y") || lowerCase.equals("n"))) {
-				return true;
-			} else {
-				return false;
-			}
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	/**
-	 * Func : 사물함 등록시 적용 가능한 회원인지 확인하는 메서드
-	 * 
-	 * @desc 사물함 등록시 적용 가능한 회원인지 확인 1. 사용 유무 2. 만료일이 남았는지 확인
-	 * @param Usr1000VO
-	 *            selectUsr
-	 * @return boolean
-	 * @throws Exception
-	 */
-	public static boolean isValidUser(Usr1000VO selectUsr) throws Exception {
-		try {
-			return selectUsr.getUse() == Availability.YES && !Validator.isExpire(selectUsr.getExpireDate());
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
-	/**
 	 * Func : 전화번호 정규식 메서드
 	 * 
 	 * @desc 사물함 등록시 적용 가능한 회원인지 확인 1. 사용 유무 2. 만료일이 남았는지 확인
@@ -210,19 +131,4 @@ public class Validator {
 			return false;
 		}
 	}
-
-	public static boolean isDuplicateId(String id, List<String> userIds) {
-		try {
-			for (String userId : userIds) {
-				if (userId.equals(id)) {
-					return true;
-				}
-			}
-			return false;
-		} catch (Exception e) {
-			return false;
-		}
-
-	}
-
 }
