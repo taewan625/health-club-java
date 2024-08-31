@@ -5,6 +5,15 @@ import com.web.ModelView;
 import com.web.Request;
 import com.web.Response;
 
+
+/**
+ * @Description : 에러 컨트롤러
+ * @version 1.0
+ * @author 권태완
+ * @Since 2024.08.31.
+ * @Modification Information
+ * @see Copyright (C) All right reserved.
+ */
 public class Cmm2000Controller {
 	//싱글톤
 	private static volatile Cmm2000Controller instance;
