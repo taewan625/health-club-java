@@ -47,6 +47,7 @@ public class Cmm1000 implements JavaHTML {
 				System.out.println("시스템이 종료 됩니다.");
 				//시스템 종료
 				System.exit(0);
+				
 			} 
 			//URL 정보와 데이터를 객체에 담아서 WebContainer에 전송
 			else {

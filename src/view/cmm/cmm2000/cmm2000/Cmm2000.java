@@ -1,6 +1,5 @@
 package view.cmm.cmm2000.cmm2000;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -44,7 +43,7 @@ public class Cmm2000 implements JavaHTML {
 		scanner.nextLine();
 		
 		//전송 객체 생성
-		Map<String, Object> requestData = Collections.singletonMap("url", "cmm/cmm1000/cmm1000/selectCmm1000View");
+		Map<String, Object> requestData = Map.of("url", "cmm/cmm1000/cmm1000/selectCmm1000View");
 		
 		//WAS에 요청
 		webContainer.service(requestData);
