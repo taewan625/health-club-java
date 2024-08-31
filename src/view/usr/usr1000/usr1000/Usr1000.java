@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 import com.val.Validator;
-import com.web.MessageSource;
 import com.web.Request;
 
 import usr.usr1000.usr1000.vo.Usr1000VO;
@@ -25,11 +24,14 @@ public class Usr1000 implements JavaHTML {
 
 	//생성자
 	public Usr1000() {
-		urlMap.put("1", MessageSource.getMessage("message.usrS"));
-		urlMap.put("2", MessageSource.getMessage("message.usrC"));
-		urlMap.put("3", MessageSource.getMessage("message.usrUF"));
-		urlMap.put("4", MessageSource.getMessage("message.usrDF"));
-		urlMap.put("5", MessageSource.getMessage("message.menu"));
+		//회원 상세 화면
+		urlMap.put("1", "usr/usr1000/usr1000/selectUsr1001View");
+		//회원 등록 화면
+		urlMap.put("2", "usr/usr1000/usr1000/selectUsr1002View");
+		//회원 수정 화면
+		urlMap.put("3", "usr/usr1000/usr1000/selectUsr1003View");
+		//메인 메뉴
+		urlMap.put("4", "cmm/cmm1000/cmm1000/selectCmm1000View");
 	}
 
 	/**
@@ -60,7 +62,7 @@ public class Usr1000 implements JavaHTML {
 			System.out.println("1.회원조회 2.회원 등록 3.회원 수정 4.회원 삭제 5.메인메뉴");
 			
 			//client 입력값
-			String inputData = Validator.chooseRangeNum(1, 5);
+			String inputData = Validator.chooseRangeNum(1, 6);
 			
 			//조회, 수정, 삭제 시, 아이디 정보 추가
 			if ("1".equals(inputData) || "3".equals(inputData) || "4".equals(inputData)) {

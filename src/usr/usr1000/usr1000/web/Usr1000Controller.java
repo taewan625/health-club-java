@@ -44,7 +44,7 @@ public class Usr1000Controller {
 	 * @return ModelView
 	 * @throws Exception
 	 */
-	public ModelView selectUsr1000List(Request request, Response response) throws Exception {
+	public ModelView selectUsr1000View(Request request, Response response) throws Exception {
 		//반환 변수
 		ModelView modelView;
 		
@@ -76,7 +76,7 @@ public class Usr1000Controller {
 	 * @return ModelView
 	 * @throws Exception
 	 */
-	public ModelView selectUsr1000(Request request, Response response) throws Exception {
+	public ModelView selectUsr1001View(Request request, Response response) throws Exception {
 		//반환 변수
 		ModelView modelView;
 		
@@ -111,7 +111,7 @@ public class Usr1000Controller {
 	 * @return ModelView
 	 * @throws Exception
 	 */
-	public ModelView createUsr1000(Request request, Response response) throws Exception {
+	public ModelView selectUsr1002View(Request request, Response response) throws Exception {
 		//반환 변수
 		ModelView modelView;
 		
@@ -181,7 +181,7 @@ public class Usr1000Controller {
 	 * @return ModelView
 	 * @throws Exception
 	 */
-	public ModelView updateUsr1000Form(Request request, Response response) throws Exception {
+	public ModelView selectUsr1003View(Request request, Response response) throws Exception {
 		//반환 변수
 		ModelView modelView;
 		
@@ -211,15 +211,12 @@ public class Usr1000Controller {
 	}
 //
 //	/**
-//	 * Func : 회원수정 완료 후, 회원 관리페이지를 보여주는 메서드
-//	 * 
 //	 * @desc : 회원수정 메서드로 올바르지 않은 값이 들어오면 다시, 1003view로 보내고 아니면 1000view로 이동한다.
-//	 * @param Map<String,
-//	 *            Object> clientData
-//	 * @return ModelView<?>
+//	 * @param 
+//	 * @return ModelView
 //	 * @throws Exception
 //	 */
-//	public ModelView updateUsr1000(Map<String, Object> clientData) throws Exception {
+//	public ModelView updateUsr1000UserInfo(Map<String, Object> clientData) throws Exception {
 //		Usr1000VO user = (Usr1000VO) clientData.get("clientData");
 //		ModelView modelView;
 //		try {
@@ -235,34 +232,10 @@ public class Usr1000Controller {
 //
 //	}
 //
-//	/**
-//	 * Func : 회원 수정 화면 메서드
-//	 * 
-//	 * @desc 수정화면 반환
-//	 * @param
-//	 * @return ModelView
-//	 * @throws Exception
-//	 */
-//	public ModelView deleteUsr1000Form(Map<String, Object> clientData) throws Exception {
-//		ModelView modelView;
-//		String id = (String) clientData.get("id");
-//		try {
-//			Usr1000VO user = usr1000Service.selectUsr1000(id);
-//			modelView = new ModelView("usr.usr1000.usr1000.Usr1004");
-//			modelView.setDatas("user", user);
-//		} catch (Exception e) {
-//			modelView = new ModelView(message.getProperty("USER.PAGE"));
-//			modelView.setDatas(ERROR_KEY, message.getProperty("ERROR.DELETE"));
-//		}
-//		return modelView;
-//	}
 //
 //	/**
-//	 * Func : 회원삭제 페이지를 보여주는 메서드
-//	 * 
 //	 * @desc 회원삭제 페이지를 보여준다. 삭제는 삭제여부, 사용여부만 업데이트 된다.
-//	 * @param Map<String,
-//	 *            Object> clientData
+//	 * @param 
 //	 * @return ModelView<Map<String, String>>
 //	 * @throws Exception
 //	 */

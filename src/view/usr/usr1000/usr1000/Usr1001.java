@@ -49,7 +49,7 @@ public class Usr1001 implements JavaHTML {
 		scanner.nextLine();
 		
 		//회원 메뉴로 이동하는 전송 객체 생성
-		requestData.put("url", MessageSource.getMessage("message.usr"));
+		requestData.put("url", "usr/usr1000/usr1000/selectUsr1000View");
 		
 		//WAS에 요청
 		webContainer.service(requestData);

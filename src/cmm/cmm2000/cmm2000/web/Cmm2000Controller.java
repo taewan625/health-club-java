@@ -29,7 +29,7 @@ public class Cmm2000Controller {
 	 * @return ModelView
 	 * @throws Exception
 	 */
-	public ModelView selectCmm2000(Request request, Response response) throws Exception {
+	public ModelView selectCmm2000View(Request request, Response response) throws Exception {
 		//modelView에 view 경로 주입
 		ModelView modelView = new ModelView("cmm.cmm2000.cmm2000.Cmm2000");
 		

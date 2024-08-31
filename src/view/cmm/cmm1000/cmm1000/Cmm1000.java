@@ -3,7 +3,6 @@ package view.cmm.cmm1000.cmm1000;
 import java.util.Map;
 
 import com.val.Validator;
-import com.web.MessageSource;
 import com.web.Request;
 
 import view.JavaHTML;
@@ -19,9 +18,12 @@ import view.JavaHTML;
 public class Cmm1000 implements JavaHTML {
 	//생성자
 	public Cmm1000() {
-		urlMap.put("1", MessageSource.getMessage("message.usr"));
-		urlMap.put("2", MessageSource.getMessage("message.lck"));
-		urlMap.put("3", MessageSource.getMessage("message.sta"));
+		//회원 메뉴
+		urlMap.put("1", "usr/usr1000/usr1000/selectUsr1000View");
+		//사물함 메뉴
+		urlMap.put("2", "lck/lck1000/lck1000/selectLck1000View");
+		//통계 메뉴
+		urlMap.put("3", "sta/sta1000/sta1000/selectSta1000View");
 	}
 
 	/**

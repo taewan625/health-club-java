@@ -82,7 +82,7 @@ public class DispatcherServlet {
 			errorInfo.put("errorInfo", e.getMessage());
 			
 			//에러 페이지 요청 생성
-			Request errorRequest = new Request(MessageSource.getMessage("message.err"), errorInfo);
+			Request errorRequest = new Request("cmm/cmm2000/cmm2000/selectCmm2000", errorInfo);
 			
 			//에러 페이지 응답 생성
 			Response errorResponse = new Response();

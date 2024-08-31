@@ -223,7 +223,7 @@ public class Usr1002 implements JavaHTML {
 		//대소문자 구분 없이 n을 작성할 경우 회원 화면으로 이동
 		if ("n".equals(inputValue) || "N".equals(inputValue)) {
 			//회원 메뉴로 이동하는 전송 객체 생성
-			requestData.put("url", MessageSource.getMessage("message.usr"));
+			requestData.put("url", "usr/usr1000/usr1000/selectUsr1000View");
 			
 			//WAS에 요청
 			webContainer.service(requestData);

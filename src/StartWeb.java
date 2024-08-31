@@ -1,7 +1,6 @@
 import java.util.HashMap;
 import java.util.Map;
 
-import com.web.MessageSource;
 import com.web.WebContainer;
 
 /**
@@ -29,7 +28,7 @@ public class StartWeb {
 			Map<String, Object> requestData = new HashMap<>();
 			
 			//메인 화면 url 데이터 넣기
-			requestData.put("url", MessageSource.getMessage("message.menu"));
+			requestData.put("url", "cmm/cmm1000/cmm1000/selectCmm1000View");
 			
 			//main 화면 접근
 			webContainer.service(requestData);
