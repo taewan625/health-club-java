@@ -108,17 +108,14 @@ public class Usr1002 implements JavaHTML {
 		//사용 유무 정보
 		userInfo.setUse("Y");
 		
-		//상태 정보 [정상, 임박, 만기] TODO 계산 로직 필요 - 오늘 기준 만료일 며칠 남았는지
-		userInfo.setStatus("정상");
+		//회원 상태 [정상: 5일 이상, 임박: 5일 미만, 만기: 초과된 경우]
+		userInfo.setStatus(userInfo.getExpireDate().isAfter(LocalDate.now().plusDays(4)) ? "정상" : "임박");
 		
-		//삭제 유무 정보 -> TODO 실제 데이터 삭제하기로 해서 해당 컬럼 필요 없음
-		userInfo.setDelete("N");
+		//최초등록 메타 정보
+		userInfo.setRegisterDateTime(LocalDateTime.now());
 		
-		//최초등록 메타 정보 -> TODO 에이씨 그냥 하는김에 바꾸자
-		userInfo.setJoinDateTime(LocalDateTime.now());
-		
-		//최종수정 메타 정보 -> TODO 에이씨 그냥 하는김에 바꾸자
-		userInfo.setEditDateTime(LocalDateTime.now());
+		//최종수정 메타 정보
+		userInfo.setModifyDateTime(LocalDateTime.now());
 		
 		//전송용 데이터 객체에 담기
 		clientDatas.put("userInfo", userInfo);
@@ -153,8 +150,8 @@ public class Usr1002 implements JavaHTML {
 			//사용자 입력값
 			answer = scanner.nextLine().trim();
 			
-			//대소문자 구분 없이 n을 작성할 경우 회원 화면으로 이동
-			if ("n".equals(answer) || "N".equals(answer)) {
+			//n을 작성할 경우 회원 화면으로 이동
+			if ("n".equals(answer.toLowerCase())) {
 				//회원 메뉴로 이동하는 전송 객체 생성
 				requestData.put("url", "usr/usr1000/usr1000/selectUsr1000View");
 				

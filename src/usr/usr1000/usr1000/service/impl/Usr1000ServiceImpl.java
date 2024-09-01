@@ -71,20 +71,30 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 		
 		//회원 정보 존재 시, 회원 상태 업데이트 후, 전송
 		if (userInfo != null) {
-			//회원 만료일 조회
+			//기존 회원 상태값
+			String preStatus = userInfo.getStatus();
+			
+			//회원 만료일
 			LocalDate expireDate = userInfo.getExpireDate();
 			
-			//만료일이 금일을 넘겼을 경우 회원 상태 업데이트
-			if (expireDate.isBefore(LocalDate.now())) {
+			//금일
+			LocalDate today = LocalDate.now();
+			
+			//현재 회원 상태값 조회
+			String status = expireDate.isBefore(today) ? "만료" :
+							expireDate.isAfter(today.plusDays(4)) ? "정상" : "임박";
+			
+			//현재 회원 상태값과 새로 조회한 회원 상태값이 다른 경우 업데이트
+			if (!preStatus.equals(status)) {
 				//회원 상태 변경
-				userInfo.setStatus("02");
+				userInfo.setStatus(status);
 				
 				//회원 수정 일시 변경
-				userInfo.setEditDateTime(LocalDateTime.now());
+				userInfo.setModifyDateTime(LocalDateTime.now());
 				
 				//회원 상태 업데이트
 				usr1000DAO.updateUsr1000UserInfo(userInfo);
-			 }
+			}
 		}
 		
 		//회원 정보 반환

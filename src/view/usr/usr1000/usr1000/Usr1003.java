@@ -127,7 +127,7 @@ public class Usr1003 implements JavaHTML {
 			//회원 만료일
 			String expireDate = execute("*회원 만료일을 작성하세요. [2024-08-28 형식으로 작성] " + COMMON_PROMP
 					, "금일 이후 올바른 일자를 작성하세요."
-					, input -> Validator.isValidatedDate(input, userInfo.getJoinDate()));
+					, input -> Validator.isValidatedDate(input, (userInfo.getJoinDate().isAfter(LocalDate.now())) ? userInfo.getJoinDate() : LocalDate.now()));
 			
 			//skip이 아닌 경우 데이터 세팅
 			if (!"s".equals(expireDate)) {
@@ -137,14 +137,11 @@ public class Usr1003 implements JavaHTML {
 			//사용 유무 정보
 			userInfo.setUse("Y");
 			
-			//상태 정보 [정상, 임박, 만기]
-			userInfo.setStatus("정상");
-			
-			//삭제 유무 정보
-			userInfo.setDelete("N");
+			//회원 상태 [정상: 5일 이상, 임박: 5일 미만, 만기: 초과된 경우]
+			userInfo.setStatus(userInfo.getExpireDate().isAfter(LocalDate.now().plusDays(4)) ? "정상" : "임박");
 			
 			//최종수정 메타 정보
-			userInfo.setEditDateTime(LocalDateTime.now());
+			userInfo.setModifyDateTime(LocalDateTime.now());
 			
 			//전송용 데이터 객체에 담기
 			clientDatas.put("userInfo", userInfo);

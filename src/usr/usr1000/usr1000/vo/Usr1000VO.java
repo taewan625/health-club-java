@@ -24,26 +24,24 @@ public class Usr1000VO {
 	private String address;
 	// 회원 설명
 	private String description;
-	// 회원 상태 ("01" : 정상, "02" : 만료)
+	// 회원 상태 [정상: 5일 이상, 임박: 5일 미만, 만기: 초과된 경우]
 	private String status;
 	// 가입 일자
 	private LocalDate joinDate;
 	// 만료 일자
 	private LocalDate expireDate;
-	// 사용 유무
+	// 사용 유무 [사용, 미사용]
 	private String use;
-	// 삭제 유무
-	private String delete;
 	// 등록 일시
-	private LocalDateTime joinDateTime;
+	private LocalDateTime registerDateTime;
 	// 수정 일시
-	private LocalDateTime editDateTime;
+	private LocalDateTime modifyDateTime;
 	
 	//생성자
 	public Usr1000VO() {};
 	
 	//생성자
-	public Usr1000VO(String id, String name, String gender, String phoneNumber, String address, String description, String status, LocalDate joinDate, LocalDate expireDate, String use, String delete, LocalDateTime joinDateTime, LocalDateTime editDateTime) {
+	public Usr1000VO(String id, String name, String gender, String phoneNumber, String address, String description, String status, LocalDate joinDate, LocalDate expireDate, String use, LocalDateTime joinDateTime, LocalDateTime editDateTime) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -55,9 +53,8 @@ public class Usr1000VO {
 		this.joinDate = joinDate;
 		this.expireDate = expireDate;
 		this.use = use;
-		this.delete = delete;
-		this.joinDateTime = joinDateTime;
-		this.editDateTime = editDateTime;
+		this.registerDateTime = joinDateTime;
+		this.modifyDateTime = editDateTime;
 	}
 	
 	/* getter & setter */
@@ -121,30 +118,24 @@ public class Usr1000VO {
 	public void setUse(String use) {
 		this.use = use;
 	}
-	public String getDelete() {
-		return delete;
-	}
-	public void setDelete(String delete) {
-		this.delete = delete;
-	}
 	public LocalDateTime getJoinDateTime() {
-		return joinDateTime;
+		return registerDateTime;
 	}
-	public void setJoinDateTime(LocalDateTime joinDateTime) {
-		this.joinDateTime = joinDateTime;
+	public void setRegisterDateTime(LocalDateTime registerDateTime) {
+		this.registerDateTime = registerDateTime;
 	}
 	public LocalDateTime getEditDateTime() {
-		return editDateTime;
+		return modifyDateTime;
 	}
-	public void setEditDateTime(LocalDateTime editDateTime) {
-		this.editDateTime = editDateTime;
+	public void setModifyDateTime(LocalDateTime modifyDateTime) {
+		this.modifyDateTime = modifyDateTime;
 	}
 	
 	@Override
 	public String toString() {
 		return "Usr1000VO [id=" + id + ", name=" + name + ", gender=" + gender + ", phoneNumber=" + phoneNumber
 				+ ", address=" + address + ", description=" + description + ", status=" + status + ", joinDate="
-				+ joinDate + ", expireDate=" + expireDate + ", use=" + use + ", delete=" + delete + ", joinDateTime="
-				+ joinDateTime + ", editDateTime=" + editDateTime + "]";
+				+ joinDate + ", expireDate=" + expireDate + ", use=" + use + ", joinDateTime="
+				+ registerDateTime + ", editDateTime=" + modifyDateTime + "]";
 	}
 }
