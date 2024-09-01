@@ -1,11 +1,11 @@
 package com.val;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
- * @Class Name : Validator.java
  * @Description 검증기
  * @version 1.0
  * @author 권태완
@@ -15,39 +15,17 @@ import java.util.regex.Pattern;
  */
 public class Validator {
 	static Scanner scanner = new Scanner(System.in);
-
+	
 	/**
-	 * @desc 한글만 허용하는 정규식 메서드
+	 * @desc 이름 검증 메서드
 	 * @param String clientAnswer
 	 * @return boolean
-	 * @throws Exception
 	 */
-	public static boolean isKorean(String clientAnswer) {
-		try {
-			// 정규식: 한글만 허용
-			String regex = "^[ㄱ-ㅣ가-힣]*$";
-			return Pattern.matches(regex, clientAnswer);
-		} catch (Exception e) {
-			return false;
-		}
+	public static boolean isValidatedName(String clientAnswer) {
+		//빈문자열이 아니고 한글로만 이뤄지거나 영어로만 이뤄진 경우 통과
+		return !clientAnswer.isEmpty() && (Pattern.matches("^[ㄱ-ㅣ가-힣]*$", clientAnswer) || Pattern.matches("^[a-zA-Z]*$", clientAnswer));
 	}
-
-	/**
-	 * @desc 영어만 허용하는 정규식 메서드
-	 * @param String clientAnswer
-	 * @return boolean
-	 * @throws Exception
-	 */
-	public static boolean isEnglish(String clientAnswer) {
-		try {
-			// 정규식: 영어만 허용
-			String regex = "^[a-zA-Z]*$";
-			return Pattern.matches(regex, clientAnswer);
-		} catch (Exception e) {
-			return false;
-		}
-	}
-
+	
 	/**
 	 * @desc 유효 범위 숫자 검증
 	 * @param int from, int to
@@ -89,45 +67,51 @@ public class Validator {
 		
 		return inputData;
 	}
-
+	
 	/**
-	 * Func : 만기일 확인 메서드
-	 * 
-	 * @desc 금일 기준 만기일이 지나지 않았으면 true
-	 * @param Usr1000VO
-	 *            selectUsr
-	 * @return boolean
-	 * @throws Exception
+	 * @desc 일자 검증기
+	 * @param String clientAnswer, LocalDate minDate
+	 * @return LocalDate
+	 * @throws 
 	 */
-	public static boolean isExpire(LocalDate expireDate) throws Exception {
+	public static boolean isValidatedDate(String clientAnswer, LocalDate minDate) {
+		//중복 혹은 유효성에 문제가 존재하는지 여부 확인 변수
+		boolean isWrong = true;
+		
 		try {
-			// date1.isBefore(date2) : date1 이 date2보다 이전이면 true
+			//일자 정규식 통과 시 로직
+			if (Pattern.matches("^\\d{4}-\\d{2}-\\d{2}$", clientAnswer)) {
+				//타입 변환
+				LocalDate choiseDate = LocalDate.parse(clientAnswer);
+				
+				//choiseDate가 minDate보다 이전일 경우 true 반환
+				isWrong = choiseDate.isBefore(minDate);
+			}
+			
+		} catch (DateTimeException e) {
+			isWrong = true;
+		}
+		
+		return isWrong;
+	}
+
+	/** TODO lck 검증기 사용시 변경 필요
+	 * @desc 금일 기준 만기일이 지나지 않았으면 true
+	 * @param LocalDate expireDate
+	 * @return boolean
+	 * @throws
+	 */
+	public static boolean isExpire(LocalDate expireDate) {
+		try {
 			if (expireDate == null) {
 				return false;
 			}
+			
 			return expireDate.isBefore(LocalDate.now());
+			
 		} catch (Exception e) {
 			System.out.println("Validator/isExpire() Error : " + e.getMessage());
-			return false;
-		}
-	}
-
-	/**
-	 * Func : 전화번호 정규식 메서드
-	 * 
-	 * @desc 사물함 등록시 적용 가능한 회원인지 확인 1. 사용 유무 2. 만료일이 남았는지 확인
-	 * @param Usr1000VO
-	 *            selectUsr
-	 * @return boolean
-	 * @throws Exception
-	 */
-	public static boolean isValidPhoneNumber(String phoneNumber) throws Exception {
-		try {
-			// 전화번호 형식을 나타내는 정규표현식
-			String regex = "^010-\\d{4}-\\d{4}$";
-			// 정규표현식과 문자열을 비교하여 일치하는지 확인
-			return Pattern.matches(regex, phoneNumber);
-		} catch (Exception e) {
+			
 			return false;
 		}
 	}
