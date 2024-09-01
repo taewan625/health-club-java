@@ -34,6 +34,8 @@ public class Usr1002 implements JavaHTML {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void response(Request request) throws Exception {
+		System.out.println("[회원 등록]");
+		
 		//데이터 조회
 		Map<String, Object> datas = request.getClientDatas();
 		
@@ -42,80 +44,80 @@ public class Usr1002 implements JavaHTML {
 		
 		//회원 정보를 담을 객체
 		Usr1000VO userInfo = new Usr1000VO();
-		System.out.println("[회원 등록]");
+		
+		//공통 문구
+		final String COMMON_PROMP = "[회원 등록을 멈추고 나가고 싶으면 n 작성]";
 		
 		/*회원 등록 로직*/
 		//회원 id
-		String userId = execute("* 아이디 작성하세요. [중복 불가, 최소 4자 이상 작성] [회원 등록을 멈추고 나가고 싶으면 n 작성]"
+		String userId = execute("* 아이디 작성하세요. [중복 불가, 최소 4자 이상 작성] " + COMMON_PROMP
 				, "중복된 id가 존재합니다."
 				, answer -> users.stream().map(Usr1000VO::getId).anyMatch(id -> id.equals(answer)));
 		
 		userInfo.setId(userId);
 		
 		//회원명
-		String userName = execute("* 이름을 작성하세요. [회원 등록을 멈추고 나가고 싶으면 n 작성]"
+		String userName = execute("* 이름을 작성하세요. " + COMMON_PROMP
 				, "이름은 영어 혹은 한글만 가능합니다."
-				, answer -> answer.isEmpty() || !(Validator.isKorean(answer) || Validator.isEnglish(answer)));
+				, answer -> !(Validator.isValidatedName(answer)));
 		
 		userInfo.setName(userName);
 		
 		//성별
-		String gender = execute("* 성별을 작성하세요. [m | f] [회원 등록을 멈추고 나가고 싶으면 n 작성]"
+		String gender = execute("* 성별을 작성하세요. [m | f] " + COMMON_PROMP
 				, "올바른 성별을 작성하세요. [m | f]"
 				, answer -> !("f".equals(answer) || "m".equals(answer)));
 		
 		userInfo.setGender(gender);
 		
 		//연락처
-		String phoneNumber = execute("* 연락처를 작성하세요. [010-xxxx-xxxx 형식으로 작성] [회원 등록을 멈추고 나가고 싶으면 n 작성]"
+		String phoneNumber = execute("* 연락처를 작성하세요. [010-xxxx-xxxx 형식으로 작성] " + COMMON_PROMP
 				, "올바른 연락처를 작성하세요."
 				, answer -> !Pattern.matches("^010-\\d{4}-\\d{4}$", answer));
 		
 		userInfo.setPhoneNumber(phoneNumber);
 		
 		//주소 작성
-		String address = execute("주소를 작성하세요. [주소는 필수 값이 아닙니다.] [회원 등록을 멈추고 나가고 싶으면 n 작성]"
+		String address = execute("주소를 작성하세요. [주소는 필수 값이 아닙니다.] " + COMMON_PROMP
 				, null
 				, input -> false);
 		
 		userInfo.setAddress(address);
 		
 		//회원 설명
-		String description = execute("회원 설명을 작성하세요. [회원 설명은 필수 값이 아닙니다.] [회원 등록을 멈추고 나가고 싶으면 n 작성]"
+		String description = execute("회원 설명을 작성하세요. [회원 설명은 필수 값이 아닙니다.] " + COMMON_PROMP
 				, null
 				, input -> false);
 		
 		userInfo.setDescription(description);
 		
 		//회원 등록일
-		String joinDate = execute("*회원 등록일을 작성하세요. [2024-08-28 형식으로 작성] [회원 등록을 멈추고 나가고 싶으면 n 작성]"
+		String joinDate = execute("*회원 등록일을 작성하세요. [2024-08-28 형식으로 작성] " + COMMON_PROMP
 				, "금일 이후 올바른 일자를 작성하세요."
-				//TODO. 유효성 - 올바른 형식, 오늘 포함 이후 일자의 유효성 검사 필요
-				, input -> false);
+				, input -> Validator.isValidatedDate(input, LocalDate.now()));
 		
 		userInfo.setJoinDate(LocalDate.parse(joinDate));
 		
-		//회원 등록일
-		String expireDate = execute("*회원 만료일을 작성하세요. [2024-08-28 형식으로 작성] [회원 등록을 멈추고 나가고 싶으면 n 작성]"
+		//회원 만료일
+		String expireDate = execute("*회원 만료일을 작성하세요. [2024-08-28 형식으로 작성] " + COMMON_PROMP
 				, "금일 이후 올바른 일자를 작성하세요."
-				//TODO. 유효성 - 올바른 형식, 등록일보다 이후 일자
-				, input -> false);
+				, input -> Validator.isValidatedDate(input, userInfo.getJoinDate()));
 		
 		userInfo.setExpireDate(LocalDate.parse(expireDate));
 		
 		//사용 유무 정보
 		userInfo.setUse("Y");
 		
-		//상태 정보 [정상, 임박, 만기]
+		//상태 정보 [정상, 임박, 만기] TODO 계산 로직 필요 - 오늘 기준 만료일 며칠 남았는지
 		userInfo.setStatus("정상");
 		
-		//삭제 유무 정보 TODO 제거
+		//삭제 유무 정보 -> TODO 실제 데이터 삭제하기로 해서 해당 컬럼 필요 없음
 		userInfo.setDelete("N");
 		
-		//최초등록 메타 정보 TODO 명칭 변경 register, modification
+		//최초등록 메타 정보 -> TODO 에이씨 그냥 하는김에 바꾸자
 		userInfo.setJoinDateTime(LocalDateTime.now());
 		
-		//최종수정 메타 정보 TODO 명칭 변경 register, modification
+		//최종수정 메타 정보 -> TODO 에이씨 그냥 하는김에 바꾸자
 		userInfo.setEditDateTime(LocalDateTime.now());
 		
 		//전송용 데이터 객체에 담기
@@ -132,7 +134,7 @@ public class Usr1002 implements JavaHTML {
 	}
 	
 	/**
-	 * @desc 회원 등록시 검증 작업 및 회원 등록 취소 작업 수행
+	 * @desc 회원 등록 시 검증 작업 및 회원 등록 취소 작업 수행
 	 * @param String questionPromp, String warningPromp, Predicate<String> validate
 	 * @return String
 	 * @throws Exception
