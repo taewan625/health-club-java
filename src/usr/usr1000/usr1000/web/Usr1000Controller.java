@@ -264,7 +264,7 @@ public class Usr1000Controller {
 			modelView = selectUsr1000UserList("1");
 			
 			//성공 메시지 등록 
-			modelView.setDatas("successMsg", MessageSource.getMessage("message.success.update"));
+			modelView.setDatas("successMsg", MessageSource.getMessage("message.success.delete"));
 			
 		} catch (Exception e) {
 			//에러 페이지 이동
