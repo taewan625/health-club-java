@@ -3,7 +3,6 @@ package view.usr.usr1000.usr1000;
 import java.util.Map;
 import java.util.Scanner;
 
-import com.web.MessageSource;
 import com.web.Request;
 
 import usr.usr1000.usr1000.vo.Usr1000VO;
@@ -19,7 +18,7 @@ import view.JavaHTML;
  */
 public class Usr1001 implements JavaHTML {
 	private Scanner scanner = new Scanner(System.in);
-
+	
 	/**
 	 * @desc 회원 정보 조회
 	 * @param Request request

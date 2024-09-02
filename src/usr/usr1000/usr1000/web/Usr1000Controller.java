@@ -53,20 +53,8 @@ public class Usr1000Controller {
 			//선택한 페이지
 			String selectPage = String.valueOf(request.getClientDatas().get("selectPage"));
 			
-			//회원 목록 조회
-			List<Usr1000VO> users = usr1000Service.selectUsr1000List(Map.of("selectPage", selectPage, "range", "10"));
-			
-			//총 회원 목록 수
-			int totalCnt = usr1000Service.selectUsr1000ListCnt();
-			
-			//회원 화면 경로 등록
-			modelView = new ModelView("usr.usr1000.usr1000.Usr1000");
-			
-			//회원 목록 등록
-			modelView.setDatas("users", users);
-			
-			//페이징 정보 등록
-			modelView.setDatas("pageInfo", Map.of("selectPage", selectPage, "totalCnt", totalCnt, "totalPage", (int) Math.ceil((double) totalCnt / 10)));
+			//회원 목록 조회 결과를 담은 modelView 받기
+			modelView = selectUsr1000UserList(selectPage);
 			
 		} catch (Exception e) {
 			//에러 페이지 이동
@@ -164,14 +152,11 @@ public class Usr1000Controller {
 			//회원 정보 등록
 			usr1000Service.createUsr1000UserInfo(userInfo);
 			
-			//회원 목록 조회
-			List<Usr1000VO> users = usr1000Service.selectUsr1000List(Map.of("selectPage", "1", "range", "10"));
+			//회원 목록 조회 결과를 담은 modelView 받기
+			modelView = selectUsr1000UserList("1");
 			
-			//회원 화면 경로 등록
-			modelView = new ModelView("usr.usr1000.usr1000.Usr1000");
-			
-			//회원 목록 등록
-			modelView.setDatas("users", users);
+			//성공 메시지 등록 
+			modelView.setDatas("successMsg", MessageSource.getMessage("message.success.create"));
 			
 		} catch (Exception e) {
 			//에러 페이지 이동
@@ -237,14 +222,11 @@ public class Usr1000Controller {
 			//회원 정보 수정
 			usr1000Service.updateUsr1000UserInfo(userInfo);
 			
-			//회원 목록 조회
-			List<Usr1000VO> users = usr1000Service.selectUsr1000List(Map.of("selectPage", "1", "range", "10"));
+			//회원 목록 조회 결과를 담은 modelView 받기
+			modelView = selectUsr1000UserList("1");
 			
-			//회원 화면 경로 등록
-			modelView = new ModelView("usr.usr1000.usr1000.Usr1000");
-			
-			//회원 목록 등록
-			modelView.setDatas("users", users);
+			//성공 메시지 등록 
+			modelView.setDatas("successMsg", MessageSource.getMessage("message.success.update"));
 			
 		} catch (Exception e) {
 			//에러 페이지 이동
@@ -261,39 +243,61 @@ public class Usr1000Controller {
 	/**
 	 * @desc 회원 삭제 로직 - 회원 삭제 여부 및 사용여부 상태 값만 업데이트
 	 * @param Request request, Response response
-	 * @return ModelView<Map<String, String>>
+	 * @return ModelView
 	 * @throws Exception
 	 */
 	public ModelView deleteUsr1000UserInfo(Request request, Response response) throws Exception {
 		//반환 변수
-				ModelView modelView;
-				
-				try {
-					//userId 조회
-					String userId = String.valueOf(request.getClientDatas().get("userId"));
-					
-					//회원 정보 삭제
-					usr1000Service.deleteUsr1000UserInfo(userId);
-					
-					//회원 목록 조회
-					List<Usr1000VO> users = usr1000Service.selectUsr1000List(Map.of("selectPage", "1", "range", "10"));
-					
-					//회원 화면 경로 등록
-					modelView = new ModelView("usr.usr1000.usr1000.Usr1000");
-					
-					//회원 목록 등록
-					modelView.setDatas("users", users);
-					
-				} catch (Exception e) {
-					//에러 페이지 이동
-					modelView = new ModelView("cmm.cmm2000.cmm2000.Cmm2000");
-					
-					//에러 메시지 등록
-					modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.delete"));
-				}
-				
-				//modelView 반환
-				return modelView;
+		ModelView modelView;
+		
+		try {
+			//userId 조회
+			String userId = String.valueOf(request.getClientDatas().get("userId"));
+			
+			//회원 정보 삭제
+			usr1000Service.deleteUsr1000UserInfo(userId);
+			
+			//회원 목록 조회 결과를 담은 modelView 받기
+			modelView = selectUsr1000UserList("1");
+			
+			//성공 메시지 등록 
+			modelView.setDatas("successMsg", MessageSource.getMessage("message.success.update"));
+			
+		} catch (Exception e) {
+			//에러 페이지 이동
+			modelView = new ModelView("cmm.cmm2000.cmm2000.Cmm2000");
+			
+			//에러 메시지 등록
+			modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.delete"));
+		}
+		
+		//modelView 반환
+		return modelView;
+	}
+	
+	/**
+	 * @desc 회원 목록 조회 내부 메서드
+	 * @param String selectPage
+	 * @return ModelView
+	 * @throws Exception
+	 */
+	private ModelView selectUsr1000UserList(String selectPage) throws Exception {
+		//회원 목록 조회
+		List<Usr1000VO> users = usr1000Service.selectUsr1000List(Map.of("selectPage", selectPage, "range", "10"));
+		
+		//총 회원 목록 수
+		int totalCnt = usr1000Service.selectUsr1000ListCnt();
+		
+		//회원 화면 경로 등록
+		ModelView modelView = new ModelView("usr.usr1000.usr1000.Usr1000");
+		
+		//회원 목록 등록
+		modelView.setDatas("users", users);
+		
+		//페이징 정보 등록
+		modelView.setDatas("pageInfo", Map.of("selectPage", selectPage, "totalCnt", totalCnt, "totalPage", (int) Math.ceil((double) totalCnt / 10)));
+		
+		return modelView;
 	}
 
 }

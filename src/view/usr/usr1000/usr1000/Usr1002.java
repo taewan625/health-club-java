@@ -106,7 +106,7 @@ public class Usr1002 implements JavaHTML {
 		userInfo.setExpireDate(LocalDate.parse(expireDate));
 		
 		//사용 유무 정보
-		userInfo.setUse("Y");
+		userInfo.setUse("사용");
 		
 		//회원 상태 [정상: 5일 이상, 임박: 5일 미만, 만기: 초과된 경우]
 		userInfo.setStatus(userInfo.getExpireDate().isAfter(LocalDate.now().plusDays(4)) ? "정상" : "임박");
