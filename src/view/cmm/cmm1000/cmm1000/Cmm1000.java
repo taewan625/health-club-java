@@ -52,10 +52,6 @@ public class Cmm1000 implements JavaHTML {
 				//전송 객체 생성 - url 담기
 				requestData.put("url", urlMatch(inputData));
 				
-				//전송 객체 생성 - 페이징 데이터 담기
-				clientDatas.put("selectPage", "1");
-				requestData.put("clientDatas", clientDatas);
-				
 				//WAS에 요청
 				webContainer.service(requestData);
 			}

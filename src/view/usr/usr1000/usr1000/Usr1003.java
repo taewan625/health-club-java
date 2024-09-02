@@ -187,9 +187,9 @@ public class Usr1003 implements JavaHTML {
 				break;
 			}
 			
-			//대소문자 구분 없이 n을 작성할 경우 회원 화면으로 이동
+			//n을 작성할 경우 회원 화면으로 이동
 			if ("n".equals(answer.toLowerCase())) {
-				//회원 메뉴로 이동하는 전송 객체 생성
+				//경로 데이터 담기
 				requestData.put("url", "usr/usr1000/usr1000/selectUsr1000View");
 				
 				//WAS에 요청

@@ -53,6 +53,9 @@ public class Usr1000Controller {
 			//선택한 페이지
 			String selectPage = String.valueOf(request.getClientDatas().get("selectPage"));
 			
+			//선택한 페이지가 없을 경우
+			selectPage = ("null".equals(selectPage)) ? "1" : selectPage;
+			
 			//회원 목록 조회 결과를 담은 modelView 받기
 			modelView = selectUsr1000UserList(selectPage);
 			
@@ -114,8 +117,8 @@ public class Usr1000Controller {
 		ModelView modelView;
 		
 		try {
-			//회원 목록 조회
-			List<Usr1000VO> users = usr1000Service.selectUsr1000List(Map.of("selectPage", "1", "range", "10"));
+			//전체 회원 목록 조회
+			List<Usr1000VO> users = usr1000Service.selectUsr1000List(Map.of("selectPage", "all"));
 			
 			//회원 등록 경로 등록
 			modelView = new ModelView("usr.usr1000.usr1000.Usr1002");

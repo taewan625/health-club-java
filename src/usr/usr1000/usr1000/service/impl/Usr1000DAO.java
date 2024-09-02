@@ -39,17 +39,26 @@ public class Usr1000DAO {
 		//회원 목록 변수
 		List<Usr1000VO> users = new ArrayList<>(userStore.values());
 		
-		//시작 범위
-		int from = (Integer.parseInt(pageInfo.get("selectPage")) - 1) * Integer.parseInt(pageInfo.get("range"));
+		//선택한 페이지
+		String selectPage = pageInfo.get("selectPage");
 		
-		//종료 범위
-		int to = (Integer.parseInt(pageInfo.get("selectPage"))) * Integer.parseInt(pageInfo.get("range"));
-		
-		//종료 범위가 토탈 개수보다 작을 경우
-		to = (users.size() < to) ? users.size() : to;
+		//전체 회원 목록을 받지 않는 경우 == 페이징 처리를 하는 경우
+		if (!"all".equals(selectPage)) {
+			//시작 범위
+			int from = (Integer.parseInt(selectPage) - 1) * Integer.parseInt(pageInfo.get("range"));
+			
+			//종료 범위
+			int to = (Integer.parseInt(selectPage)) * Integer.parseInt(pageInfo.get("range"));
+			
+			//종료 범위가 토탈 개수보다 작을 경우
+			to = (users.size() < to) ? users.size() : to;
+			
+			//조회 회원 목록
+			users = users.subList(from, to);
+		}
 		
 		//회원목록 반환
-		return users.subList(from, to);
+		return users;
 	}
 	
 	/**
