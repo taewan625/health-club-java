@@ -98,17 +98,16 @@ public class Usr1000DAO {
 	 * @throws Exception
 	 */
 	public void updateUsr1000UserInfo(Usr1000VO usr1000VO) throws Exception {
-		//TODO replace 같은 경우 key값이 존재하지 않을 때 null 반환, 필요시 해당 정보를 이용해서 service단 검증로직 추가
 		userStore.replace(usr1000VO.getId(), usr1000VO);
 	}
 	
 	/**
 	 * @desc 회원 삭제 시,삭제여부, 사용여부만 업데이트
 	 * @param String userId
-	 * @return void
+	 * @return Usr1000VO
 	 * @throws Exception
 	 */
-	public void deleteUsr1000(String userId) throws Exception {
-		userStore.remove(userId);
+	public Usr1000VO deleteUsr1000(String userId) throws Exception {
+		return userStore.remove(userId);
 	}
 }

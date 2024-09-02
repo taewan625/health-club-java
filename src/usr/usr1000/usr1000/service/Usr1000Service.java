@@ -30,6 +30,6 @@ public interface Usr1000Service {
 	void updateUsr1000UserInfo(Usr1000VO userInfo) throws Exception;
 	
 	//회원 삭제
-	void deleteUsr1000UserInfo(String userId) throws Exception;
+	Usr1000VO deleteUsr1000UserInfo(String userId) throws Exception;
 
 }

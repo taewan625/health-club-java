@@ -258,13 +258,16 @@ public class Usr1000Controller {
 			String userId = String.valueOf(request.getClientDatas().get("userId"));
 			
 			//회원 정보 삭제
-			usr1000Service.deleteUsr1000UserInfo(userId);
+			Usr1000VO deleteResult = usr1000Service.deleteUsr1000UserInfo(userId);
 			
 			//회원 목록 조회 결과를 담은 modelView 받기
 			modelView = selectUsr1000UserList("1");
 			
-			//성공 메시지 등록 
-			modelView.setDatas("successMsg", MessageSource.getMessage("message.success.delete"));
+			//회원 정보가 없어서 삭제하지 않은 경우 메시지 
+			String messgae = (deleteResult == null) ? MessageSource.getMessage("message.fail.delete") : MessageSource.getMessage("message.success.delete"); 
+			
+			//성공 메시지 등록 : fail도 정상 로직을 통해 나온 결과여서 success 범주에 둔다.
+			modelView.setDatas("successMsg", messgae);
 			
 		} catch (Exception e) {
 			//에러 페이지 이동

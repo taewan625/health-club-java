@@ -129,11 +129,11 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 	/**
 	 * @desc 회원 삭제 로직
 	 * @param String userId
-	 * @return void
+	 * @return Usr1000VO
 	 * @throws Exception
 	 */
 	@Override
-	public void deleteUsr1000UserInfo(String userId) throws Exception {
-		usr1000DAO.deleteUsr1000(userId);
+	public Usr1000VO deleteUsr1000UserInfo(String userId) throws Exception {
+		return usr1000DAO.deleteUsr1000(userId);
 	}
 }
