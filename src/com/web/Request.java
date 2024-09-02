@@ -33,6 +33,13 @@ public class Request {
 		this.clientDatas = clientDatas;
 	}
 	
+	/**
+	 * @desc clientData를 비우는 역할	PS) 웹통신과 같이 전송 응답이 분리되지 않아서 clientDatas가 계속 공유되는 현상 해결 위함
+	 */
+	public void clearClientDatas() {
+		clientDatas.clear();
+	} 
+	
 	/*getter & setter*/
 	public String getUrl() {
 		return url;
