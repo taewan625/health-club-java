@@ -38,13 +38,17 @@ public class Usr1001 implements JavaHTML {
 		//회원 정보가 없는 경우
 		if (user == null) {
 			System.out.println("존재하지 않는 회원입니다.");
+			
 		}
 		//회원 정보가 있는 경우
 		else {
 			System.out.println(user.toString());
 		}
 		
+		//닫기 문구
 		System.out.println("닫기 - 아무키나 누르세요");
+		
+		//닫기 동작
 		scanner.nextLine();
 		
 		//회원 메뉴로 이동하는 전송 객체 생성
@@ -52,6 +56,5 @@ public class Usr1001 implements JavaHTML {
 		
 		//WAS에 요청
 		webContainer.service(requestData);
-		
 	}
 }

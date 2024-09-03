@@ -23,12 +23,12 @@ public class Usr1000DAO {
 	private static class Usr1000DAOHolder {
 		private static final Usr1000DAO INSTANCE = new Usr1000DAO();
 	}
-
+	
 	//싱글톤
 	public static Usr1000DAO getInstance() throws Exception {
 		return Usr1000DAOHolder.INSTANCE;
 	}
-
+	
 	/**
 	 * @desc 회원 목록 반환
 	 * @param Map<String,String> PageInfo {"selectPage", "1", "range", "10"}

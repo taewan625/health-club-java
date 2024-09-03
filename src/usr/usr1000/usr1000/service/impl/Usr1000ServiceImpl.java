@@ -21,22 +21,22 @@ import usr.usr1000.usr1000.vo.Usr1000VO;
 public class Usr1000ServiceImpl implements Usr1000Service {
 	//생성자 주입
 	private final Usr1000DAO usr1000DAO;
-
-	// 생성자
+	
+	//생성자
 	private Usr1000ServiceImpl(Usr1000DAO usr1000DAO) {
 		this.usr1000DAO = usr1000DAO;
 	}
-
+	
 	//싱글톤 생성용 내부 클래스
 	private static class Usr1000ServiceImplHolder {
 		private static final Usr1000ServiceImpl INSTANCE = new Usr1000ServiceImpl(AppConfig.usr1000DAO());
 	}
-
+	
 	//싱글톤 객체 반환
 	public static Usr1000ServiceImpl getInstance() throws Exception {
 		return Usr1000ServiceImplHolder.INSTANCE;
 	}
-
+	
 	/**
 	 * @desc 회원 목록 반환
 	 * @param Map<String, String> pageInfo

@@ -21,7 +21,7 @@ import view.JavaHTML;
  */
 public class Usr1000 implements JavaHTML {
 	private Scanner scanner = new Scanner(System.in);
-
+	
 	//생성자
 	public Usr1000() {
 		//회원 상세 화면
@@ -37,7 +37,7 @@ public class Usr1000 implements JavaHTML {
 		//회원 메뉴
 		urlMap.put("6", "usr/usr1000/usr1000/selectUsr1000View");
 	}
-
+	
 	/**
 	 * @desc model을 가지고 있는 메서드, 메뉴는 포함관계를 이용하여 보여준다.
 	 * @param Request requestWithResponseData
@@ -52,6 +52,7 @@ public class Usr1000 implements JavaHTML {
 		
 		//등록, 수정, 삭제 시, 성공 메시지 전달
 		String successMsg = Objects.toString(datas.get("successMsg"), "");
+		
 		//출력
 		System.out.println(successMsg);
 		
@@ -120,6 +121,5 @@ public class Usr1000 implements JavaHTML {
 		
 		//WAS에 요청
 		webContainer.service(requestData);
-
 	}
 }
