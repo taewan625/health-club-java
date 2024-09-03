@@ -2,17 +2,16 @@ package view.lck.lck1000.lck1000;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 
+import com.val.Validator;
 import com.web.Request;
 
 import lck.lck1000.lck1000.vo.Lck1000VO;
 import view.JavaHTML;
-import view.cmm.cmm1000.cmm1000.Cmm1001;
-import view.cmm.cmm1000.cmm1000.Cmm1004;
 
 /**
- * @Class Name : Lck1000.java
  * @Description 사물함관리 리스트를 보여주는 페이지
  * @version 1.0
  * @author 권태완
@@ -22,135 +21,118 @@ import view.cmm.cmm1000.cmm1000.Cmm1004;
  */
 public class Lck1000 implements JavaHTML {
 	private Scanner scanner = new Scanner(System.in);
-
-	/**
-	 * Func : 초기화 메서드가 존재하는 생성자
-	 * 
-	 * @desc :초기화 메서드의 예외를 처리하기 위해 try-catch와 new RuntimeExceptioin()을
-	 *       던진다. @param @return @throws
-	 */
+	
+	//생성자
 	public Lck1000() {
-		try {
-			initUrl();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
+		//사물함 상세 화면
+		urlMap.put("1", "lck/lck1000/lck1000/selectLck1001View");
+		//사물함 등록 화면
+		urlMap.put("2", "lck/lck1000/lck1000/selectLck1002View");
+		//사물함 수정 화면
+		urlMap.put("3", "lck/lck1000/lck1000/selectLck1003View");
+		//사물함 삭제 기능
+		urlMap.put("4", "lck/lck1000/lck1000/deletelck1000UserInfo");
+		//메인 메뉴
+		urlMap.put("5", "cmm/cmm1000/cmm1000/selectCmm1000View");
+		//사물함 메뉴
+		urlMap.put("6", "lck/lck1000/lck1000/selectLck1000View");
 	}
 
-	/**
-	 * Func : url 초기화 메서드
-	 * 
-	 * @desc JavaHTML interface에서 Map<String, String>을 담았기 때문에 이동할 url 경로만 초기화 해주면
-	 *       된다. 해당 value 사용시, urlMacth로 선언된 default 메서드를 사용하면된다.
-	 * @param
-	 * @return void
-	 * @throws Exception
-	 */
-	private void initUrl() throws Exception {
-		urlMap.put("1", msg.getProperty("lckS"));
-		urlMap.put("2", msg.getProperty("lckC"));
-		urlMap.put("3", msg.getProperty("lckU"));
-		urlMap.put("4", msg.getProperty("lckDF"));
-		urlMap.put("5", msg.getProperty("menu"));
-	}
-
+	@SuppressWarnings("unchecked")
 	@Override
-	public void response(Request requestWithResponseData) throws Exception {
-		while (true) {
-			Cmm1004.failReason(requestWithResponseData);
-			// 사물함 리스트 보여주기
-			Map<String, ?> responseData = requestWithResponseData.getResponseData();
-			Object data = responseData.get("lockers");
-			showLckList((List<Lck1000VO>) data);
-			// 메뉴선택 공통 팝업창
-			String inputData = Cmm1001.choiceMenu("1.사물함 조회 2.사물함 등록 3.사물함 수정 4.사물함 삭제 5.menu \n이동하실 메뉴의 번호를 입력하세요.", 1,
-					6);
-			// 새로운 request에 값을 담는다.
-			Request request = new Request(urlMatch(inputData));
-			writeId(inputData, request);
+	public void response(Request request) throws Exception {
+		//데이터 조회
+		Map<String, Object> datas = request.getClientDatas();
+		
+		//등록, 수정, 삭제 시, 성공 메시지 전달
+		String successMsg = Objects.toString(datas.get("successMsg"), "");
+		
+		//출력
+		System.out.println(successMsg);
+		
+		//페이징 정보
+		Map<String, Object> pageInfo = (Map<String, Object>)datas.get("pageInfo");
+		
+		//전체 페이징 정보
+		int totalPage = (int) pageInfo.get("totalPage");
+		
+		//사물함 목록 정보
+		System.out.println("[사물함 목록] - 총 " + totalPage + "page("+ pageInfo.get("totalCnt") + "건) 중 " + pageInfo.get("selectPage") + "page");
+		
+		//사물함 목록 데이터 조회
+		List<Lck1000VO> lockers = (List<Lck1000VO>) datas.get("lockers");
+		
+		//사물함 목록 출력
+		for (Lck1000VO locker : lockers) {
+			System.out.println(locker.toString());
 		}
-	}
-
-	/**
-	 * Func : 조회, 수정, 삭제 시, id를 물어봐서 request에 담는 메서드
-	 * 
-	 * @desc 조회, 수정, 삭제 시, id를 물어봐서 request에 담는다.
-	 * @param String
-	 *            inputData, Request request
-	 * @return void
-	 * @throws Exception
-	 */
-	private void writeId(String inputData, Request request) throws Exception {
-		switch (inputData) {
-		case "1":
-			String choiceMenu = Cmm1001.choiceMenu("조회 방법: 1.회원번호 2.사물함번호", 1, 3);
-			selectByMenu(choiceMenu, request);
-			dispatcherServlet.service(request);
-			break;
-		case "2":
-			dispatcherServlet.service(request);
-			break;
-		case "3":
-			dispatcherServlet.service(request);
-			break;
-		case "4":
-			setLockerNum("삭제할 사물함 번호를 작성하세요", request);
-			dispatcherServlet.service(request);
-			break;
-		case "5":
-			dispatcherServlet.service(request);
+		
+		//메뉴 선택
+		System.out.println("1.사물함 조회 2.사물함 등록 3.사물함 수정 4.사물함 삭제 5.메인메뉴 6.페이지 변경");
+		
+		//client 입력값
+		String inputData = Validator.chooseRangeNum(1, 7);
+		
+		//사물함 조회, 사물함 수정 시 사물함 번호 혹은 회원 아이디로 정보 조회
+		if ("1".equals(inputData) || "3".equals(inputData)) {
+			//질문
+			System.out.println("1[사물함 번호] | 2[회원 아이디] 선택하세요.");
+			
+			//조회 유형 (1 사물함 번호, 2 회원 번호)
+			String selectType  = Validator.chooseRangeNum(1, 3);
+			
+			//조회 데이터 변수
+			String selectValue = "";
+			
+			//사물함 번호로 조회
+			if ("1".equals(selectType)) {
+				//질문
+				System.out.println("사물함 번호를 작성해주세요. [1 ~ 99]");
+				
+				//선택한 사물함 번호
+				selectValue  = Validator.chooseRangeNum(1, 100);
+				
+			}
+			//회원 아이디로 조회
+			else {
+				do {
+					//질문
+					System.out.println("아이디를 작성해주세요.");
+					
+					//데이터 입력
+					selectValue = scanner.nextLine().trim();
+					
+				} while("".equals(selectValue));
+			}
+			
+			//사물함 조회 유형 담기
+			clientDatas.put("selectType", selectType);
+			
+			//조회 데이터 정보를 map에 담기
+			clientDatas.put("selectValue", selectValue);
+			
+			//요청할 객체에 담기
+			requestData.put("clientDatas", clientDatas);
+			
+		} 
+		//삭제 시 사물함 번호로 정보 조회
+		else if ("4".equals(inputData)) {
+			//TODO 향후 로직 작성 예정 2024-09-03	권태완
+			
 		}
-	}
-
-	/**
-	 * Func : 사물함 조회시, 회원 혹은 사물함 번호로 조회하는 메서드
-	 * 
-	 * @desc locker 조회 선택 창
-	 * @param String
-	 *            choiceMenu, Request request
-	 * @return void
-	 * @throws Exception
-	 */
-	private void selectByMenu(String choiceMenu, Request request) throws Exception {
-		if (choiceMenu.equals("1")) {
-			System.out.println("회원번호를 작성하세요");
-			String id = scanner.next();
-			request.setClientData("id", id);
-		} else {
-			setLockerNum("사물함 번호를 작성하세요", request);
+		//페이징 변화일 경우
+		else if ("6".equals(inputData)) {
+			//질문
+			System.out.println("이동할 페이지번호를 작성해주세요.[1 ~ " + totalPage + "]");
+			
+			//client 입력값
+			clientDatas.put("selectPage", Validator.chooseRangeNum(1, totalPage + 1));
 		}
+		
+		//전송 객체 세팅
+		requestData.put("url", urlMatch(inputData));
+		
+		//WAS에 요청
+		webContainer.service(requestData);
 	}
-
-	/**
-	 * Func : 사물함 번호를 요청값에 담는 메서드
-	 * 
-	 * @desc 사물함 번호를 요청에 담는다.
-	 * @param String
-	 *            prompt, Request request
-	 * @return void
-	 * @throws Exception
-	 */
-	private void setLockerNum(String prompt, Request request) throws Exception {
-		String lockerNum = Cmm1001.choiceMenu(prompt, 1, 100);
-		request.setClientData("lockerNum", lockerNum);
-
-	}
-
-	/**
-	 * Func : lockerList 를 보여주는 메서드
-	 * 
-	 * @desc locker 정보를 보여주는 메서드
-	 * @param List<Lck1000VO>
-	 *            data
-	 * @return void
-	 * @throws Exception
-	 */
-	private void showLckList(List<Lck1000VO> data) throws Exception {
-		for (int i = 0; i < 11; i++) {
-			System.out.println("순번 = " + (i + 1) + ", 사물함 정보 " + data.get(i).toString());
-		}
-		System.out.println("...");
-	}
-
 }
