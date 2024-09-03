@@ -9,8 +9,7 @@ import lck.lck1000.lck1000.vo.Lck1000VO;
 import view.JavaHTML;
 
 /**
- * @Class Name : Lck1001.java
- * @Description 사물함조회 리스트를 보여주는 페이지
+ * @Description 사물함 단건 정보 조회
  * @version 1.0
  * @author 권태완
  * @Since 2023.12.26.
@@ -18,24 +17,44 @@ import view.JavaHTML;
  * @see Copyright (C) All right reserved.
  */
 public class Lck1001 implements JavaHTML {
-
 	private Scanner scanner = new Scanner(System.in);
-
+	
+	/**
+	 * @desc 사물함 정보 표출
+	 * @param Request request
+	 * @return void
+	 * @throws Exception
+	 */
 	@Override
-	public void response(Request requestWithResponseData) throws Exception {
-		Map<String, ?> responseData = requestWithResponseData.getResponseData();
-		// 예외 문구가 존재할 시
-		if (responseData.containsKey("errMsg")) {
-			System.out.println(responseData.get("errMsg"));
-			System.out.println("해당회원은 사물함을 가지고 있지 않기 때문에 사물함 관리 화면으로 돌아갑니다.");
-			return;
+	public void response(Request request) throws Exception {
+		System.out.println("[사물함 상세]");
+		
+		//데이터 조회
+		Map<String, Object> datas = request.getClientDatas();
+		
+		//회원 정보 조회
+		Lck1000VO locker = (Lck1000VO) datas.get("locker");
+		
+		//사물함 정보가 없는 경우
+		if (locker == null) {
+			System.out.println("해당 회원은 사물함이 만료되었거나 등록된 사물함이 없습니다.");
+			
 		}
-		// 정상 로직 수행
-		Lck1000VO locker = (Lck1000VO) responseData.get("locker");
-		System.out.println(locker.toString());
-		// 메뉴로 돌아가기
-		System.out.println("사물함 관리 화면으로 돌아가실려면 아무 키나 누르세요.");
+		//사물함 정보가 있는 경우
+		else {
+			System.out.println(locker.toString());
+		}
+		
+		//닫기 문구
+		System.out.println("닫기 - 아무키나 누르세요");
+		
+		//닫기 동작
 		scanner.nextLine();
+		
+		//사물함 메뉴로 이동하는 전송 객체 생성
+		requestData.put("url", "lck/lck1000/lck1000/selectLck1000View");
+		
+		//WAS에 요청
+		webContainer.service(requestData);
 	}
-
 }
