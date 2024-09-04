@@ -79,10 +79,11 @@ public class Lck1000DAO {
 			//반복 루프를 통해서 사물함 정보를 조회
 			for (Lck1000VO lockerInfo : lockers) {
 				//사물함 정보에 등록된 아이디와 조회 아이디 비교
-				if (lockerInfo.getUserId() == selectValue) {
+				if (selectValue.equals(lockerInfo.getUserId())) {
 					//변수에 사물함 정보 담기
 					locker = lockerInfo;
 					
+					//for문 나오기
 					break;
 				}
 			}

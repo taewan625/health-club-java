@@ -1,5 +1,6 @@
 package memorydb;
 
+import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -19,8 +20,12 @@ public class LCK1000 {
 	
 	//생성자
 	private LCK1000() {
+		//데이터 세팅에 사용될 LocalDate
+		LocalDate today = LocalDate.now();
 		//사물함 데이터 세팅
-		for (int i = 1; i < 100; i++) {
+		lck1000.put(1, new Lck1000VO(1, "id1", today.minusDays(1), today.minusDays(1)));
+		lck1000.put(2, new Lck1000VO(2, "id2", today.minusDays(1), today.plusDays(2)));
+		for (int i = 3; i < 100; i++) {
 			lck1000.put(i, new Lck1000VO(i, null, null, null));
 		}
 	}
