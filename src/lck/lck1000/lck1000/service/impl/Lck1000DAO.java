@@ -3,14 +3,9 @@ package lck.lck1000.lck1000.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-
-import com.val.Validator;
 
 import lck.lck1000.lck1000.vo.Lck1000VO;
 import memorydb.LCK1000;
-import memorydb.USR1000;
-import usr.usr1000.usr1000.vo.Usr1000VO;
 
 /**
  * @Class Name : Lck1000DAO.java
@@ -96,7 +91,16 @@ public class Lck1000DAO {
 		//데이터 반환
 		return locker;
 	}
-
+	
+	/**
+	 * @desc 사물함 정보 수정
+	 * @param Lck1000VO lockerVO
+	 * @return void
+	 * @throws Exception
+	 */
+	public void updateLck1000LockerInfo(Lck1000VO lockerVO) throws Exception {
+		lockerStore.replace(lockerVO.getLockerNum(), lockerVO);
+	}
 //	/**
 //	 * Func : 회원 id로 사물함 정보 반환 메서드
 //	 * 

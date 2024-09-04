@@ -65,7 +65,8 @@ public class Lck1000ServiceImpl implements Lck1000Service {
 			//헤당 사물함 만료일자 정보 비우
 			locker.setEndDate(null);
 			
-			//TODO 사물함 정보 업데이트하기
+			//사물함 정보 업데이트하기
+			updateLck1000LockerInfo(locker);
 			
 			//조회 유형이 회원 아이디로 조회한 경우
 			if ("2".equals(selectType)) {
@@ -77,7 +78,20 @@ public class Lck1000ServiceImpl implements Lck1000Service {
 		//사물함 정보 반환
 		return locker;
 	}
-
+	
+	/**
+	 * @desc 사물함 정보 수정
+	 * @param Lck1000VO lockerInfo
+	 * @return void
+	 * @throws Exception
+	 */
+	@Override
+	public void updateLck1000LockerInfo(Lck1000VO lockerInfo) throws Exception {
+		//DB 데이터 업데이트
+		lck1000DAO.updateLck1000LockerInfo(lockerInfo);
+	}
+	
+	
 //	/**
 //	 * Func : 요청 url의 key와 value의 값이 유효한지 확인하는 메서드
 //	 * 
