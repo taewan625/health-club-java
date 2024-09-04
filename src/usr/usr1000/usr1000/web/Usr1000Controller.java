@@ -23,22 +23,22 @@ import usr.usr1000.usr1000.vo.Usr1000VO;
 public class Usr1000Controller {
 	//생성자 주입
 	private final Usr1000Service usr1000Service;
-
+	
 	//생성자
 	private Usr1000Controller(Usr1000Service usr1000Service) {
 		this.usr1000Service = usr1000Service;
 	}
-
+	
 	//싱글톤 내부 클래스
 	private static class Usr1000ControllerHolder {
 		private static final Usr1000Controller INSTANCE = new Usr1000Controller(AppConfig.usr1000Service());
 	}
-
+	
 	//싱글톤
 	public static Usr1000Controller getInstance() throws Exception {
 		return Usr1000ControllerHolder.INSTANCE;
 	}
-
+	
 	/**
 	 * @desc 회원관리 페이지 조회
 	 * @param Request request, Response response
@@ -105,7 +105,7 @@ public class Usr1000Controller {
 		//modelView 반환
 		return modelView;
 	}
-
+	
 	/**
 	 * @desc 회원 등록 팝업 조회
 	 * @param Request request, Response response
@@ -137,7 +137,7 @@ public class Usr1000Controller {
 		//modelView 반환
 		return modelView;
 	}
-
+	
 	/**
 	 * @desc 회원 등록 후, 회원 메뉴로 이동
 	 * @param Request request, Response response
@@ -172,7 +172,7 @@ public class Usr1000Controller {
 		//modelView 반환
 		return modelView;
 	}
-
+	
 	/**
 	 * @desc 회원 수정화면 반환
 	 * @param Request request, Response response
@@ -207,7 +207,7 @@ public class Usr1000Controller {
 		//modelView 반환
 		return modelView;
 	}
-
+	
 	/**
 	 * @desc 회원 수정 로직
 	 * @param Request request, Response response
@@ -242,7 +242,7 @@ public class Usr1000Controller {
 		//modelView 반환
 		return modelView;
 	}
-
+	
 	/**
 	 * @desc 회원 삭제 로직 - 회원 삭제 여부 및 사용여부 상태 값만 업데이트
 	 * @param Request request, Response response
@@ -305,5 +305,4 @@ public class Usr1000Controller {
 		
 		return modelView;
 	}
-
 }

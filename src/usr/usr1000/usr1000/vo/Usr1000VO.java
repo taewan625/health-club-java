@@ -12,29 +12,29 @@ import java.time.LocalDateTime;
  * @see Copyright (C) All right reserved.
  */
 public class Usr1000VO {
-	// 회원 id
+	//회원 id
 	private String id;
-	// 회원명
+	//회원명
 	private String name;
-	// 회원 성별 ("m" : 남자, "f" : 여자)
+	//회원 성별 ("m" : 남자, "f" : 여자)
 	private String gender;
-	// 회원 연락처
+	//회원 연락처
 	private String phoneNumber;
-	// 회원 주소
+	//회원 주소
 	private String address;
-	// 회원 설명
+	//회원 설명
 	private String description;
-	// 회원 상태 [정상: 5일 이상, 임박: 5일 미만, 만기: 초과된 경우]
+	//회원 상태 [정상: 5일 이상, 임박: 5일 미만, 만기: 초과된 경우]
 	private String status;
-	// 가입 일자
+	//가입 일자
 	private LocalDate joinDate;
-	// 만료 일자
+	//만료 일자
 	private LocalDate expireDate;
-	// 사용 유무 [사용, 미사용]
+	//사용 유무 [사용, 미사용]
 	private String use;
-	// 등록 일시
+	//등록 일시
 	private LocalDateTime registerDateTime;
-	// 수정 일시
+	//수정 일시
 	private LocalDateTime modifyDateTime;
 	
 	//생성자

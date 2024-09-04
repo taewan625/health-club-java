@@ -24,9 +24,9 @@ import view.JavaHTML;
  */
 public class Usr1002 implements JavaHTML {
 	private Scanner scanner = new Scanner(System.in);
-
+	
 	/**
-	 * @desc :초기화 메서드의 예외를 처리하기 위해 try-catch와 new RuntimeExceptioin()을 던진다.
+	 * @desc 초기화 메서드의 예외를 처리하기 위해 try-catch와 new RuntimeExceptioin()을 던진다.
 	 * @param Request usr1000Request
 	 * @return void
 	 * @throws Exception
@@ -172,5 +172,4 @@ public class Usr1002 implements JavaHTML {
 		//사용자 입력값 반환
 		return answer;
 	}
-
 }

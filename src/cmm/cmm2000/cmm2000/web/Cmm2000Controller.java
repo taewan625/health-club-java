@@ -5,9 +5,8 @@ import com.web.ModelView;
 import com.web.Request;
 import com.web.Response;
 
-
 /**
- * @Description : 에러 컨트롤러
+ * @Description 에러 컨트롤러
  * @version 1.0
  * @author 권태완
  * @Since 2024.08.31.
@@ -29,9 +28,10 @@ public class Cmm2000Controller {
 				}
 			}
 		}
+		
 		return instance;
 	}
-
+	
 	/**
 	 * @desc 예외 페이지 조회
 	 * @param  Request request, Response response

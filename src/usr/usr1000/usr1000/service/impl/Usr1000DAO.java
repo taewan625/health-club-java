@@ -70,7 +70,7 @@ public class Usr1000DAO {
 		//회원목록 수 반환 
 		return userStore.size();
 	}
-
+	
 	/**
 	 * @desc 회원 정보를 반환
 	 * @param String userId
@@ -93,7 +93,7 @@ public class Usr1000DAO {
 	
 	/**
 	 * @desc 회원 정보 수정
-	 * @param String userId, Usr1000VO userVO
+	 * @param Usr1000VO usr1000VO
 	 * @return void
 	 * @throws Exception
 	 */

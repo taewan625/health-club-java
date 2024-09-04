@@ -8,7 +8,6 @@ import com.web.Request;
 import view.JavaHTML;
 
 /**
- * @Class Name : Cmm2000.java
  * @Description 에러페이지
  * @version 1.0
  * @author 권태완
@@ -18,7 +17,7 @@ import view.JavaHTML;
  */
 public class Cmm2000 implements JavaHTML {
 	private Scanner scanner = new Scanner(System.in);
-
+	
 	/**
 	 * @desc 에러 화면을 표출해주고 메인 화면으로 이동하도록 한다.
 	 * @param Request request
@@ -48,5 +47,4 @@ public class Cmm2000 implements JavaHTML {
 		//WAS에 요청
 		webContainer.service(requestData);
 	}
-
 }

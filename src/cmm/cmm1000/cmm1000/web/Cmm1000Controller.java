@@ -5,7 +5,7 @@ import com.web.Request;
 import com.web.Response;
 
 /**
- * @Description : index page인 메뉴 화면을 반환해주는 핸들러
+ * @Description index page인 메뉴 화면을 반환해주는 핸들러
  * @version 1.0
  * @author 권태완
  * @Since 2023.12.19.
@@ -15,7 +15,7 @@ import com.web.Response;
 public class Cmm1000Controller {
 	// 싱글톤
 	private static volatile Cmm1000Controller instance;
-
+	
 	//싱글톤 생성 메서드
 	public static Cmm1000Controller getInstance() throws Exception {
 		if (instance == null) {
@@ -29,7 +29,7 @@ public class Cmm1000Controller {
 		}
 		return instance;
 	}
-
+	
 	/**
 	 * @desc menu view Path 반환
 	 * @param Request request, Response response

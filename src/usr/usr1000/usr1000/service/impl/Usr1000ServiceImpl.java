@@ -100,7 +100,7 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 		//회원 정보 반환
 		return userInfo;
 	}
-
+	
 	/**
 	 * @desc 회원 등록
 	 * @param Usr1000VO userInfo
@@ -112,8 +112,7 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 		//DB에 데이터 담기
 		usr1000DAO.createUsr1000UserInfo(userInfo);
 	};
-
-
+	
 	/**
 	 * @desc 회원 수정
 	 * @param Usr1000VO userInfo
@@ -125,7 +124,7 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 		//DB 데이터 업데이트
 		usr1000DAO.updateUsr1000UserInfo(userInfo);
 	}
-
+	
 	/**
 	 * @desc 회원 삭제 로직
 	 * @param String userId

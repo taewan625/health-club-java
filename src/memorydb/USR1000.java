@@ -18,7 +18,7 @@ import usr.usr1000.usr1000.vo.Usr1000VO;
 public class USR1000 {
 	//회원 테이블 인스턴스
 	private LinkedHashMap<String, Usr1000VO> usr1000 = new LinkedHashMap<>();
-
+	
 	//생성자
 	private USR1000() {
 		//회원 데이터 세팅
@@ -40,7 +40,7 @@ public class USR1000 {
 		usr1000.put("id16", new Usr1000VO("id16", "user5", "m", "010-1234-1234", "adress1", "02", "정상", LocalDate.now(),LocalDate.now(), "사용", LocalDateTime.now(), LocalDateTime.now()));
 		usr1000.put("id17", new Usr1000VO("id17", "user5", "m", "010-1234-1234", "adress1", "02", "정상", LocalDate.now(),LocalDate.now(), "사용", LocalDateTime.now(), LocalDateTime.now()));
 	}
-
+	
 	//싱글톤 내부 클래스
 	private static class USR1000Holder {
 		private static final USR1000 INSTANCE = new USR1000();
@@ -55,5 +55,4 @@ public class USR1000 {
 	public Map<String, Usr1000VO> getUsr1000() {
 		return usr1000;
 	}
-
 }

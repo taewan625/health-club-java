@@ -23,7 +23,7 @@ public class Cmm1000 implements JavaHTML {
 		//통계 메뉴
 		urlMap.put("3", "sta/sta1000/sta1000/selectSta1000View");
 	}
-
+	
 	/**
 	 * @desc 화면을 보여주고 요청을 보낼 경우 해당 화면에서 webContainer로 값이 전달이 된다.
 	 * @param Request request
@@ -57,5 +57,4 @@ public class Cmm1000 implements JavaHTML {
 			}
 		}
 	}
-
 }

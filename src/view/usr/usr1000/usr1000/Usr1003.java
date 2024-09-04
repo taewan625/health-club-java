@@ -22,9 +22,8 @@ import view.JavaHTML;
  * @see Copyright (C) All right reserved.
  */
 public class Usr1003 implements JavaHTML {
-
 	private Scanner scanner = new Scanner(System.in);
-
+	
 	/**
 	 * @desc model이 없는 메서드
 	 * @param Request request
