@@ -51,8 +51,8 @@ public class Usr1002 implements JavaHTML {
 		/*회원 등록 로직*/
 		//회원 id
 		String userId = execute("* 아이디 작성하세요. [중복 불가, 최소 4자 이상 작성] " + COMMON_PROMP
-				, "중복된 id가 존재합니다."
-				, answer -> users.stream().map(Usr1000VO::getId).anyMatch(id -> id.equals(answer)));
+				, "중복 불가, 최소 4자 이상 작성"
+				, answer -> 3 < answer.length() &&  users.stream().map(Usr1000VO::getId).anyMatch(id -> id.equals(answer)));
 		
 		userInfo.setId(userId);
 		

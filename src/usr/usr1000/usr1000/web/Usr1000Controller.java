@@ -35,7 +35,7 @@ public class Usr1000Controller {
 	}
 	
 	//싱글톤
-	public static Usr1000Controller getInstance() throws Exception {
+	public static Usr1000Controller getInstance() {
 		return Usr1000ControllerHolder.INSTANCE;
 	}
 	

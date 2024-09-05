@@ -17,7 +17,7 @@ public class Cmm1000Controller {
 	private static volatile Cmm1000Controller instance;
 	
 	//싱글톤 생성 메서드
-	public static Cmm1000Controller getInstance() throws Exception {
+	public static Cmm1000Controller getInstance() {
 		if (instance == null) {
 			// 메서드에 동기화 거는게 아닌, Singleton 클래스 자체를 동기화 걸어버림
 			synchronized (Cmm1000Controller.class) {
@@ -27,6 +27,7 @@ public class Cmm1000Controller {
 				}
 			}
 		}
+		
 		return instance;
 	}
 	

@@ -16,9 +16,7 @@ import usr.usr1000.usr1000.service.impl.Usr1000ServiceImpl;
 import usr.usr1000.usr1000.web.Usr1000Controller;
 
 /**
- * @Class Name : AppConfig.java
  * @Description Controller, Service, DAO 의존 관계 설정 파일
- * 
  * @version 1.0
  * @author 권태완
  * @Since 2023.12.25.
@@ -32,77 +30,46 @@ public class AppConfig {
 	}
 
 	// 메뉴 의존관계 설정 메서드
-	public static Cmm1000Controller cmm1000Controller() throws Exception {
+	public static Cmm1000Controller cmm1000Controller() {
 		return Cmm1000Controller.getInstance();
 	}
 
 	// 회원 의존관계 설정 메서드들
-	public static Usr1000Controller usr1000Controller() throws Exception {
+	public static Usr1000Controller usr1000Controller() {
 		return Usr1000Controller.getInstance();
 	}
 
 	public static Usr1000Service usr1000Service() {
-		try {
-			return Usr1000ServiceImpl.getInstance();
-		} catch (Exception e) {
-			e.getMessage();
-			throw new RuntimeException(e);
-		}
+		return Usr1000ServiceImpl.getInstance();
 	}
 
 	public static Usr1000DAO usr1000DAO() {
-		try {
-			return Usr1000DAO.getInstance();
-		} catch (Exception e) {
-			e.getMessage();
-			throw new RuntimeException(e);
-		}
+		return Usr1000DAO.getInstance();
 	}
 
 	// 사물함 의존관계 메서드들
-	public static Lck1000Controller lck1000Controller() throws Exception {
+	public static Lck1000Controller lck1000Controller() {
 		return Lck1000Controller.getInstance();
 	}
 
 	public static Lck1000Service lck1000Service() {
-		try {
-			return Lck1000ServiceImpl.getInstance();
-		} catch (Exception e) {
-			e.getMessage();
-			throw new RuntimeException(e);
-		}
+		return Lck1000ServiceImpl.getInstance();
 	}
 
 	public static Lck1000DAO lck1000DAO() {
-		try {
-			return Lck1000DAO.getInstance();
-		} catch (Exception e) {
-			e.getMessage();
-			throw new RuntimeException(e);
-		}
+		return Lck1000DAO.getInstance();
 	}
 
 	// 회원 통계 메서드들
-	public static Sta1000Controller sta1000Controller() throws Exception {
+	public static Sta1000Controller sta1000Controller() {
 		return Sta1000Controller.getIntanace();
 	}
 
 	public static Sta1000Service sta1000service() {
-		try {
-			return Sta1000ServiceImpl.getInstance();
-		} catch (Exception e) {
-			e.getMessage();
-			throw new RuntimeException(e);
-		}
+		return Sta1000ServiceImpl.getInstance();
 	}
 
 	public static Sta1000DAO sta1000DAO() {
-		try {
-			return Sta1000DAO.getInstance();
-		} catch (Exception e) {
-			e.getMessage();
-			throw new RuntimeException(e);
-		}
+		return Sta1000DAO.getInstance();
 	}
-
 }

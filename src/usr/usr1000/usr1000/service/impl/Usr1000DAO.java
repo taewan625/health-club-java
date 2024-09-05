@@ -25,7 +25,7 @@ public class Usr1000DAO {
 	}
 	
 	//싱글톤
-	public static Usr1000DAO getInstance() throws Exception {
+	public static Usr1000DAO getInstance() {
 		return Usr1000DAOHolder.INSTANCE;
 	}
 	

@@ -33,7 +33,7 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 	}
 	
 	//싱글톤 객체 반환
-	public static Usr1000ServiceImpl getInstance() throws Exception {
+	public static Usr1000ServiceImpl getInstance() {
 		return Usr1000ServiceImplHolder.INSTANCE;
 	}
 	
