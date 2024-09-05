@@ -28,7 +28,7 @@ public class Lck1000ServiceImpl implements Lck1000Service {
 	}
 	
 	//싱글톤
-	public static Lck1000ServiceImpl getInstance() throws Exception {
+	public static Lck1000ServiceImpl getInstance() {
 		return Lck1000ServiceImplHolder.INSTANCE;
 	}
 

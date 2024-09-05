@@ -11,6 +11,8 @@ import com.web.Response;
 
 import lck.lck1000.lck1000.service.Lck1000Service;
 import lck.lck1000.lck1000.vo.Lck1000VO;
+import usr.usr1000.usr1000.service.Usr1000Service;
+import usr.usr1000.usr1000.vo.Usr1000VO;
 
 /**
  * @Description 사물함 관리 클래스
@@ -24,18 +26,22 @@ public class Lck1000Controller {
 	//생성자 주입
 	private final Lck1000Service lck1000Service;
 	
+	//생성자 주입
+	private final Usr1000Service usr1000Service;
+	
 	//생성자
-	private Lck1000Controller(Lck1000Service lck1000Service) {
+	private Lck1000Controller(Lck1000Service lck1000Service, Usr1000Service usr1000Service) {
 		this.lck1000Service = lck1000Service;
+		this.usr1000Service = usr1000Service;
 	}
 	
 	//싱글톤 내부 클래스
 	private static class Lck1000ControllerHolder {
-		private static final Lck1000Controller INSTANCE = new Lck1000Controller(AppConfig.lck1000Service());
+		private static final Lck1000Controller INSTANCE = new Lck1000Controller(AppConfig.lck1000Service(), AppConfig.usr1000Service());
 	}
 	
 	//싱글톤
-	public static Lck1000Controller getInstance() throws Exception {
+	public static Lck1000Controller getInstance() {
 		return Lck1000ControllerHolder.INSTANCE;
 	}
 	
@@ -113,25 +119,47 @@ public class Lck1000Controller {
 		}
 		return modelView;
 	}
-//
-//	/**
-//	 * @desc 사물함 등록
-//	 * @param Request request, Response response
-//	 * @return ModelView
-//	 * @throws Exception
-//	 */
-//	public ModelView createLck1000(Request request, Response response) throws Exception {
-//		ModelView modelView;
-//		try {
-//			List<String> userIds = lck1000Service.selectUsr1000List();
-//			modelView = new ModelView("lck.lck1000.lck1000.Lck1002");
-//			modelView.setDatas("userIds", userIds);
-//		} catch (Exception e) {
-//			modelView = new ModelView(message.getProperty("LOCKER.PAGE"));
-//			modelView.setClientDatas(ERROR_KEY, message.getProperty("ERROR.CREATE"));
-//		}
-//		return modelView;
-//	}
+	
+	/**
+	 * @desc 사물함 등록 팝업 조회
+	 * @param Request request, Response response
+	 * @return ModelView
+	 * @throws Exception
+	 */
+	public ModelView selectLck1002View(Request request, Response response) throws Exception {
+		//반환 변수
+		ModelView modelView = new ModelView("lck.lck1000.lck1000.Lck1002");
+		
+		try {
+			//조회 데이터
+			String lockerNumber = String.valueOf(request.getClientDatas().get("lockerNumber"));
+			
+			//사물함 정보 조회
+			Lck1000VO locker = lck1000Service.selectLck1000("1", lockerNumber);
+			
+			//사물함이 비어있는 경우
+			if (locker.getUserId() == null) {
+				//전체 회원 목록 조회
+				List<Usr1000VO> users = usr1000Service.selectUsr1000List(Map.of("selectPage", "all"));
+				
+				//사물함 정보 세팅
+				modelView.setDatas("locker", locker);
+				
+				//회원 목록 세팅
+				modelView.setDatas("users", users);
+			}
+			
+		} catch (Exception e) {
+			//에러 페이지 이동
+			modelView = new ModelView("cmm.cmm2000.cmm2000.Cmm2000");
+			
+			//에러 메시지 등록
+			modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.select"));
+		}
+		
+		//modelView 반환
+		return modelView;
+	}
 //
 //	/**
 //	 * Func : 사물함등록 메서드

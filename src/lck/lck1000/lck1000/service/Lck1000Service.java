@@ -13,11 +13,8 @@ public interface Lck1000Service {
 	Lck1000VO selectLck1000(String selectType, String selectValue) throws Exception;
 	
 	//사물함 정보 수정
-	void updateLck1000LockerInfo(Lck1000VO lck1000vo) throws Exception;
+	void updateLck1000LockerInfo(Lck1000VO lck1000VO) throws Exception;
 	
-//	boolean isValidSelectKeyValue(Map<String, Object> clientData) throws Exception;
-//
-//
 //	void createLck1000(Lck1000VO lck1000VO) throws Exception;
 //
 //

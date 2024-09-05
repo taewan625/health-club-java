@@ -90,7 +90,7 @@ public class Lck1000 implements JavaHTML {
 				System.out.println("사물함 번호를 작성해주세요. [1 ~ 99]");
 				
 				//선택한 사물함 번호
-				selectValue  = Validator.chooseRangeNum(1, 100);
+				selectValue = Validator.chooseRangeNum(1, 100);
 				
 			}
 			//회원 아이디로 조회
@@ -115,9 +115,19 @@ public class Lck1000 implements JavaHTML {
 			requestData.put("clientDatas", clientDatas);
 			
 		} 
-		//삭제 시 사물함 번호로 정보 조회
-		else if ("4".equals(inputData)) {
-			//TODO 향후 로직 작성 예정 2024-09-03	권태완
+		//사물함 등록, 삭제 시 사물함 번호로 정보 조회
+		else if ("2".equals(inputData) || "4".equals(inputData)) {
+			//질문
+			System.out.println("사물함 번호를 작성해주세요. [1 ~ 99]");
+			
+			//선택한 사물함 번호
+			String lockerNumber = Validator.chooseRangeNum(1, 100);
+			
+			//조회 데이터 정보를 map에 담기
+			clientDatas.put("lockerNumber", lockerNumber);
+			
+			//요청할 객체에 담기
+			requestData.put("clientDatas", clientDatas);
 			
 		}
 		//페이징 변화일 경우

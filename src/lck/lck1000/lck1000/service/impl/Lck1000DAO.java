@@ -26,7 +26,7 @@ public class Lck1000DAO {
 	}
 	
 	//싱글톤
-	public static Lck1000DAO getInstance() throws Exception {
+	public static Lck1000DAO getInstance() {
 		return Lck1000DAOHolder.INSTANCE;
 	}
 
