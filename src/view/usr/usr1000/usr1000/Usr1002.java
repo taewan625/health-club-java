@@ -94,14 +94,14 @@ public class Usr1002 implements JavaHTML {
 		//회원 등록일
 		String joinDate = execute("*회원 등록일을 작성하세요. [2024-08-28 형식으로 작성] " + COMMON_PROMP
 				, "금일 이후 올바른 일자를 작성하세요."
-				, input -> Validator.isValidatedDate(input, LocalDate.now()));
+				, input -> !Validator.isValidatedDate(input, LocalDate.now(), null));
 		
 		userInfo.setJoinDate(LocalDate.parse(joinDate));
 		
 		//회원 만료일
 		String expireDate = execute("*회원 만료일을 작성하세요. [2024-08-28 형식으로 작성] " + COMMON_PROMP
 				, "금일 이후 올바른 일자를 작성하세요."
-				, input -> Validator.isValidatedDate(input, userInfo.getJoinDate()));
+				, input -> !Validator.isValidatedDate(input, userInfo.getJoinDate(), null));
 		
 		userInfo.setExpireDate(LocalDate.parse(expireDate));
 		
