@@ -57,6 +57,23 @@ public class Usr1000VO {
 		this.modifyDateTime = editDateTime;
 	}
 	
+	//생성자 - 깊은 복사
+	public Usr1000VO(Usr1000VO user) {
+		super();
+		this.id = user.getId();
+		this.name = user.getName();
+		this.gender = user.getGender();
+		this.phoneNumber = user.getPhoneNumber();
+		this.address = user.getAddress();
+		this.description = user.getDescription();
+		this.status = user.getStatus();
+		this.joinDate = user.getJoinDate();
+		this.expireDate = user.getExpireDate();
+		this.use = user.getUse();
+		this.registerDateTime = user.getJoinDateTime();
+		this.modifyDateTime = user.getEditDateTime();
+	}
+	
 	/* getter & setter */
 	public String getId() {
 		return id;

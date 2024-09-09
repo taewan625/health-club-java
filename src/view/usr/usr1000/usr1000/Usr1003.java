@@ -38,10 +38,10 @@ public class Usr1003 implements JavaHTML {
 		Map<String, Object> datas = request.getClientDatas();
 		
 		//회원 정보 조회
-		Usr1000VO userInfo = (Usr1000VO) datas.get("user");
+		Usr1000VO user = (Usr1000VO) datas.get("user");
 		
 		//회원 정보가 없는 경우
-		if (userInfo == null) {
+		if (user == null) {
 			System.out.println("존재하지 않는 회원입니다.");
 			
 			//회원 메뉴로 이동하는 전송 객체 생성
@@ -53,6 +53,9 @@ public class Usr1003 implements JavaHTML {
 		}
 		//회원 정보가 있는 경우
 		else {
+			//객체 참조로 인한 오류를 방지하기 위한 깊은 복사 객체 생성
+			Usr1000VO userInfo = new Usr1000VO(user);
+			
 			//회원 정보 표출
 			System.out.println("[기존 회원 정보 ]\n" + userInfo.toString());
 			
@@ -115,7 +118,7 @@ public class Usr1003 implements JavaHTML {
 				//회원 등록일
 				String joinDate = execute("*회원 등록일을 작성하세요. [2024-08-28 형식으로 작성] " + COMMON_PROMP
 						, "금일 이후 올바른 일자를 작성하세요."
-						, input -> Validator.isValidatedDate(input, LocalDate.now()));
+						, input -> !Validator.isValidatedDate(input, LocalDate.now(), null));
 				
 				//skip이 아닌 경우 데이터 세팅
 				if (!"s".equals(joinDate)) {
@@ -126,7 +129,7 @@ public class Usr1003 implements JavaHTML {
 			//회원 만료일
 			String expireDate = execute("*회원 만료일을 작성하세요. [2024-08-28 형식으로 작성] " + COMMON_PROMP
 					, "금일 이후 올바른 일자를 작성하세요."
-					, input -> Validator.isValidatedDate(input, (userInfo.getJoinDate().isAfter(LocalDate.now())) ? userInfo.getJoinDate() : LocalDate.now()));
+					, input -> !Validator.isValidatedDate(input, (userInfo.getJoinDate().isAfter(LocalDate.now())) ? userInfo.getJoinDate() : LocalDate.now(), null));
 			
 			//skip이 아닌 경우 데이터 세팅
 			if (!"s".equals(expireDate)) {
