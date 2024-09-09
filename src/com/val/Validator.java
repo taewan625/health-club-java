@@ -69,14 +69,14 @@ public class Validator {
 	}
 	
 	/**
-	 * @desc 일자 검증기
-	 * @param String clientAnswer, LocalDate minDate
+	 * @desc 유효 일자 범위 검증
+	 * @param String clientAnswer, LocalDate minDate, LocalDate maxDate
 	 * @return LocalDate
 	 * @throws 
 	 */
-	public static boolean isValidatedDate(String clientAnswer, LocalDate minDate) {
-		//중복 혹은 유효성에 문제가 존재하는지 여부 확인 변수
-		boolean isWrong = true;
+	public static boolean isValidatedDate(String clientAnswer, LocalDate minDate, LocalDate maxDate) {
+		//유효성 결과 변수
+		boolean result = false;
 		
 		try {
 			//일자 정규식 통과 시 로직
@@ -84,35 +84,14 @@ public class Validator {
 				//타입 변환
 				LocalDate choiseDate = LocalDate.parse(clientAnswer);
 				
-				//choiseDate가 minDate보다 이전일 경우 true 반환
-				isWrong = choiseDate.isBefore(minDate);
+				//minDate가 존재하면 clientDate보다 이전이 아니고 && maxDate가 존재하면 clientDate보다 이후가 아닌 경우 유효성 통과 
+				result = (minDate == null || !choiseDate.isBefore(minDate)) && (maxDate == null || !choiseDate.isAfter(maxDate));
 			}
 			
 		} catch (DateTimeException e) {
-			isWrong = true;
+			result = false;
 		}
 		
-		return isWrong;
-	}
-
-	/** TODO lck 검증기 사용시 변경 필요
-	 * @desc 금일 기준 만기일이 지나지 않았으면 true
-	 * @param LocalDate expireDate
-	 * @return boolean
-	 * @throws
-	 */
-	public static boolean isExpire(LocalDate expireDate) {
-		try {
-			if (expireDate == null) {
-				return false;
-			}
-			
-			return expireDate.isBefore(LocalDate.now());
-			
-		} catch (Exception e) {
-			System.out.println("Validator/isExpire() Error : " + e.getMessage());
-			
-			return false;
-		}
+		return result;
 	}
 }
