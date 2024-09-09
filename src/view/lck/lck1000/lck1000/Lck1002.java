@@ -3,7 +3,6 @@ package view.lck.lck1000.lck1000;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Scanner;
 import java.util.function.Predicate;
 
@@ -55,40 +54,64 @@ public class Lck1002 implements JavaHTML {
 		}
 		
 		//사물함 데이터 조회
-		Lck1000VO lockerInfo = (Lck1000VO) datas.get("locker");
+		Lck1000VO locker = (Lck1000VO) datas.get("locker");
+		
+		//객체 참조로 인한 오류를 방지하기 위한 깊은 복사 객체 생성
+		Lck1000VO lockerInfo = new Lck1000VO(locker);
 		
 		//회원 목록 데이터 조회
 		List<Usr1000VO> users = (List<Usr1000VO>) datas.get("users");
 		
 		/*사물함 등록 로직*/
-		//회원 id
-		String userId = execute("* 아이디 작성하세요. [중복 불가, 최소 4자 이상 작성] " + COMMON_PROMP
-				, "중복 불가, 최소 4자 이상 작성"
-				, answer -> 3 < answer.length() && users.stream().map(Usr1000VO::getId).anyMatch(id -> id.equals(answer)));
+		//회원 id -> 존재하는 회원이여야한다. 
+		String userId = execute("* 아이디 작성하세요. [존재하는 아이디 작성] " + COMMON_PROMP
+				, "존재하지 않거나 만료일이 지난 회원입니다."
+				, answer -> users.stream()
+								.noneMatch(user -> user.getId().equals(answer) && (!user.getExpireDate().isBefore(LocalDate.now())))
+				);
 		
 		lockerInfo.setUserId(userId);
 		
 		//해당 회원 정보
-		Optional<Usr1000VO> userInfo = users.stream().filter(user -> user.getId().equals(userId)).findFirst();
+		Usr1000VO userInfo = users.stream().filter(user -> user.getId().equals(userId)).findFirst().get();
 		
-		//회원 정보 표출
-		System.out.println(userInfo.get().toString());
+		//회원 등록일 (등록일이 금일 이후이면 등록일, 이전이면 금일을 기준으로 한다.)
+		LocalDate registerDate = (userInfo.getJoinDate().isBefore(LocalDate.now())) ? LocalDate.now() : userInfo.getJoinDate();
+		
+		//회원 만료일
+		LocalDate expireDate = userInfo.getExpireDate();
+		
+		//사물함 등록 가능일
+		System.out.println("사물함 등록 가능일 : " + registerDate + " ~ " + expireDate);
 		
 		//등록 시작일자
-		String startDate = execute("*사물함 등록일을 작성하세요. [2024-08-28 형식, 회원 등록 ~ 만료 기간 내 설정] " + COMMON_PROMP
-				, "금일 이후 올바른 일자를 작성하세요."
-				//TODO 오늘보다 시작일 이후면 날짜 지정하고 검증 날짜에 지정
-				, input -> Validator.isValidatedDate(input, LocalDate.now()));
+		String startDate = execute("*사물함 등록일을 작성하세요. [2024-09-06 형식, 등록가능일 내 설정] " + COMMON_PROMP
+									, "유효한 사물함 등록일을 작성하세요. *사물함 등록 가능일 : " + registerDate + " ~ " + expireDate
+									, input -> !Validator.isValidatedDate(input, registerDate, expireDate));
 		
 		lockerInfo.setStartDate(LocalDate.parse(startDate));
 		
-		//등록 종료일자
-		String expireDate = execute("*사물함 만료일을 작성하세요. [2024-08-28 형식, 등록일 ~ 만료 기간 내 설정] " + COMMON_PROMP
-				, "금일 이후 올바른 일자를 작성하세요."
-				//TODO 만료일을 뭘로 할지 조건문으로해서 만기처리
-				, input -> Validator.isValidatedDate(input, LocalDate.now()));
+		//사물함 종료 가능일
+		System.out.println("사물함 종료 가능일 : "+ startDate + " ~ " + expireDate);
 		
-		lockerInfo.setEndDate(LocalDate.parse(expireDate));
+		//등록 종료일자
+		String endDate = execute("*사물함 만료일을 작성하세요. [2024-09-06 형식, 종료 가능일 내 설정] " + COMMON_PROMP
+				, "유효한 사물함 만료일을 작성하세요. *사물함 만료 가능일 : "+ startDate + " ~ " + expireDate
+				, input -> !Validator.isValidatedDate(input, LocalDate.parse(startDate), expireDate));
+		
+		lockerInfo.setEndDate(LocalDate.parse(endDate));
+		
+		//전송용 데이터 객체에 담기
+		clientDatas.put("lockerInfo", lockerInfo);
+		
+		//회원 정보 담기
+		requestData.put("clientDatas", clientDatas);
+		
+		//접근 경로 담기
+		requestData.put("url", "lck/lck1000/lck1000/createLck1000LockerInfo");
+		
+		//WAS에 요청
+		webContainer.service(requestData);
 	}
 	
 	/**

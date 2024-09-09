@@ -160,30 +160,51 @@ public class Lck1000Controller {
 		//modelView 반환
 		return modelView;
 	}
-//
-//	/**
-//	 * Func : 사물함등록 메서드
-//	 * 
-//	 * @desc 사물함 등록 메서드로 올바르지 않은 값이 들어오면 다시, 1002view로 보내고 아니면 1000view로 이동한다.
-//	 * @param Lck1000VO
-//	 *            lck1000VO
-//	 * @return ModelView
-//	 * @throws Exception
-//	 */
-//	public ModelView createLck1000(Map<String, Object> clientData) throws Exception {
-//		Lck1000VO locker = (Lck1000VO) clientData.get("clientData");
-//		ModelView modelView;
-//		try {
-//			lck1000Service.createLck1000(locker);
-//			// 갱신된 유저 정보를 보여준다.
-//			modelView = selectLck1000List();
-//			modelView.setDatas("locker", locker);
-//		} catch (Exception e) {
-//			modelView = new ModelView(message.getProperty("LOCKER.PAGE"));
-//			modelView.setClientDatas(ERROR_KEY, message.getProperty("ERROR.CREATE"));
-//		}
-//		return modelView;
-//	}
+
+	/**
+	 * @desc 사물함 등록 로직
+	 * @param Request request, Response response
+	 * @return ModelView
+	 * @throws Exception
+	 */
+	public ModelView createLck1000LockerInfo(Request request, Response response) throws Exception {
+		//반환 변수
+		ModelView modelView;
+		
+		try {
+			//등록할 회원 데이터 조회
+			Lck1000VO lockerInfo = (Lck1000VO) request.getClientDatas().get("lockerInfo");
+			
+			//사물함 정보 등록
+			boolean isCreated = lck1000Service.createLck1000LockerInfo(lockerInfo);
+			
+			//사물함 목록 조회 결과를 담은 modelView 받기
+			modelView = selectLck1000LockerList("1");
+			
+			//사물함 등록 성공
+			if (isCreated) {
+				//성공 메시지 등록 
+				modelView.setDatas("successMsg", MessageSource.getMessage("message.success.create"));
+				
+			}
+			//사물함 등록 실패
+			else {
+				//실패 메시지 등록 
+				modelView.setDatas("failMsg", MessageSource.getMessage("message.fail.create"));
+			}
+			
+		} catch (Exception e) {
+			//에러 페이지 이동
+			modelView = new ModelView("cmm.cmm2000.cmm2000.Cmm2000");
+			
+			//에러 메시지 등록
+			modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.create"));
+		}
+		
+		//modelView 반환
+		return modelView;
+		
+	}
 //
 //	/**
 //	 * Func : 사물함수정 화면 메서드

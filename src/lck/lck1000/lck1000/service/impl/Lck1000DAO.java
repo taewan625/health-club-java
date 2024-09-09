@@ -38,22 +38,29 @@ public class Lck1000DAO {
 	 * @throws Exception
 	 */
 	public List<Lck1000VO> selectLck1000List(Map<String, String> pageInfo) throws Exception {
-		ArrayList<Lck1000VO> lockers = new ArrayList<>(lockerStore.values());
+		//사물함 목록 변수
+		List<Lck1000VO> lockers = new ArrayList<>(lockerStore.values());
 		
 		//선택한 페이지
 		String selectPage = pageInfo.get("selectPage");
 		
-		//시작 범위
-		int from = (Integer.parseInt(selectPage) - 1) * Integer.parseInt(pageInfo.get("range"));
+		//전체 회원 목록을 받지 않는 경우 == 페이징 처리를 하는 경우
+		if (!"all".equals(selectPage)) {
+			//시작 범위
+			int from = (Integer.parseInt(selectPage) - 1) * Integer.parseInt(pageInfo.get("range"));
+			
+			//종료 범위
+			int to = (Integer.parseInt(selectPage)) * Integer.parseInt(pageInfo.get("range"));
+			
+			//종료 범위가 토탈 개수보다 작을 경우
+			to = (lockers.size() < to) ? lockers.size() : to;
+			
+			//조회 사물함 목록
+			lockers = lockers.subList(from, to);
+		}
 		
-		//종료 범위
-		int to = (Integer.parseInt(selectPage)) * Integer.parseInt(pageInfo.get("range"));
-		
-		//종료 범위가 토탈 개수보다 작을 경우
-		to = (lockers.size() < to) ? lockers.size() : to;
-		
-		//조회 사물함 목록
-		return lockers.subList(from, to);
+		//조회 사물함 목록 반환
+		return lockers;
 	}
 	
 	/**

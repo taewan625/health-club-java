@@ -59,14 +59,14 @@ public class Lck1000ServiceImpl implements Lck1000Service {
 			//해당 사물함 회원 정보 비우기
 			locker.setUserId(null);
 			
-			//헤당 사물함 등록일자 정보 비우
+			//헤당 사물함 등록일자 정보 비우기
 			locker.setStartDate(null);
 			
-			//헤당 사물함 만료일자 정보 비우
+			//헤당 사물함 만료일자 정보 비우기
 			locker.setEndDate(null);
 			
 			//사물함 정보 업데이트하기
-			updateLck1000LockerInfo(locker);
+			lck1000DAO.updateLck1000LockerInfo(locker);
 			
 			//조회 유형이 회원 아이디로 조회한 경우
 			if ("2".equals(selectType)) {
@@ -80,17 +80,67 @@ public class Lck1000ServiceImpl implements Lck1000Service {
 	}
 	
 	/**
-	 * @desc 사물함 정보 수정
+	 * @desc 사물함 등록 로직
 	 * @param Lck1000VO lockerInfo
-	 * @return void
+	 * @return boolean
 	 * @throws Exception
+	 * 
 	 */
 	@Override
-	public void updateLck1000LockerInfo(Lck1000VO lockerInfo) throws Exception {
-		//DB 데이터 업데이트
-		lck1000DAO.updateLck1000LockerInfo(lockerInfo);
+	public boolean createLck1000LockerInfo(Lck1000VO lockerInfo) throws Exception {
+		//사물함 등록 결과
+		boolean result = true;
+		
+		//사물함을 중복으로 가진 경우
+		boolean hasLocker = false;
+		
+		//모든 사물함 정보 조회
+		List<Lck1000VO> lockers = lck1000DAO.selectLck1000List(Map.of("selectPage", "all"));
+		
+		//등록할 사물함의 회원이 다른 사물함을 가지고 있는지 검증
+		for (Lck1000VO locker : lockers) {
+			//등록할 사물함의 회원이 이미 사물함을 가지고 있는 경우 && 사물함 번호는 다른 경우
+			if (lockerInfo.equals(locker.getUserId()) && lockerInfo.getLockerNum() != locker.getLockerNum()) {
+				//중복 여부 값 변경
+				hasLocker = true;
+				
+				//만료일을 지난 경우
+				if (locker.getEndDate().isBefore(LocalDate.now())) {
+					//해당 사물함 회원 정보 비우기
+					locker.setUserId(null);
+					
+					//헤당 사물함 등록일자 정보 비우기
+					locker.setStartDate(null);
+					
+					//헤당 사물함 만료일자 정보 비우기
+					locker.setEndDate(null);
+					
+					//사물함 정보 업데이트하기
+					lck1000DAO.updateLck1000LockerInfo(locker);
+					
+					//사물함 등록하기
+					lck1000DAO.updateLck1000LockerInfo(lockerInfo);
+					
+				}
+				else {
+					//실패 결과
+					result = false;
+				}
+				
+				//for문 나오기
+				break;
+			}
+		}
+		
+		//사물함을 가지고 있지 않은 경우
+		if (!hasLocker) {
+			//사물함 등록하기
+			lck1000DAO.updateLck1000LockerInfo(lockerInfo);
+		}
+		
+		//결과 값 반환
+		return result;
 	}
-	
 	
 //	/**
 //	 * Func : 요청 url의 key와 value의 값이 유효한지 확인하는 메서드
@@ -141,42 +191,7 @@ public class Lck1000ServiceImpl implements Lck1000Service {
 //		}
 //	}
 //
-//	/**
-//	 * Func : 사물함 등록 메서드
-//	 * 
-//	 * @desc 회원아이디가 존재하지 않고 비어있는 사물함 및 만료된 사물함에 한해서 등록 가능. 실패시 false 반환, 성공시 등록 후
-//	 *       true 반환
-//	 * @param Lck1000VO
-//	 *            lck1000VO
-//	 * @return boolean
-//	 * @throws Exception
-//	 */
-//	@Override
-//	public void createLck1000(Lck1000VO locker) throws Exception {
-//		String userId = locker.getUserId();
-//		try {
-//			int lockerNum = locker.getLockerNum();
-//
-//			// 등록, 수정에서 공통으로 적용되는 검증 부분
-//			if (commonValidate(userId, lockerNum, locker)) {
-//				return;
-//			}
-//
-//			// 넣으려는 사물함에 회원이 있고 만기일이 안넘으면 false
-//			Lck1000VO exsitLocker = lck1000DAO.selectLck1000(lockerNum);
-//
-//			// 해당 사물함에 회원이 존재하고 사물함 만료일이 지나지 않으면 false
-//			if (!exsitLocker.getUserId().isEmpty() && !Validator.isExpire(exsitLocker.getExpireDate())) {
-//				locker.setError("-1", message.getProperty("FAIL.CREATE.LOCKER"));
-//				return;
-//			}
-//
-//			// 이제 true의 상황 밖에 없으니깐 여기서는 등록을 한다.
-//			lck1000DAO.saveLck1000(locker);
-//		} catch (Exception e) {
-//			throw new Exception(e);
-//		}
-//	}
+
 //
 //	/**
 //	 * Func : 사물함 수정 메서드

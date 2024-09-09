@@ -32,6 +32,14 @@ public class Lck1000VO {
 		this.endDate = endDate;
 	}
 	
+	//생성자 - 깊은 복사
+	public Lck1000VO(Lck1000VO locker) {
+		this.lockerNum = locker.getLockerNum();
+		this.userId = locker.getUserId();
+		this.startDate = locker.getStartDate();
+		this.endDate = locker.getEndDate();
+	}
+	
 	/* getter & setter */
 	public int getLockerNum() {
 		return lockerNum;
