@@ -100,7 +100,7 @@ public class Lck1000ServiceImpl implements Lck1000Service {
 		//등록할 사물함의 회원이 다른 사물함을 가지고 있는지 검증
 		for (Lck1000VO locker : lockers) {
 			//등록할 사물함의 회원이 이미 사물함을 가지고 있는 경우 && 사물함 번호는 다른 경우
-			if (lockerInfo.equals(locker.getUserId()) && lockerInfo.getLockerNum() != locker.getLockerNum()) {
+			if (lockerInfo.getUserId().equals(locker.getUserId()) && lockerInfo.getLockerNum() != locker.getLockerNum()) {
 				//중복 여부 값 변경
 				hasLocker = true;
 				

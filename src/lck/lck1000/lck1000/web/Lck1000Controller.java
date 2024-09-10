@@ -181,17 +181,11 @@ public class Lck1000Controller {
 			//사물함 목록 조회 결과를 담은 modelView 받기
 			modelView = selectLck1000LockerList("1");
 			
-			//사물함 등록 성공
-			if (isCreated) {
-				//성공 메시지 등록 
-				modelView.setDatas("successMsg", MessageSource.getMessage("message.success.create"));
-				
-			}
-			//사물함 등록 실패
-			else {
-				//실패 메시지 등록 
-				modelView.setDatas("failMsg", MessageSource.getMessage("message.fail.create"));
-			}
+			//사물함 등록 실패 여부에 따른 메시지 내용 등록
+			String message = isCreated ? MessageSource.getMessage("message.success.create") : MessageSource.getMessage("message.fail.create");
+			
+			//메시지 데이터 담기
+			modelView.setDatas("message", message);
 			
 		} catch (Exception e) {
 			//에러 페이지 이동

@@ -44,11 +44,8 @@ public class Lck1000 implements JavaHTML {
 		//데이터 조회
 		Map<String, Object> datas = request.getClientDatas();
 		
-		//등록, 수정, 삭제 시, 성공 메시지 전달
-		String successMsg = Objects.toString(datas.get("successMsg"), "");
-		
-		//출력
-		System.out.println(successMsg);
+		//CRUD 결과 메시지 출력
+		System.out.println(Objects.toString(datas.get("message"), ""));
 		
 		//페이징 정보
 		Map<String, Object> pageInfo = (Map<String, Object>)datas.get("pageInfo");
