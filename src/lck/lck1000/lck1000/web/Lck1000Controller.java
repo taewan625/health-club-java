@@ -117,6 +117,8 @@ public class Lck1000Controller {
 			//에러 메시지 등록
 			modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.select"));
 		}
+		
+		//modelView 반환
 		return modelView;
 	}
 	
@@ -199,27 +201,43 @@ public class Lck1000Controller {
 		return modelView;
 		
 	}
-//
-//	/**
-//	 * Func : 사물함수정 화면 메서드
-//	 * 
-//	 * @desc 수정화면 반환시, userid도 같이 반환
-//	 * @param
-//	 * @return ModelView
-//	 * @throws Exception
-//	 */
-//	public ModelView updateLck1000() throws Exception {
-//		ModelView modelView;
-//		try {
-//			List<String> userIds = lck1000Service.selectUsr1000List();
-//			modelView = new ModelView("lck.lck1000.lck1000.Lck1003");
-//			modelView.setDatas("userIds", userIds);
-//		} catch (Exception e) {
-//			modelView = new ModelView(message.getProperty("LOCKER.PAGE"));
-//			modelView.setClientDatas(ERROR_KEY, message.getProperty("ERROR.UPDATE"));
-//		}
-//		return modelView;
-//	}
+	
+	/**
+	 * @desc 사물함 수정 팝업 조회
+	 * @param Request request, Response response
+	 * @return ModelView
+	 * @throws Exception
+	 */
+	public ModelView selectLck1003View(Request request, Response response) throws Exception {
+		//반환 변수
+		ModelView modelView;
+		
+		try {
+			//조회 유형 (1 사물함 번호, 2 회원 번호)
+			String selectType = String.valueOf(request.getClientDatas().get("selectType"));
+			
+			//조회 데이터
+			String selectValue = String.valueOf(request.getClientDatas().get("selectValue"));
+			
+			//사물함 조회
+			Lck1000VO locker = lck1000Service.selectLck1000(selectType, selectValue);
+			
+			//사물함 수정 팝업 경로 등록
+			modelView = new ModelView("lck.lck1000.lck1000.Lck1003");
+			
+			//사물함 정보 등록
+			modelView.setDatas("locker", locker);
+			
+		} catch (Exception e) {
+			//에러 페이지 이동
+			modelView = new ModelView("cmm.cmm2000.cmm2000.Cmm2000");
+			
+			//에러 메시지 등록
+			modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.select"));
+		}
+		
+		return modelView;
+	}
 //
 //	/**
 //	 * Func : 사물함수정 메서드
