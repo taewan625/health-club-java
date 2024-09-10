@@ -32,7 +32,7 @@ public class Lck1001 implements JavaHTML {
 		//데이터 조회
 		Map<String, Object> datas = request.getClientDatas();
 		
-		//회원 정보 조회
+		//사물함 정보 조회
 		Lck1000VO locker = (Lck1000VO) datas.get("locker");
 		
 		//사물함 정보가 없는 경우
