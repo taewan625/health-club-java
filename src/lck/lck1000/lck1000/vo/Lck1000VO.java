@@ -67,7 +67,9 @@ public class Lck1000VO {
 	}
 	@Override
 	public String toString() {
-		return "Lck1000VO [lockerNum=" + lockerNum + ", userId=" + userId + ", startDate=" + startDate + ", endDate="
-				+ endDate + "]";
+		return "Lck1000VO [lockerNum=" + lockerNum
+						+ ", userId=" + ((this.userId == null) ? "" : this.userId)
+						+ ", startDate=" + ((this.startDate == null) ? "" : String.valueOf(this.startDate)) 
+						+ ", endDate=" + ((this.endDate == null) ? "" : String.valueOf(this.endDate)) + "]";
 	}
 }
