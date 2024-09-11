@@ -228,6 +228,18 @@ public class Lck1000Controller {
 			//사물함 정보 등록
 			modelView.setDatas("locker", locker);
 			
+			//사물함에 등록된 회원 아이디 조회
+			String userId = locker.getUserId();
+			
+			//회원 정보가 비어 있지 않은 경우
+			if (userId != null) {
+				//회원 조회
+				Usr1000VO user = usr1000Service.selectUsr1000(userId);
+				
+				//회원 정보 등록
+				modelView.setDatas("user", user);
+			}
+			
 		} catch (Exception e) {
 			//에러 페이지 이동
 			modelView = new ModelView("cmm.cmm2000.cmm2000.Cmm2000");
