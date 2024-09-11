@@ -104,7 +104,7 @@ public class Lck1002 implements JavaHTML {
 		//전송용 데이터 객체에 담기
 		clientDatas.put("lockerInfo", lockerInfo);
 		
-		//회원 정보 담기
+		//사물함 정보 담기
 		requestData.put("clientDatas", clientDatas);
 		
 		//접근 경로 담기
