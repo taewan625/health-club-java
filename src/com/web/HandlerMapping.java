@@ -6,8 +6,7 @@ import java.util.Map;
 
 
 /**
- * @Class Name : HandlerMapping.java
- * @Description : Handler를 Map 으로 가지고 있는 클래스로 핸들러를 반환해준다.
+ * @Description Handler를 Map 으로 가지고 있는 클래스로 핸들러를 반환해준다.
  * @version 1.0
  * @author 권태완
  * @Since 2023.12.20.
@@ -16,7 +15,7 @@ import java.util.Map;
  */
 public class HandlerMapping {
 	/**
-	 * @desc   실제 Class 객체와 method 객체가 담긴 객체를 반환 
+	 * @desc 실제 Class 객체와 method 객체가 담긴 객체를 반환 
 	 * @param  Request request
 	 * @return Map<String, Object>
 	 */
