@@ -9,6 +9,14 @@ import com.config.AppConfig;
 import lck.lck1000.lck1000.service.Lck1000Service;
 import lck.lck1000.lck1000.vo.Lck1000VO;
 
+/**
+ * @Description 사물함 정보를 조회, 저장, 삭제
+ * @version 1.0
+ * @author 권태완
+ * @Since 2024.09.22.
+ * @Modification Information
+ * @see Copyright (C) All right reserved.
+ */
 public class Lck1000ServiceImpl implements Lck1000Service {
 	//생성자 주입
 	private final Lck1000DAO lck1000DAO;
@@ -76,7 +84,7 @@ public class Lck1000ServiceImpl implements Lck1000Service {
 	}
 	
 	/**
-	 * @desc 사물함 등록/수정 로직
+	 * @desc 사물함 저장 로직
 	 * @param Lck1000VO lockerInfo
 	 * @return boolean
 	 * @throws Exception
@@ -138,77 +146,14 @@ public class Lck1000ServiceImpl implements Lck1000Service {
 		return result;
 	}
 	
-//	/**
-//	 * Func : 요청 url의 key와 value의 값이 유효한지 확인하는 메서드
-//	 * 
-//	 * @desc key 존재 시, key의 value가 유효한지 확인한다.
-//	 * @param String
-//	 *            requestParams
-//	 * @return boolean
-//	 * @throws Exception
-//	 */
-//	@Override
-//	public boolean isValidSelectKeyValue(Map<String, Object> clientData) throws Exception {
-//		try {
-//			if (clientData.containsKey("lockerNum")) {
-//				// 존재하는 사물함 번호인지 검증. 값을 받아오기전 숫자 검증을 수행함.
-//				String lockerNum = String.valueOf(clientData.get("lockerNum"));
-//				return lck1000DAO.isContainsLck1000(Integer.parseInt(lockerNum));
-//			} else {
-//				// 사물함에 회원이 존재하는지 확인
-//				return lck1000DAO.isContainsUsr1000(String.valueOf(clientData.get("id")));
-//			}
-//		} catch (Exception e) {
-//			throw new Exception(e);
-//		}
-//	}
-//
-
-//
-//	/**
-//	 * Func : 회원 id 리스트 반환 메서드
-//	 * 
-//	 * @desc 회원 id 리스트 반환 메서드
-//	 * @param
-//	 * @return List<String>
-//	 * @throws Exception
-//	 */
-//	@Override
-//	public List<String> selectUsr1000List() throws Exception {
-//		try {
-//			List<Usr1000VO> selectUsr1000List = usr1000DAO.selectUsr1000List();
-//			List<String> userIds = new ArrayList<>();
-//			for (Usr1000VO user : selectUsr1000List) {
-//				userIds.add(user.getId());
-//			}
-//			return userIds;
-//		} catch (Exception e) {
-//			throw new Exception(e);
-//		}
-//	}
-//
-
-//	/**
-//	 * Func : 사물함 삭제 메서드
-//	 * 
-//	 * @desc 사물함 삭제
-//	 * @param int
-//	 *            lockerNum
-//	 * @return void
-//	 * @throws Exception
-//	 */
-//	@Override
-//	public void deleteLck1000(int lockerNum, Lck1000VO lck1000VO) throws Exception {
-//		try {
-//			if (!lck1000DAO.isContainsLck1000(lockerNum)) {
-//				lck1000VO.setError("-1", message.getProperty("FAIL.DELETE"));
-//				return;
-//			}
-//			lck1000DAO.deleteLck1000(lockerNum);
-//		} catch (Exception e) {
-//			throw new Exception(e);
-//		}
-//
-//	}
-
+	/**
+	 * @desc 사물함 삭제
+	 * @param String lockerNumber
+	 * @return void
+	 * @throws Exception
+	 */
+	@Override
+	public void deleteLck1000LockerInfo(String lockerNumber) throws Exception {
+		lck1000DAO.deleteLck1000LockerInfo(lockerNumber);
+	}
 }

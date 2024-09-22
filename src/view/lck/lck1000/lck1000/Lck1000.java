@@ -31,7 +31,7 @@ public class Lck1000 implements JavaHTML {
 		//사물함 수정 화면
 		urlMap.put("3", "lck/lck1000/lck1000/selectLck1003View");
 		//사물함 삭제 기능
-		urlMap.put("4", "lck/lck1000/lck1000/deletelck1000UserInfo");
+		urlMap.put("4", "lck/lck1000/lck1000/deleteLck1000LockerInfo");
 		//메인 메뉴
 		urlMap.put("5", "cmm/cmm1000/cmm1000/selectCmm1000View");
 		//사물함 메뉴

@@ -12,11 +12,9 @@ public interface Lck1000Service {
 	//사물함 단건 조회
 	Lck1000VO selectLck1000(String selectType, String selectValue) throws Exception;
 	
-	//사물함 등록 로직
+	//사물함 저장 로직
 	boolean saveLck1000LockerInfo(Lck1000VO lck1000VO) throws Exception;
 	
-//	void deleteLck1000(int lockerNum, Lck1000VO lck1000vo) throws Exception;
-//
-//	List<String> selectUsr1000List() throws Exception;
-
+	//사물함 삭제 로직
+	void deleteLck1000LockerInfo(String lockerNumber) throws Exception;
 }

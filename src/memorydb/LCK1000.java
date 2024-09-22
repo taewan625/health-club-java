@@ -15,7 +15,7 @@ import lck.lck1000.lck1000.vo.Lck1000VO;
  * @see Copyright (C) All right reserved.
  */
 public class LCK1000 {
-	// LCK1000 table
+	//LCK1000 table
 	private LinkedHashMap<Integer, Lck1000VO> lck1000 = new LinkedHashMap<>();
 	
 	//생성자

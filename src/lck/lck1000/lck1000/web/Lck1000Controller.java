@@ -213,7 +213,7 @@ public class Lck1000Controller {
 	}
 
 	/**
-	 * @desc 사물함 기간 등록 / 수정 로직
+	 * @desc 사물함 저장 로직
 	 * @param Request request, Response response
 	 * @return ModelView
 	 * @throws Exception
@@ -250,51 +250,40 @@ public class Lck1000Controller {
 		return modelView;
 	}
 	
-//
-//	/**
-//	 * Func : 회원 수정 화면 메서드
-//	 * 
-//	 * @desc 수정화면 반환
-//	 * @param
-//	 * @return ModelView
-//	 * @throws Exception
-//	 */
-//	public ModelView deleteLck1000Form(Map<String, Object> clientData) throws Exception {
-//		ModelView modelView;
-//		try {
-//			Lck1000VO locker = lck1000Service.selectLck1000(clientData);
-//			modelView = new ModelView("lck.lck1000.lck1000.Lck1004");
-//			modelView.setDatas("locker", locker);
-//		} catch (Exception e) {
-//			modelView = new ModelView(message.getProperty("LOCKER.PAGE"));
-//			modelView.setClientDatas(ERROR_KEY, message.getProperty("ERROR.DELETE"));
-//		}
-//		return modelView;
-//	}
-//
-//	/**
-//	 * Func : 사물함삭제 메서드
-//	 * 
-//	 * @desc 사물함 삭제 메서드로 올바르지 않은 값이 들어오면 다시, 1004view로 보내고 아니면 1000view로 이동한다.
-//	 * @param Map<String,
-//	 *            Object> clientData
-//	 * @return ModelView
-//	 * @throws Exception
-//	 */
-//	public ModelView deleteLck1000(Map<String, Object> clientData) throws Exception {
-//		String lockerNum = String.valueOf(clientData.get("clientData"));
-//		ModelView modelView;
-//		try {
-//			Lck1000VO locker = new Lck1000VO();
-//			lck1000Service.deleteLck1000(Integer.parseInt(lockerNum), locker);
-//			modelView = selectLck1000List();
-//			modelView.setDatas("locker", locker);
-//		} catch (Exception e) {
-//			modelView = new ModelView(message.getProperty("LOCKER.PAGE"));
-//			modelView.setClientDatas(ERROR_KEY, message.getProperty("ERROR.DELETE"));
-//		}
-//		return modelView;
-//	}
+	/**
+	 * @desc 사물함 삭제 메서드
+	 * @param Request request, Response response
+	 * @return ModelView
+	 * @throws Exception
+	 */
+	public ModelView deleteLck1000LockerInfo(Request request, Response response) throws Exception {
+		//반환 변수
+		ModelView modelView;
+		
+		try {
+			//조회 데이터
+			String lockerNumber = String.valueOf(request.getClientDatas().get("lockerNumber"));
+			
+			//사물함 정보 삭제
+			lck1000Service.deleteLck1000LockerInfo(lockerNumber);
+			
+			//사물함 목록 조회 결과를 담은 modelView 받기
+			modelView = selectLck1000LockerList("1");
+			
+			//메시지 데이터 담기
+			modelView.setDatas("message", MessageSource.getMessage("message.success.delete"));
+			
+		} catch (Exception e) {
+			//에러 페이지 이동
+			modelView = new ModelView("cmm.cmm2000.cmm2000.Cmm2000");
+			
+			//에러 메시지 등록
+			modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.delete"));
+		}
+		
+		//modelView 반환
+		return modelView;
+	}
 
 	/**
 	 * @desc 사물함 목록 조회 내부 메서드
@@ -317,5 +306,4 @@ public class Lck1000Controller {
 		
 		return modelView;
 	}
-
 }

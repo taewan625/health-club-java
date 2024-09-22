@@ -8,7 +8,7 @@ import lck.lck1000.lck1000.vo.Lck1000VO;
 import memorydb.LCK1000;
 
 /**
- * @Description 사물함 정보를 조회, 등록, 수정, 삭제
+ * @Description 사물함 정보를 조회, 저장, 삭제
  * @version 1.0
  * @author 권태완
  * @Since 2023.12.26.
@@ -106,5 +106,25 @@ public class Lck1000DAO {
 	 */
 	public void saveLck1000LockerInfo(Lck1000VO lockerVO) throws Exception {
 		lockerStore.replace(lockerVO.getLockerNum(), lockerVO);
+	}
+	
+	/**
+	 * @desc 사물함 정보 삭제
+	 * @param String lockerNumber
+	 * @return void
+	 * @throws Exception
+	 */
+	public void deleteLck1000LockerInfo(String lockerNumber) throws Exception {
+		//삭제할 사물함 정보 조회
+		Lck1000VO lockerInfo = lockerStore.get(Integer.parseInt(lockerNumber));
+		
+		//사물함 id 삭제
+		lockerInfo.setUserId(null);
+		
+		//사물함 시작일 삭제
+		lockerInfo.setStartDate(null);
+		
+		//사물함 종료일 삭제
+		lockerInfo.setEndDate(null);
 	}
 }
