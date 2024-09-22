@@ -1,13 +1,10 @@
 package view.sta.sta1000.sta1000;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
+import com.val.ViewCore;
 import com.web.Request;
 
-import sta.sta1000.sta1000.vo.Sta1000VO;
-import usr.usr1000.usr1000.vo.Usr1000VO;
 import view.JavaHTML;
 
 /**
@@ -19,52 +16,31 @@ import view.JavaHTML;
  * @see Copyright (C) All right reserved.
  */
 public class Sta1000 implements JavaHTML {
-	private Scanner scanner = new Scanner(System.in);
-
+	@SuppressWarnings("unchecked")
 	@Override
-	public void response(Request requeset) throws Exception {
-		Map<String, ?> responseData = requeset.getResponseData();
-		if (responseData.containsKey(ERROR_KEY)) {
-			String error_message = (String) responseData.get(ERROR_KEY);
-			System.out.println(error_message + "\n메인메뉴창으로 돌아갑니다.");
-			return;
-		}
-		Sta1000VO userStatistic = (Sta1000VO) responseData.get("userStatistic");
-
-		// 통계 값 출력
-		showStatistic(userStatistic.getTotalUserNumber(), userStatistic.getImminentUserNumber(),
-				userStatistic.getExpireUserNumber());
-
-		// 통계 데이터 출력
-		showStatistics(userStatistic.getImminentUsers(), userStatistic.getExpireatoinUsers(),
-				userStatistic.getTotalUsers());
-
-		System.out.println("메뉴로 돌아가실려면 아무 키나 누르면 돌아갑니다.");
-		scanner.nextLine();
+	public void response(Request request) throws Exception {
+		System.out.println("[통계]");
+		
+		//데이터 조회
+		Map<String, Object> datas = request.getClientDatas();
+		
+		//회원 통계 조회
+		Map<String, Integer> userStatistics = (Map<String, Integer>) datas.get("userStatistics");
+		
+		System.out.println("사용중인 전체 회원 수 : " + userStatistics.get("totalUserCount"));
+		System.out.println("임박 회원 수 : " + userStatistics.get("imminentUserCount"));
+		System.out.println("만료 회원 수 : " + userStatistics.get("expireUserCount"));
+		
+		//닫기 문구
+		System.out.println("닫기 - 아무키나 누르세요");
+		
+		//닫기 동작
+		ViewCore.scanner.nextLine();
+		
+		//사물함 메뉴로 이동하는 전송 객체 생성
+		requestData.put("url", "cmm/cmm1000/cmm1000/selectCmm1000View");
+		
+		//WAS에 요청
+		webContainer.service(requestData);
 	}
-
-	private void showStatistics(List<Usr1000VO> imminentUsers, List<Usr1000VO> expireatoinUsers,
-			List<Usr1000VO> totalUsers) {
-		System.out.println("임박 회원 정보 ");
-		for (Usr1000VO user : imminentUsers) {
-			System.out.println(user.toStringStatistic());
-		}
-
-		System.out.println("만료 회원 정보");
-		for (Usr1000VO user : expireatoinUsers) {
-			System.out.println(user.toStringStatistic());
-		}
-
-		System.out.println("회원 목록");
-		for (Usr1000VO user : totalUsers) {
-			System.out.println(user.toStringStatistic());
-		}
-	}
-
-	private void showStatistic(int total, int imminent, int expire) {
-		System.out.println("전체 회원수 : " + total + " 명");
-		System.out.println("임박 회원수 : " + imminent + " 명");
-		System.out.println("만료 회원수 : " + expire + " 명");
-	}
-
 }

@@ -1,23 +1,17 @@
 package sta.sta1000.sta1000.service.impl;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-
-import com.propertiesconvert.MessageSource;
 
 import memorydb.USR1000;
-import memorydb.domain.Status;
-import memorydb.domain.User;
 import usr.usr1000.usr1000.vo.Usr1000VO;
 
 /**
  * @version 1.0
  * @author 권태완
- * @Since 2023.12.28.
+ * @Since 2024.09.22.
  * @Modification Information
  * @see Copyright (C) All right reserved.
  */
@@ -35,17 +29,29 @@ public class Sta1000DAO {
 		return Sta1000DAOHolder.INSTANCE;
 	}
 
-	/** TODO 
-	 * @desc 전체 회원수, 임박 회원 수, 만료 회원 수 및 정보 반환
+	/**
+	 * @desc 사용중인 회원 목록 반환
 	 * @return List<Usr1000VO>
 	 * @throws Exception
 	 */
-	public List<Usr1000VO> selectUsr1000List() throws Exception {
-		//전체 회원 리스트
-		List<Usr1000VO> totalUsers = new ArrayList<>();
-		for (User user : userStore.values()) {
-			totalUsers.add(new Usr1000VO(user));
+	public List<Usr1000VO> selectSta1000UserInfo() throws Exception {
+		//회원 목록 조회
+		List<Usr1000VO> users = new ArrayList<>(userStore.values());
+		
+		//안전한 제거를 위한 iterator 사용 
+		Iterator<Usr1000VO> iterator = users.iterator();
+		
+		//다음 요소가 있으면 동작
+		while (iterator.hasNext()) {
+			//
+			Usr1000VO user = iterator.next();
+			
+			if (!"사용".equals(user.getUse())) {
+				iterator.remove();
+			}
 		}
-		return totalUsers;
+		
+		//사용중인 회원만 반환
+		return users;
 	}
 }
