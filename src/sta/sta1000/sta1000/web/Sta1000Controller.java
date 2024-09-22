@@ -1,16 +1,14 @@
 package sta.sta1000.sta1000.web;
 
-import java.lang.reflect.Method;
 import java.util.Map;
-import java.util.Properties;
 
 import com.config.AppConfig;
 import com.web.MessageSource;
 import com.web.ModelView;
 import com.web.Request;
+import com.web.Response;
 
 import sta.sta1000.sta1000.service.Sta1000Service;
-import sta.sta1000.sta1000.vo.Sta1000VO;
 
 /**
  * @Description 회원 통계 controller
@@ -35,29 +33,29 @@ public class Sta1000Controller {
 	}
 	
 	//싱글톤
-	public static Sta1000Controller getIntanace() {
+	public static Sta1000Controller getInstance() {
 		return Sta1000ControllerHolder.INSTANCE;
 	}
 
 	/**
-	 * @desc : menu view Path 반환
-	 * @param
+	 * @desc 회원 통계 정보 반환
+	 * @param Request request, Response response
 	 * @return ModelView
 	 * @throws Exception
 	 */
-	public ModelView selectSta1000View() throws Exception {
+	public ModelView selectSta1000View(Request request, Response response) throws Exception {
 		//반환 변수
 		ModelView modelView;
 		
 		try {
-			//통계 정보 조회 - 회원 통계 정보
-			Map statistics = sta1000service.selectSta1000UserInfo();
-			
 			//통계 화면 경로 등록
 			modelView = new ModelView("sta.sta1000.sta1000.Sta1000");
 			
-			//통계 정보 등록
-			modelView.setDatas("userStatistic", statistics);
+			//통계 정보 조회 - 회원 통계 정보
+			Map<String, Integer> userStatistics = sta1000service.selectSta1000UserInfo();
+			
+			//통계 정보 등록 - 회원 통계 정보
+			modelView.setDatas("userStatistics", userStatistics);
 			
 		} catch (Exception e) {
 			//에러 페이지 이동

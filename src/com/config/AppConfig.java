@@ -62,7 +62,7 @@ public class AppConfig {
 
 	// 회원 통계 메서드들
 	public static Sta1000Controller sta1000Controller() {
-		return Sta1000Controller.getIntanace();
+		return Sta1000Controller.getInstance();
 	}
 
 	public static Sta1000Service sta1000service() {
