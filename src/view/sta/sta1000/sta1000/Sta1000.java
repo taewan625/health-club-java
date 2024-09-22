@@ -11,8 +11,7 @@ import usr.usr1000.usr1000.vo.Usr1000VO;
 import view.JavaHTML;
 
 /**
- * @Class Name : Sta1000.java
- * @Description 회원 통계 페이지
+ * @Description 통계 페이지
  * @version 1.0
  * @author 권태완
  * @Since 2023.12.29.
@@ -20,12 +19,11 @@ import view.JavaHTML;
  * @see Copyright (C) All right reserved.
  */
 public class Sta1000 implements JavaHTML {
-
 	private Scanner scanner = new Scanner(System.in);
 
 	@Override
-	public void response(Request requestWithResponseData) throws Exception {
-		Map<String, ?> responseData = requestWithResponseData.getResponseData();
+	public void response(Request requeset) throws Exception {
+		Map<String, ?> responseData = requeset.getResponseData();
 		if (responseData.containsKey(ERROR_KEY)) {
 			String error_message = (String) responseData.get(ERROR_KEY);
 			System.out.println(error_message + "\n메인메뉴창으로 돌아갑니다.");
