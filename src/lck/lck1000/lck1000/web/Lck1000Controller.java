@@ -162,45 +162,6 @@ public class Lck1000Controller {
 		//modelView 반환
 		return modelView;
 	}
-
-	/**
-	 * @desc 사물함 등록 로직
-	 * @param Request request, Response response
-	 * @return ModelView
-	 * @throws Exception
-	 */
-	public ModelView createLck1000LockerInfo(Request request, Response response) throws Exception {
-		//반환 변수
-		ModelView modelView;
-		
-		try {
-			//등록할 회원 데이터 조회
-			Lck1000VO lockerInfo = (Lck1000VO) request.getClientDatas().get("lockerInfo");
-			
-			//사물함 정보 등록
-			boolean isCreated = lck1000Service.createLck1000LockerInfo(lockerInfo);
-			
-			//사물함 목록 조회 결과를 담은 modelView 받기
-			modelView = selectLck1000LockerList("1");
-			
-			//사물함 등록 실패 여부에 따른 메시지 내용 등록
-			String message = isCreated ? MessageSource.getMessage("message.success.create") : MessageSource.getMessage("message.fail.create");
-			
-			//메시지 데이터 담기
-			modelView.setDatas("message", message);
-			
-		} catch (Exception e) {
-			//에러 페이지 이동
-			modelView = new ModelView("cmm.cmm2000.cmm2000.Cmm2000");
-			
-			//에러 메시지 등록
-			modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.create"));
-		}
-		
-		//modelView 반환
-		return modelView;
-		
-	}
 	
 	/**
 	 * @desc 사물함 수정 팝업 조회
@@ -250,30 +211,45 @@ public class Lck1000Controller {
 		
 		return modelView;
 	}
-//
-//	/**
-//	 * Func : 사물함수정 메서드
-//	 * 
-//	 * @desc 사물함수정 메서드로 올바르지 않은 값이 들어오면 다시, 1003view로 보내고 아니면 1000view로 이동한다.
-//	 * @param Map<String,
-//	 *            Object> clientData
-//	 * @return ModelView
-//	 * @throws Exception
-//	 */
-//	public ModelView updateLck1000(Map<String, Object> clientData) throws Exception {
-//		Lck1000VO locker = (Lck1000VO) clientData.get("clientData");
-//		ModelView modelView;
-//		try {
-//			lck1000Service.updateLck1000(locker);
-//			// 갱신된 유저 정보를 보여준다.
-//			modelView = selectLck1000List();
-//			modelView.setDatas("locker", locker);
-//		} catch (Exception e) {
-//			modelView = new ModelView(message.getProperty("LOCKER.PAGE"));
-//			modelView.setClientDatas(ERROR_KEY, message.getProperty("ERROR.UPDATE"));
-//		}
-//		return modelView;
-//	}
+
+	/**
+	 * @desc 사물함 기간 등록 / 수정 로직
+	 * @param Request request, Response response
+	 * @return ModelView
+	 * @throws Exception
+	 */
+	public ModelView saveLck1000LockerInfo(Request request, Response response) throws Exception {
+		//반환 변수
+		ModelView modelView;
+		
+		try {
+			//등록/수정할 사물함 정보 조회
+			Lck1000VO lockerInfo = (Lck1000VO) request.getClientDatas().get("lockerInfo");
+			
+			//사물함 정보 등록
+			boolean isCreated = lck1000Service.saveLck1000LockerInfo(lockerInfo);
+			
+			//사물함 목록 조회 결과를 담은 modelView 받기
+			modelView = selectLck1000LockerList("1");
+			
+			//사물함 등록 실패 여부에 따른 메시지 내용 등록
+			String message = isCreated ? MessageSource.getMessage("message.success.save") : MessageSource.getMessage("message.fail.save");
+			
+			//메시지 데이터 담기
+			modelView.setDatas("message", message);
+			
+		} catch (Exception e) {
+			//에러 페이지 이동
+			modelView = new ModelView("cmm.cmm2000.cmm2000.Cmm2000");
+			
+			//에러 메시지 등록
+			modelView.setDatas("errorMsg", MessageSource.getMessage("message.error.create"));
+		}
+		
+		//modelView 반환
+		return modelView;
+	}
+	
 //
 //	/**
 //	 * Func : 회원 수정 화면 메서드

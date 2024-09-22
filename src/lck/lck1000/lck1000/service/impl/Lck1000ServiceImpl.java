@@ -8,23 +8,19 @@ import com.config.AppConfig;
 
 import lck.lck1000.lck1000.service.Lck1000Service;
 import lck.lck1000.lck1000.vo.Lck1000VO;
-import usr.usr1000.usr1000.service.impl.Usr1000DAO;
 
 public class Lck1000ServiceImpl implements Lck1000Service {
 	//생성자 주입
 	private final Lck1000DAO lck1000DAO;
-	//생성자 주입
-	private final Usr1000DAO usr1000DAO;
 	
 	//생성자
-	private Lck1000ServiceImpl(Lck1000DAO lck1000DAO, Usr1000DAO usr1000DAO) {
+	private Lck1000ServiceImpl(Lck1000DAO lck1000DAO) {
 		this.lck1000DAO = lck1000DAO;
-		this.usr1000DAO = usr1000DAO;
 	}
 	
 	//싱글톤 생성용 내부 클래스
 	private static class Lck1000ServiceImplHolder {
-		private static final Lck1000ServiceImpl INSTANCE = new Lck1000ServiceImpl(AppConfig.lck1000DAO(), AppConfig.usr1000DAO());
+		private static final Lck1000ServiceImpl INSTANCE = new Lck1000ServiceImpl(AppConfig.lck1000DAO());
 	}
 	
 	//싱글톤
@@ -66,7 +62,7 @@ public class Lck1000ServiceImpl implements Lck1000Service {
 			locker.setEndDate(null);
 			
 			//사물함 정보 업데이트하기
-			lck1000DAO.updateLck1000LockerInfo(locker);
+			lck1000DAO.saveLck1000LockerInfo(locker);
 			
 			//조회 유형이 회원 아이디로 조회한 경우
 			if ("2".equals(selectType)) {
@@ -80,14 +76,14 @@ public class Lck1000ServiceImpl implements Lck1000Service {
 	}
 	
 	/**
-	 * @desc 사물함 등록 로직
+	 * @desc 사물함 등록/수정 로직
 	 * @param Lck1000VO lockerInfo
 	 * @return boolean
 	 * @throws Exception
 	 * 
 	 */
 	@Override
-	public boolean createLck1000LockerInfo(Lck1000VO lockerInfo) throws Exception {
+	public boolean saveLck1000LockerInfo(Lck1000VO lockerInfo) throws Exception {
 		//사물함 등록 결과
 		boolean result = true;
 		
@@ -116,10 +112,10 @@ public class Lck1000ServiceImpl implements Lck1000Service {
 					locker.setEndDate(null);
 					
 					//사물함 정보 업데이트하기
-					lck1000DAO.updateLck1000LockerInfo(locker);
+					lck1000DAO.saveLck1000LockerInfo(locker);
 					
 					//사물함 등록하기
-					lck1000DAO.updateLck1000LockerInfo(lockerInfo);
+					lck1000DAO.saveLck1000LockerInfo(lockerInfo);
 					
 				}
 				else {
@@ -135,7 +131,7 @@ public class Lck1000ServiceImpl implements Lck1000Service {
 		//사물함을 가지고 있지 않은 경우
 		if (!hasLocker) {
 			//사물함 등록하기
-			lck1000DAO.updateLck1000LockerInfo(lockerInfo);
+			lck1000DAO.saveLck1000LockerInfo(lockerInfo);
 		}
 		
 		//결과 값 반환
@@ -192,32 +188,6 @@ public class Lck1000ServiceImpl implements Lck1000Service {
 //	}
 //
 
-//
-//	/**
-//	 * Func : 사물함 수정 메서드
-//	 * 
-//	 * @desc 사물함에 회원의 존재 여부와 관계 없이, 사물함 번호가 존재하고 회원 정보가 저장되어있을 시, 수정에 들어간다.
-//	 * @param Lck1000VO
-//	 *            lck1000VO
-//	 * @return boolean
-//	 * @throws Exception
-//	 */
-//	@Override
-//	public void updateLck1000(Lck1000VO locker) throws Exception {
-//		try {
-//			String userId = locker.getUserId();
-//			int lockerNum = locker.getLockerNum();
-//			// 등록, 수정에서 공통으로 적용되는 검증 부분
-//			if (commonValidate(userId, lockerNum, locker)) {
-//				return;
-//			}
-//			// 이제 true의 상황 밖에 없으니깐 여기서는 등록을 한다.
-//			lck1000DAO.saveLck1000(locker);
-//		} catch (Exception e) {
-//			throw new Exception(e);
-//		}
-//	}
-//
 //	/**
 //	 * Func : 사물함 삭제 메서드
 //	 * 
@@ -240,45 +210,5 @@ public class Lck1000ServiceImpl implements Lck1000Service {
 //		}
 //
 //	}
-//
-//	/**
-//	 * Func : 등록, 수정 시 공통으로 검증해야하는 내부 메서드
-//	 * 
-//	 * @desc 등록, 수정 시 공통으로 검증해야하는 부분 분리
-//	 * @param String
-//	 *            userId, int lockerNum
-//	 * @return boolean
-//	 * @throws Exception
-//	 */
-//	private boolean commonValidate(String userId, int lockerNum, Lck1000VO locker) throws Exception {
-//		try {
-//			// 회원 table에서 회원 id가 존재하는지 확인
-//			if (!usr1000DAO.isContainsUsr1000(userId)) {
-//				locker.setError("-1", message.getProperty("FAIL.CREATE.EXIT.MEMBER"));
-//				return true;
-//			}
-//			// 사물함 테이블에서 사물함 번호가 존재하는지 확인
-//			if (!lck1000DAO.isContainsLck1000(lockerNum)) {
-//				locker.setError("-1", message.getProperty("FAIL.CREATE.EXIT.LOCKER"));
-//				return true;
-//			}
-//			// 회원 정보를 가지고 온다.
-//			Usr1000VO selectUsr = usr1000DAO.selectUsr1000(userId);
-//
-//			// 회원 id의 사용 유무가 n이 아닌지, 만료된 회원인지 검증
-//			if (!Validator.isValidUser(selectUsr)) {
-//				locker.setError("-1", message.getProperty("FAIL.CREATE.EXPIRE.MEMBER"));
-//				return true;
-//			}
-//
-//			// 회원 정보가 사물함 table에 존재
-//			if (lck1000DAO.isContainsUsr1000(userId)) {
-//				locker.setError("-1", message.getProperty("FAIL.CREATE.DUPLICATE.MEMBER"));
-//				return true;
-//			}
-//			return false;
-//		} catch (Exception e) {
-//			throw new Exception(e);
-//		}
-//	}
+
 }

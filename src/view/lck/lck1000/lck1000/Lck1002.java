@@ -108,7 +108,7 @@ public class Lck1002 implements JavaHTML {
 		requestData.put("clientDatas", clientDatas);
 		
 		//접근 경로 담기
-		requestData.put("url", "lck/lck1000/lck1000/createLck1000LockerInfo");
+		requestData.put("url", "lck/lck1000/lck1000/saveLck1000LockerInfo");
 		
 		//WAS에 요청
 		webContainer.service(requestData);

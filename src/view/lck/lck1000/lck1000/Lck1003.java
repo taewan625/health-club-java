@@ -111,7 +111,7 @@ public class Lck1003 implements JavaHTML {
 			String endDate = ViewCore.formAnswer(questionPromp
 					, "유효한 사물함 만료일을 작성하세요. *사물함 만료 가능일 : "+ lockerStartDate + " ~ " + userExpireDate
 					, input -> !Validator.isValidatedDate(input, lockerStartDate, userExpireDate)
-					, isRequired
+					, !isRequired
 					, "lck/lck1000/lck1000/selectLck1000View");
 			
 			//skip이 아닌 경우 데이터 세팅
@@ -126,7 +126,7 @@ public class Lck1003 implements JavaHTML {
 			requestData.put("clientDatas", clientDatas);
 			
 			//접근 경로 담기
-			requestData.put("url", "lck/lck1000/lck1000/updateLck1000LockerInfo");
+			requestData.put("url", "lck/lck1000/lck1000/saveLck1000LockerInfo");
 		}
 		
 		//WAS에 요청

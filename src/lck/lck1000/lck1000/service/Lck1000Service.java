@@ -13,7 +13,7 @@ public interface Lck1000Service {
 	Lck1000VO selectLck1000(String selectType, String selectValue) throws Exception;
 	
 	//사물함 등록 로직
-	boolean createLck1000LockerInfo(Lck1000VO lck1000VO) throws Exception;
+	boolean saveLck1000LockerInfo(Lck1000VO lck1000VO) throws Exception;
 	
 //	void deleteLck1000(int lockerNum, Lck1000VO lck1000vo) throws Exception;
 //
