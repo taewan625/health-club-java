@@ -135,7 +135,7 @@ public class Lck1002 implements JavaHTML {
 			answer = scanner.nextLine().trim();
 			
 			//n을 작성할 경우 사물함 화면으로 이동
-			if ("n".equals(answer.toLowerCase())) {
+			if ("n".equalsIgnoreCase(answer)) {
 				//경로 데이터 담기
 				requestData.put("url", "lck/lck1000/lck1000/selectLck1000View");
 				

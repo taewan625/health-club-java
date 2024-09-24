@@ -151,7 +151,7 @@ public class Usr1002 implements JavaHTML {
 			answer = scanner.nextLine().trim();
 			
 			//n을 작성할 경우 회원 화면으로 이동
-			if ("n".equals(answer.toLowerCase())) {
+			if ("n".equalsIgnoreCase(answer)) {
 				//경로 데이터 담기
 				requestData.put("url", "usr/usr1000/usr1000/selectUsr1000View");
 				

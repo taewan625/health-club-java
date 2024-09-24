@@ -181,7 +181,7 @@ public class Usr1003 implements JavaHTML {
 			answer = scanner.nextLine().trim();
 			
 			//해당 작업 스킵하는 경우
-			if ("s".equals(answer.toLowerCase())) {
+			if ("s".equalsIgnoreCase(answer)) {
 				//문자열 통일화
 				answer = "s";
 				
@@ -190,7 +190,7 @@ public class Usr1003 implements JavaHTML {
 			}
 			
 			//n을 작성할 경우 회원 화면으로 이동
-			if ("n".equals(answer.toLowerCase())) {
+			if ("n".equalsIgnoreCase(answer)) {
 				//경로 데이터 담기
 				requestData.put("url", "usr/usr1000/usr1000/selectUsr1000View");
 				

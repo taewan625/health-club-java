@@ -1,6 +1,7 @@
 package com.val;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.function.Predicate;
 
@@ -43,7 +44,7 @@ public class ViewCore {
 			answer = scanner.nextLine().trim();
 			
 			//해당 작업 스킵하는 경우
-			if (isOptional && "s".equals(answer.toLowerCase())) {
+			if (isOptional && "s".equalsIgnoreCase(answer)) {
 				//문자열 통일화
 				answer = "s";
 				
@@ -51,7 +52,7 @@ public class ViewCore {
 				break;
 			}
 			//n을 작성할 경우 해당 작업 상위 메뉴로 이동
-			else if ("n".equals(answer.toLowerCase())) {
+			else if ("n".equalsIgnoreCase(answer)) {
 				//문자열 통일화
 				answer = "n";
 				
