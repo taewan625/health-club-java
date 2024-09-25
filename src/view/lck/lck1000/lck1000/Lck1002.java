@@ -3,7 +3,6 @@ package view.lck.lck1000.lck1000;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 
 import com.val.Validator;
 import com.val.ViewCore;
@@ -62,11 +61,11 @@ public class Lck1002 implements JavaHTML {
 		
 		/*사물함 등록 로직*/
 		//회원 id -> 존재하는 회원이여야한다. 
-		String userId = execute("* 아이디 작성하세요. [존재하는 아이디 작성] " + COMMON_PROMP
-				, "존재하지 않거나 만료일이 지난 회원입니다."
-				, answer -> users.stream()
-								.noneMatch(user -> user.getId().equals(answer) && (!user.getExpireDate().isBefore(LocalDate.now())))
-				);
+		String userId = ViewCore.formAnswer("* 아이디 작성하세요. [존재하는 아이디 작성] " + COMMON_PROMP
+											, "존재하지 않거나 만료일이 지난 회원입니다."
+											, answer -> users.stream().noneMatch(user -> user.getId().equals(answer) && (!user.getExpireDate().isBefore(LocalDate.now())))
+											, false
+											, "lck/lck1000/lck1000/selectLck1000View");
 		
 		lockerInfo.setUserId(userId);
 		
@@ -83,9 +82,11 @@ public class Lck1002 implements JavaHTML {
 		System.out.println("사물함 등록 가능일 : " + registerDate + " ~ " + expireDate);
 		
 		//등록 시작일자
-		String startDate = execute("*사물함 등록일을 작성하세요. [2024-09-06 형식, 등록가능일 내 설정] " + COMMON_PROMP
-									, "유효한 사물함 등록일을 작성하세요. *사물함 등록 가능일 : " + registerDate + " ~ " + expireDate
-									, input -> !Validator.isValidatedDate(input, registerDate, expireDate));
+		String startDate = ViewCore.formAnswer("*사물함 등록일을 작성하세요. [2024-09-06 형식, 등록가능일 내 설정] " + COMMON_PROMP
+												, "유효한 사물함 등록일을 작성하세요. *사물함 등록 가능일 : " + registerDate + " ~ " + expireDate
+												, input -> !Validator.isValidatedDate(input, registerDate, expireDate)
+												, false
+												, "lck/lck1000/lck1000/selectLck1000View");
 		
 		lockerInfo.setStartDate(LocalDate.parse(startDate));
 		
@@ -93,9 +94,11 @@ public class Lck1002 implements JavaHTML {
 		System.out.println("사물함 종료 가능일 : "+ startDate + " ~ " + expireDate);
 		
 		//등록 종료일자
-		String endDate = execute("*사물함 만료일을 작성하세요. [2024-09-06 형식, 종료 가능일 내 설정] " + COMMON_PROMP
-				, "유효한 사물함 만료일을 작성하세요. *사물함 만료 가능일 : "+ startDate + " ~ " + expireDate
-				, input -> !Validator.isValidatedDate(input, LocalDate.parse(startDate), expireDate));
+		String endDate = ViewCore.formAnswer("*사물함 만료일을 작성하세요. [2024-09-06 형식, 종료 가능일 내 설정] " + COMMON_PROMP
+											, "유효한 사물함 만료일을 작성하세요. *사물함 만료 가능일 : "+ startDate + " ~ " + expireDate
+											, input -> !Validator.isValidatedDate(input, LocalDate.parse(startDate), expireDate)
+											, false
+											, "lck/lck1000/lck1000/selectLck1000View");
 		
 		lockerInfo.setEndDate(LocalDate.parse(endDate));
 		
@@ -110,48 +113,5 @@ public class Lck1002 implements JavaHTML {
 		
 		//WAS에 요청
 		webContainer.service(requestData);
-	}
-	
-	/**
-	 * @desc 사물함 등록 시 검증 작업 및 사물함 등록 취소 작업 수행
-	 * @param String questionPromp, String warningPromp, Predicate<String> validate
-	 * @return String
-	 * @throws Exception
-	 */
-	private String execute(String questionPromp, String warningPromp, Predicate<String> validate) throws Exception {
-		//중복 혹은 유효성에 문제가 존재하는지 여부 확인 변수
-		boolean isWrong = false;
-		
-		//반환 될 사용자 입력값 변수
-		String answer;
-		
-		do {
-			//질문
-			System.out.println(questionPromp);
-			
-			//사용자 입력값
-			answer = ViewCore.scanner.nextLine().trim();
-			
-			//n을 작성할 경우 사물함 화면으로 이동
-			if ("n".equalsIgnoreCase(answer)) {
-				//경로 데이터 담기
-				requestData.put("url", "lck/lck1000/lck1000/selectLck1000View");
-				
-				//WAS에 요청
-				webContainer.service(requestData);
-			}
-			
-			//제약조건 검사
-			isWrong = validate.test(answer);
-			
-			//입력값에 오류가 존재할 경우 경고문 
-			if (isWrong) {
-				System.out.println(warningPromp);
-			}
-			
-		} while(isWrong);
-		
-		//사용자 입력값 반환
-		return answer;
 	}
 }
