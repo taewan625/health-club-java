@@ -3,9 +3,9 @@ package view.usr.usr1000.usr1000;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Scanner;
 
 import com.val.Validator;
+import com.val.ViewCore;
 import com.web.Request;
 
 import usr.usr1000.usr1000.vo.Usr1000VO;
@@ -20,8 +20,6 @@ import view.JavaHTML;
  * @see Copyright (C) All right reserved.
  */
 public class Usr1000 implements JavaHTML {
-	private Scanner scanner = new Scanner(System.in);
-	
 	//생성자
 	public Usr1000() {
 		//회원 상세 화면
@@ -96,7 +94,7 @@ public class Usr1000 implements JavaHTML {
 				System.out.println("아이디를 작성해주세요.");
 				
 				//데이터 입력
-				userId = scanner.nextLine().trim();
+				userId = ViewCore.scanner.nextLine().trim();
 				
 			} while("".equals(userId));
 			

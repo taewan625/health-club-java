@@ -3,9 +3,9 @@ package view.lck.lck1000.lck1000;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Scanner;
 
 import com.val.Validator;
+import com.val.ViewCore;
 import com.web.Request;
 
 import lck.lck1000.lck1000.vo.Lck1000VO;
@@ -20,8 +20,6 @@ import view.JavaHTML;
  * @see Copyright (C) All right reserved.
  */
 public class Lck1000 implements JavaHTML {
-	private Scanner scanner = new Scanner(System.in);
-	
 	//생성자
 	public Lck1000() {
 		//사물함 상세 화면
@@ -37,7 +35,7 @@ public class Lck1000 implements JavaHTML {
 		//사물함 메뉴
 		urlMap.put("6", "lck/lck1000/lck1000/selectLck1000View");
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void response(Request request) throws Exception {
@@ -97,7 +95,7 @@ public class Lck1000 implements JavaHTML {
 					System.out.println("아이디를 작성해주세요.");
 					
 					//데이터 입력
-					selectValue = scanner.nextLine().trim();
+					selectValue = ViewCore.scanner.nextLine().trim();
 					
 				} while("".equals(selectValue));
 			}

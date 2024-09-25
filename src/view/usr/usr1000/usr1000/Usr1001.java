@@ -1,8 +1,8 @@
 package view.usr.usr1000.usr1000;
 
 import java.util.Map;
-import java.util.Scanner;
 
+import com.val.ViewCore;
 import com.web.Request;
 
 import usr.usr1000.usr1000.vo.Usr1000VO;
@@ -17,8 +17,6 @@ import view.JavaHTML;
  * @see Copyright (C) All right reserved.
  */
 public class Usr1001 implements JavaHTML {
-	private Scanner scanner = new Scanner(System.in);
-	
 	/**
 	 * @desc 회원 정보 조회
 	 * @param Request request
@@ -49,7 +47,7 @@ public class Usr1001 implements JavaHTML {
 		System.out.println("닫기 - 아무키나 누르세요");
 		
 		//닫기 동작
-		scanner.nextLine();
+		ViewCore.scanner.nextLine();
 		
 		//회원 메뉴로 이동하는 전송 객체 생성
 		requestData.put("url", "usr/usr1000/usr1000/selectUsr1000View");

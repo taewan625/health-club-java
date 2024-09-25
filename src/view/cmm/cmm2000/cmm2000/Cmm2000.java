@@ -1,8 +1,8 @@
 package view.cmm.cmm2000.cmm2000;
 
 import java.util.Map;
-import java.util.Scanner;
 
+import com.val.ViewCore;
 import com.web.Request;
 
 import view.JavaHTML;
@@ -16,8 +16,6 @@ import view.JavaHTML;
  * @see Copyright (C) All right reserved.
  */
 public class Cmm2000 implements JavaHTML {
-	private Scanner scanner = new Scanner(System.in);
-	
 	/**
 	 * @desc 에러 화면을 표출해주고 메인 화면으로 이동하도록 한다.
 	 * @param Request request
@@ -39,7 +37,7 @@ public class Cmm2000 implements JavaHTML {
 		System.out.println("메뉴화면으로 돌아가려면 아무 키나 누르세요.");
 		
 		//입력값을 받는다.
-		scanner.nextLine();
+		ViewCore.scanner.nextLine();
 		
 		//전송 객체 생성
 		Map<String, Object> requestData = Map.of("url", "cmm/cmm1000/cmm1000/selectCmm1000View");

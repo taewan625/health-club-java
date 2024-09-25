@@ -3,11 +3,11 @@ package view.usr.usr1000.usr1000;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 import com.val.Validator;
+import com.val.ViewCore;
 import com.web.Request;
 
 import usr.usr1000.usr1000.vo.Usr1000VO;
@@ -22,8 +22,6 @@ import view.JavaHTML;
  * @see Copyright (C) All right reserved.
  */
 public class Usr1003 implements JavaHTML {
-	private Scanner scanner = new Scanner(System.in);
-	
 	/**
 	 * @desc model이 없는 메서드
 	 * @param Request request
@@ -178,7 +176,7 @@ public class Usr1003 implements JavaHTML {
 			System.out.println(questionPromp);
 			
 			//사용자 입력값
-			answer = scanner.nextLine().trim();
+			answer = ViewCore.scanner.nextLine().trim();
 			
 			//해당 작업 스킵하는 경우
 			if ("s".equalsIgnoreCase(answer)) {

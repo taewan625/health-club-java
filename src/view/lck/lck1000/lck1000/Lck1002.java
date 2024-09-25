@@ -3,10 +3,10 @@ package view.lck.lck1000.lck1000;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.function.Predicate;
 
 import com.val.Validator;
+import com.val.ViewCore;
 import com.web.Request;
 
 import lck.lck1000.lck1000.vo.Lck1000VO;
@@ -22,8 +22,6 @@ import view.JavaHTML;
  * @see Copyright (C) All right reserved.
  */
 public class Lck1002 implements JavaHTML {
-	private Scanner scanner = new Scanner(System.in);
-	
 	//공통 문구
 	private final String COMMON_PROMP = "[사물함 등록을 멈추고 나가고 싶으면 n 작성]";
 	
@@ -132,7 +130,7 @@ public class Lck1002 implements JavaHTML {
 			System.out.println(questionPromp);
 			
 			//사용자 입력값
-			answer = scanner.nextLine().trim();
+			answer = ViewCore.scanner.nextLine().trim();
 			
 			//n을 작성할 경우 사물함 화면으로 이동
 			if ("n".equalsIgnoreCase(answer)) {
