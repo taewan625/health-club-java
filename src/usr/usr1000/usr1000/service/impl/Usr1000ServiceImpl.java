@@ -7,6 +7,8 @@ import java.util.Map;
 
 import com.config.AppConfig;
 
+import lck.lck1000.lck1000.service.Lck1000Service;
+import lck.lck1000.lck1000.vo.Lck1000VO;
 import usr.usr1000.usr1000.service.Usr1000Service;
 import usr.usr1000.usr1000.vo.Usr1000VO;
 
@@ -22,14 +24,18 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 	//생성자 주입
 	private final Usr1000DAO usr1000DAO;
 	
+	//생성자 주입
+	private final Lck1000Service lck1000Service;
+	
 	//생성자
-	private Usr1000ServiceImpl(Usr1000DAO usr1000DAO) {
+	private Usr1000ServiceImpl(Usr1000DAO usr1000DAO, Lck1000Service lck1000Service) {
 		this.usr1000DAO = usr1000DAO;
+		this.lck1000Service = lck1000Service;
 	}
 	
 	//싱글톤 생성용 내부 클래스
 	private static class Usr1000ServiceImplHolder {
-		private static final Usr1000ServiceImpl INSTANCE = new Usr1000ServiceImpl(AppConfig.usr1000DAO());
+		private static final Usr1000ServiceImpl INSTANCE = new Usr1000ServiceImpl(AppConfig.usr1000DAO(), AppConfig.lck1000Service());
 	}
 	
 	//싱글톤 객체 반환
@@ -125,7 +131,7 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 		usr1000DAO.updateUsr1000UserInfo(userInfo);
 	}
 	
-	/**
+	/** 
 	 * @desc 회원 삭제 로직
 	 * @param String userId
 	 * @return Usr1000VO
@@ -133,6 +139,18 @@ public class Usr1000ServiceImpl implements Usr1000Service {
 	 */
 	@Override
 	public Usr1000VO deleteUsr1000UserInfo(String userId) throws Exception {
-		return usr1000DAO.deleteUsr1000(userId);
+		//해당 회원정보를 가지 사물함 조회
+		Lck1000VO locker = lck1000Service.selectLck1000("2", userId);
+		
+		//사물함 정보 존재시 사물함 초기화
+		if (locker != null) {
+			lck1000Service.deleteLck1000LockerInfo(String.valueOf(locker.getLockerNum()));
+		}
+		
+		//회원 정보 삭제
+		Usr1000VO deleteUserInfo = usr1000DAO.deleteUsr1000(userId);
+		
+		//삭제된 회원 정보 반환
+		return deleteUserInfo;
 	}
 }
