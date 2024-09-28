@@ -22,7 +22,7 @@ public class USR1000 {
 	//생성자
 	private USR1000() {
 		//회원 데이터 세팅
-		usr1000.put("id1", new Usr1000VO("id1", "user1", "m", "010-1234-1234", "adress1", "01", "정상", LocalDate.now(),LocalDate.now(), "사용", LocalDateTime.now(), LocalDateTime.now()));
+		usr1000.put("id1", new Usr1000VO("id1", "user1", "m", "010-1234-1234", "adress1", "01", "정상", LocalDate.now().minusDays(3),LocalDate.now().minusDays(1), "사용", LocalDateTime.now(), LocalDateTime.now()));
 		usr1000.put("id2", new Usr1000VO("id2", "user2", "m", "010-1234-1234", "adress1", "01", "정상", LocalDate.now(),LocalDate.now(), "사용", LocalDateTime.now(), LocalDateTime.now()));
 		usr1000.put("id3", new Usr1000VO("id3", "user3", "m", "010-1234-1234", "adress1", "02", "정상", LocalDate.now(),LocalDate.now(), "사용", LocalDateTime.now(), LocalDateTime.now()));
 		usr1000.put("id4", new Usr1000VO("id4", "user4", "m", "010-1234-1234", "adress1", "02", "정상", LocalDate.now(),LocalDate.now(), "사용", LocalDateTime.now(), LocalDateTime.now()));
