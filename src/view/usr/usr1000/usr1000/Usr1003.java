@@ -54,7 +54,7 @@ public class Usr1003 implements JavaHTML {
 			Usr1000VO userInfo = new Usr1000VO(user);
 			
 			//회원 정보 표출
-			System.out.println("[기존 회원 정보 ]\n" + userInfo.toString());
+			System.out.println("[기존 회원 정보]\n" + userInfo.toString());
 			
 			//공통 문구
 			final String COMMON_PROMP = "[회원 수정을 멈추고 나가고 싶으면 n 작성 | 해당 단계 스킵하고 싶으면 s 작성]";
