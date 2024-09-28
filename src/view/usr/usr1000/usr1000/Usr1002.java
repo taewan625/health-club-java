@@ -49,7 +49,7 @@ public class Usr1002 implements JavaHTML {
 		//회원 id
 		String userId = ViewCore.formAnswer("* 아이디 작성하세요. [중복 불가, 최소 4자 이상 작성] " + COMMON_PROMP
 											, "중복 불가, 최소 4자 이상 작성"
-											, answer -> 3 < answer.length() && users.stream().map(Usr1000VO::getId).anyMatch(id -> id.equals(answer))
+											, answer -> 3 < answer.length() && users.stream().map(Usr1000VO::getId).noneMatch(id -> id.equals(answer))
 											, false
 											, "usr/usr1000/usr1000/selectUsr1000View");
 		
