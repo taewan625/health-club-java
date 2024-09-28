@@ -30,7 +30,7 @@ public class ViewCore {
 	 */
 	public static String formAnswer(String questionPromp, String warningPromp, Predicate<String> validate, boolean isOptional, String url) throws Exception {
 		//중복 혹은 유효성에 문제가 존재하는지 여부 확인 변수
-		boolean isWrong = false;
+		boolean isCollect = false;
 		
 		//반환 될 사용자 입력값 변수
 		String answer;
@@ -62,15 +62,15 @@ public class ViewCore {
 			//해당 작업을 진행하는 경우
 			else {
 				//제약조건 검사
-				isWrong = validate.test(answer);
+				isCollect = validate.test(answer);
 				
 				//입력값에 오류가 존재할 경우 경고문 
-				if (isWrong) {
+				if (!isCollect) {
 					System.out.println(warningPromp);
 				}
 			}
 			
-		} while(isWrong);
+		} while(isCollect);
 		
 		return answer;
 	}	
