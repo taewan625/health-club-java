@@ -70,7 +70,7 @@ public class ViewCore {
 				}
 			}
 			
-		} while(isCollect);
+		} while(!isCollect);
 		
 		return answer;
 	}	
