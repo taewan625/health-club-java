@@ -63,7 +63,7 @@ public class Lck1002 implements JavaHTML {
 		//회원 id -> 존재하는 회원이여야한다. 
 		String userId = ViewCore.formAnswer("* 아이디 작성하세요. [존재하는 아이디 작성] " + COMMON_PROMP
 											, "존재하지 않거나 만료일이 지난 회원입니다."
-											, answer -> users.stream().noneMatch(user -> user.getId().equals(answer) && (!user.getExpireDate().isBefore(LocalDate.now())))
+											, answer -> users.stream().anyMatch(user -> user.getId().equals(answer) && (!user.getExpireDate().isBefore(LocalDate.now())))
 											, false
 											, "lck/lck1000/lck1000/selectLck1000View");
 		
@@ -84,7 +84,7 @@ public class Lck1002 implements JavaHTML {
 		//등록 시작일자
 		String startDate = ViewCore.formAnswer("*사물함 등록일을 작성하세요. [2024-09-06 형식, 등록가능일 내 설정] " + COMMON_PROMP
 												, "유효한 사물함 등록일을 작성하세요. *사물함 등록 가능일 : " + registerDate + " ~ " + expireDate
-												, input -> !Validator.isValidatedDate(input, registerDate, expireDate)
+												, input -> Validator.isValidatedDate(input, registerDate, expireDate)
 												, false
 												, "lck/lck1000/lck1000/selectLck1000View");
 		
@@ -96,7 +96,7 @@ public class Lck1002 implements JavaHTML {
 		//등록 종료일자
 		String endDate = ViewCore.formAnswer("*사물함 만료일을 작성하세요. [2024-09-06 형식, 종료 가능일 내 설정] " + COMMON_PROMP
 											, "유효한 사물함 만료일을 작성하세요. *사물함 만료 가능일 : "+ startDate + " ~ " + expireDate
-											, input -> !Validator.isValidatedDate(input, LocalDate.parse(startDate), expireDate)
+											, input -> Validator.isValidatedDate(input, LocalDate.parse(startDate), expireDate)
 											, false
 											, "lck/lck1000/lck1000/selectLck1000View");
 		

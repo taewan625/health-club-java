@@ -23,7 +23,7 @@ import view.JavaHTML;
  */
 public class Usr1002 implements JavaHTML {
 	/**
-	 * @desc 초기화 메서드의 예외를 처리하기 위해 try-catch와 new RuntimeExceptioin()을 던진다.
+	 * @desc 화면 표출
 	 * @param Request usr1000Request
 	 * @return void
 	 * @throws Exception
@@ -49,7 +49,7 @@ public class Usr1002 implements JavaHTML {
 		//회원 id
 		String userId = ViewCore.formAnswer("* 아이디 작성하세요. [중복 불가, 최소 4자 이상 작성] " + COMMON_PROMP
 											, "중복 불가, 최소 4자 이상 작성"
-											, answer -> 3 < answer.length() &&  users.stream().map(Usr1000VO::getId).anyMatch(id -> id.equals(answer))
+											, answer -> 3 < answer.length() && users.stream().map(Usr1000VO::getId).anyMatch(id -> id.equals(answer))
 											, false
 											, "usr/usr1000/usr1000/selectUsr1000View");
 		
@@ -58,7 +58,7 @@ public class Usr1002 implements JavaHTML {
 		//회원명
 		String userName = ViewCore.formAnswer("* 이름을 작성하세요. " + COMMON_PROMP
 											, "이름은 영어 혹은 한글만 가능합니다."
-											, answer -> !(Validator.isValidatedName(answer))
+											, answer -> Validator.isValidatedName(answer)
 											, false
 											, "usr/usr1000/usr1000/selectUsr1000View");
 		
@@ -67,16 +67,16 @@ public class Usr1002 implements JavaHTML {
 		//성별
 		String gender = ViewCore.formAnswer("* 성별을 작성하세요. [m | f] " + COMMON_PROMP
 											, "올바른 성별을 작성하세요. [m | f]"
-											, answer -> !("f".equals(answer) || "m".equals(answer))
+											, answer -> "f".equalsIgnoreCase(answer) || "m".equalsIgnoreCase(answer)
 											, false
 											, "usr/usr1000/usr1000/selectUsr1000View");
 		
-		userInfo.setGender(gender);
+		userInfo.setGender(gender.toLowerCase());
 		
 		//연락처
 		String phoneNumber = ViewCore.formAnswer("* 연락처를 작성하세요. [010-xxxx-xxxx 형식으로 작성] " + COMMON_PROMP
 												, "올바른 연락처를 작성하세요."
-												, answer -> !Pattern.matches("^010-\\d{4}-\\d{4}$", answer)
+												, answer -> Pattern.matches("^010-\\d{4}-\\d{4}$", answer)
 												, false
 												, "usr/usr1000/usr1000/selectUsr1000View");
 		
@@ -85,7 +85,7 @@ public class Usr1002 implements JavaHTML {
 		//주소 작성
 		String address = ViewCore.formAnswer("주소를 작성하세요. [주소는 필수 값이 아닙니다.] " + COMMON_PROMP
 											, null
-											, input -> false
+											, input -> true
 											, false
 											, "usr/usr1000/usr1000/selectUsr1000View");
 		
@@ -94,7 +94,7 @@ public class Usr1002 implements JavaHTML {
 		//회원 설명
 		String description = ViewCore.formAnswer("회원 설명을 작성하세요. [회원 설명은 필수 값이 아닙니다.] " + COMMON_PROMP
 												, null
-												, input -> false
+												, input -> true
 												, false
 												, "usr/usr1000/usr1000/selectUsr1000View");
 		
@@ -103,7 +103,7 @@ public class Usr1002 implements JavaHTML {
 		//회원 등록일
 		String joinDate = ViewCore.formAnswer("*회원 등록일을 작성하세요. [2024-08-28 형식으로 작성] " + COMMON_PROMP
 											, "금일 이후 올바른 일자를 작성하세요."
-											, input -> !Validator.isValidatedDate(input, LocalDate.now(), null)
+											, input -> Validator.isValidatedDate(input, LocalDate.now(), null)
 											, false
 											, "usr/usr1000/usr1000/selectUsr1000View");
 		
@@ -112,7 +112,7 @@ public class Usr1002 implements JavaHTML {
 		//회원 만료일
 		String expireDate = ViewCore.formAnswer("*회원 만료일을 작성하세요. [2024-08-28 형식으로 작성] " + COMMON_PROMP
 				, "금일 이후 올바른 일자를 작성하세요."
-				, input -> !Validator.isValidatedDate(input, userInfo.getJoinDate(), null)
+				, input -> Validator.isValidatedDate(input, userInfo.getJoinDate(), null)
 				, false
 				, "usr/usr1000/usr1000/selectUsr1000View");
 		

@@ -85,7 +85,7 @@ public class Lck1003 implements JavaHTML {
 				//등록 시작일자
 				String startDate = ViewCore.formAnswer("사물함 등록일을 작성하세요. [2024-09-06 형식, 수정가능일 내 설정] " + COMMON_PROMP
 						, "유효한 사물함 등록일을 작성하세요.\n*사물함 등록 가능일 : " + userRegisterDate + " ~ " + userExpireDate + "현재 사물함 종료일 : " + lockerEndDate + "\n주의 : 수정한 사물함 시작일이 현재 사물함 종료일을 넘길 경우 사물함 종료일은 필수로 변경해야됩니다."
-						, input -> !Validator.isValidatedDate(input, userRegisterDate, userExpireDate)
+						, input -> Validator.isValidatedDate(input, userRegisterDate, userExpireDate)
 						, true
 						, "lck/lck1000/lck1000/selectLck1000View");
 				
@@ -110,7 +110,7 @@ public class Lck1003 implements JavaHTML {
 			//등록 종료일자
 			String endDate = ViewCore.formAnswer(questionPromp
 					, "유효한 사물함 만료일을 작성하세요. *사물함 만료 가능일 : "+ lockerStartDate + " ~ " + userExpireDate
-					, input -> !Validator.isValidatedDate(input, lockerStartDate, userExpireDate)
+					, input -> Validator.isValidatedDate(input, lockerStartDate, userExpireDate)
 					, !isRequired
 					, "lck/lck1000/lck1000/selectLck1000View");
 			
